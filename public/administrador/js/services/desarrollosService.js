@@ -1,11 +1,10 @@
 angular.module('desarrollosService', [])
 .factory('Desarrollo', function($http) {
-    
     return {
-        getDesarrollos: function(){
+        getDesarrollos: function() {
             return $http.get('dashboard/getDesarrollos');
         },
-        getEstados: function(){
+        getEstados: function() {
             return $http.get('dashboard/getEstados');
         },
         saveDesarrollo: function(params) {
@@ -16,7 +15,7 @@ angular.module('desarrollosService', [])
                 data: params
             });
         },
-        updateDesarrollo: function(id,params){
+        updateDesarrollo: function(id, params) {
             return $http({
                 method: 'post',
                 headers: { 'Content-Type': 'application/json' },
@@ -24,15 +23,15 @@ angular.module('desarrollosService', [])
                 data: params
             });
         },
-        galeriaEstatus: function(id,params){
+        galeriaEstatus: function(id, params) {
             return $http({
                 method: 'post',
                 headers: { 'Content-Type': 'application/json' },
-                url: 'dashboard/galeriaEstatus/' + id,
+                url: 'dashboard/desarrolloEstatus/' + id,
                 data: params
             });
         },
-        deleteDesarrollo: function(id){
+        deleteDesarrollo: function(id) {
             return $http({
                 method: 'post',
                 headers: { 'Content-Type': 'application/json' },
@@ -42,10 +41,10 @@ angular.module('desarrollosService', [])
         deleteFile: function(data) {
             return $http({
                 method: 'post',
-                headers: {'Content-Type': 'application/json'},
+                headers: { 'Content-Type': 'application/json' },
                 url: 'dashboard/deleteFile',
                 data: data
             });
-        },
+        }
     };
 });
