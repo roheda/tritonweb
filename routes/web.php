@@ -65,9 +65,7 @@ Route::get('/dashboard', 'Auth\LoginController@index');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 Route::post('login', 'Auth\LoginController@login')->name('login');
 
-
 Route::prefix('admin')->group(function () {
-
 	Route::get('/', 'Auth\LoginController@index');
 	Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 	Route::post('/login', 'Auth\LoginController@login')->name('login');
@@ -79,7 +77,6 @@ Route::prefix('admin')->group(function () {
 });
 
 Route::middleware(['auth'])->prefix('dashboard')->group(function() {
-
 	Route::get('/', function() {
 		return View::make('index');
 	});
@@ -91,7 +88,7 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function() {
 	Route::post('/uploadFile', 'FileController@uploadFile');
 	Route::post('/deleteFile', 'FileController@deleteFile');
 
-  	// Rutas para el usuario logeado
+	// Rutas para el usuario logeado
 	Route::get('/getPermisosMenu', 'UserController@getPermisosMenu')->name('user');
 	Route::get('/getUsuarioLogeado', 'UserController@getUsuarioLogeado')->name('user');
 	Route::get('/getUserPorfile', 'UserController@getUserPorfile')->name('user');
@@ -120,7 +117,7 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function() {
 	Route::post('/newNota', 'NotasController@newNota');
 	Route::post('/updateNota/{id}', 'NotasController@updateNota');
 	Route::post('/deleteNota/{id}', 'NotasController@deleteNota');
-	Route::post('/notaEstatus/{id}', 'NotasController@notaEstatus');
+	Route::post('/notaEstatus/{id}','NotasController@notaEstatus');
 
 	// Rutas para estados.
 	Route::get('/getEstados', 'EstadosController@getEstados');
@@ -151,17 +148,5 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function() {
 	Route::post('/newUnidad', 'UnidadController@newUnidad');
 	Route::post('/updateUnidad/{id}', 'UnidadController@updateUnidad');
 	Route::post('/deleteUnidad/{id}', 'UnidadController@deleteUnidad');
-	Route::post('/unidadEstatus/{id}', 'UnidadController@equipoEstatus');
+	Route::post('/unidadEstatus/{id}', 'UnidadController@directorioEstatus');
 });
-
-// Route::group(["middleware" => ["auth"], "prefix" => "dashboard"], function() {
-
-	
-
-// 	Route::get('/', function() {
-// 		return View::make('index');
-// 	});
-
-//     Route::get('/getPermisosMenu', 'UserController@getPermisosMenu')->name('user');
-
-// });
