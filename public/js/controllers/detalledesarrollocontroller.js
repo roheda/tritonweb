@@ -1,243 +1,256 @@
 angular.module('detalleDesarrolloCtrl', ['desarrolloService', 'youtube-embed'])
 .controller('detalleDesarrolloController', ['$scope', '$rootScope', '$routeParams', '$location', 'Desarrollo', '$mdDialog', '$mdToast', '$sce',
-   	function($scope, $rootScope, $routeParams, $location, Desarrollo, $mdDialog, $mdToast, $sce) {
+    function($scope, $rootScope, $routeParams, $location, Desarrollo, $mdDialog, $mdToast, $sce) {
 
-		$scope.amenidades  = [];
-		$scope.detailFrame = undefined;
-		$scope.playerVars  = { autoplay: 1 };
+        $scope.detailFrame = undefined;
+        $scope.playerVars = { autoplay: 0 };
+        $scope.unidades = [];
+        $scope.unidadesDisponibles = [];
 
-   		$scope.desarrollo = {
-   			id: null,
-			idEstado: null,
-			estado: '',
-			nombre: '',
-			descripcion: '',
-			brochure: '',
-			imagen: '',
-			logo: '',
-			svg: '',
-			slug: '',
-			video: '',
-			enlace: '',
-			ubicacion: '',
-			amenidades: [],
-			fecha: new Date()
-   		};
-
-   		$scope.galeria = {
+        $scope.desarrollo = {
             id: null,
-            idDesarrollo: null, 
-            titulo: '', 
+            idEstado: null,
+            estado: '',
+            nombre: '',
+            descripcion: '',
+            descripcion_corta: '',
+            brochure: '',
+            imagen: '',
+            logo: '',
+            svg: '',
+            slug: '',
+            video: '',
+            enlace: '',
+            ubicacion: '',
+            ubicacion_completa: '',
+            zona: '',
+            ciudad: '',
+            direccion: '',
+            mapa_url: '',
+            tipo_desarrollo: '',
+            tipo_operacion: '',
+            tipo_producto: '',
+            operacion_texto: '',
+            estado_comercial: '',
+            estado_comercial_texto: '',
+            precio_desde: null,
+            precio_texto: '',
+            mostrar_precio: 1,
+            etapa: '',
+            informacion_comercial: '',
+            esquema_pago: '',
+            disponibilidad_texto: '',
+            resumen_disponibilidad: '',
+            unidades_disponibles: 0,
+            total_unidades: 0,
+            amenidades: [],
+            fecha: new Date()
+        };
+
+        $scope.galeria = {
+            id: null,
+            idDesarrollo: null,
+            titulo: '',
             slug: '',
             fecha: '',
             imagenes: [],
             estatus: 1
         };
 
-		// Funcion para obtener el detalle de la desarrollo
-		$scope.getDesarrollo = function() {
-		 			
-			Desarrollo.getDesarrollo($routeParams.detalle).then(function successCallback(response) {
+        $scope.getDesarrollo = function() {
+            Desarrollo.getDesarrollo($routeParams.detalle).then(function successCallback(response) {
+                var data = response.data || {};
 
-				$('#contSVG').html("<object name='iframe1' id='iframe1' data='" +  $sce.trustAsResourceUrl(response.data.svg) + "' width='100%'></object>"); 
-				// $scope.getUnidades(response.data.id);
-				setTimeout(function() { $scope.getUnidades(response.data.id); }, 1000);
+                angular.extend($scope.desarrollo, data);
 
-				$scope.desarrollo.id          = response.data.id;
-				$scope.desarrollo.nombre      = response.data.nombre;
-				$scope.desarrollo.slug        = response.data.slug;
-				$scope.desarrollo.idEstado    = response.data.idEstado;
-				$scope.desarrollo.estado      = response.data.estado;
-				$scope.desarrollo.imagen      = response.data.imagen;
-				$scope.desarrollo.logo        = response.data.logo;
-				$scope.desarrollo.svg         = response.data.svg;
-				$scope.desarrollo.enlace      = (response.data.enlace == null) ? "" : response.data.enlace;
-				$scope.desarrollo.ubicacion   = response.data.ubicacion;
-				$scope.desarrollo.brochure    = response.data.brochure;
-				$scope.desarrollo.amenidades  = response.data.amenidades;
-				$scope.desarrollo.fecha       = new Date(response.data.fecha + "T00:00:00");
-				$scope.desarrollo.descripcion = $sce.trustAsHtml(response.data.descripcion);
+                $scope.desarrollo.descripcion = $sce.trustAsHtml(data.descripcion || '');
+                $scope.desarrollo.informacion_comercial = $sce.trustAsHtml(data.informacion_comercial || '');
+                $scope.desarrollo.esquema_pago = $sce.trustAsHtml(data.esquema_pago || '');
+                $scope.desarrollo.fecha = data.fecha ? new Date(data.fecha + 'T00:00:00') : new Date();
+                $scope.desarrollo.enlace = data.enlace || '';
+                $scope.desarrollo.svg = data.svg || '';
+                $scope.desarrollo.brochure = data.brochure || '';
+                $scope.desarrollo.mapa_url = data.mapa_url || '';
+                $scope.desarrollo.amenidades = data.amenidades || [];
 
-				// $scope.addSvgAtributtes(response.data.svg);
-				
-				var video = response.data.video;
-				
-				if(video != null && video != "") {
-					
-					var results = video.match('[\\?&]v=([^&#]*)');
-					
-					console.log(results);
-					
-	                if(results != null)
-					$scope.desarrollo.video = results[1];
-				}
-				
-				$scope.getGaleria($scope.desarrollo.id);
+                $scope.desarrollo.video = $scope.extractYoutubeId(data.video);
 
-            }, function errorCallback(error) { console.log(error); });
+                if (Array.isArray(data.unidades)) {
+                    $scope.setUnits(data.unidades);
+                } else {
+                    $scope.getUnidades(data.id);
+                }
+
+                if ($scope.desarrollo.svg) {
+                    $scope.renderSvg($scope.desarrollo.svg);
+                }
+
+                $scope.getGaleria(data.id);
+            }, function errorCallback(error) {
+                console.log(error);
+                $mdToast.show(
+                    $mdToast.simple()
+                        .textContent('No fue posible cargar la información del desarrollo.')
+                        .position('bottom right')
+                        .hideDelay(4000)
+                );
+            });
         };
 
-        // Función que devuelve la galería existente
-        $scope.getGaleria = function(param) {
+        $scope.extractYoutubeId = function(video) {
+            if (!video) return '';
 
-        	if(param > 0) {
-
-	            Desarrollo.getGaleria(param).then(function successCallback(response) {
-
-	                if(response.data.id != undefined) 
-	                    $scope.galeria = response.data;
-	            
-	            }, function errorCallback(error) {
-	                Toast.show('Ocurrio un error en la solicitud.', 'alert');
-	            });
-        	}
+            var match = video.match(/(?:youtube\.com\/(?:.*v=|embed\/)|youtu\.be\/)([^&#?/]+)/);
+            return match && match[1] ? match[1] : video;
         };
 
-        // Devuelve las unidades del desarrollo
-		$scope.getUnidades = function(idDesarrollo) {
+        $scope.getGaleria = function(idDesarrollo) {
+            if (!idDesarrollo) return;
 
-			Desarrollo.getUnidades(idDesarrollo).then(function successCallback(response) { 
+            Desarrollo.getGaleria(idDesarrollo).then(function successCallback(response) {
+                if (response.data && response.data.id !== undefined) {
+                    $scope.galeria = response.data;
+                }
+            }, function errorCallback(error) {
+                console.log(error);
+            });
+        };
 
-				$scope.unidades = response.data;
-				$scope.addSvgAtributtes($scope.desarrollo.svg);
+        $scope.getUnidades = function(idDesarrollo) {
+            if (!idDesarrollo) return;
 
-			}, function errorCallback(error) { console.log(error); });
-		};
+            Desarrollo.getUnidades(idDesarrollo).then(function successCallback(response) {
+                $scope.setUnits(response.data || []);
+            }, function errorCallback(error) {
+                console.log(error);
+            });
+        };
 
-		// Función que se activa al seleccionar un desarrollo
-	    $scope.addSvgAtributtes = function(svg) {
+        $scope.setUnits = function(units) {
+            $scope.unidades = units || [];
+            $scope.unidadesDisponibles = $scope.unidades.filter(function(unit) {
+                return parseInt(unit.estatus, 10) === 2;
+            });
 
-			// $scope.detailFrame = $sce.trustAsResourceUrl(svg);
-			// $('#contSVG').html("<object name='iframe1' id='iframe1' data='" +  $scope.detailFrame + "' width='100%'></object>"); 
+            if (!$scope.desarrollo.total_unidades) {
+                $scope.desarrollo.total_unidades = $scope.unidades.length;
+            }
 
-			// setTimeout(function() {
+            if (!$scope.desarrollo.unidades_disponibles) {
+                $scope.desarrollo.unidades_disponibles = $scope.unidadesDisponibles.length;
+            }
 
-				// $("#iframe1").contents().find("g:not(:first)").mouseenter(function(){ 
-				// 	$scope.hoverSvgElem($(this)); 
-				// });
+            if ($scope.desarrollo.svg) {
+                setTimeout(function() {
+                    $scope.addSvgAttributes();
+                }, 500);
+            }
+        };
 
-				$("#iframe1").contents().find("g:not(:first)").each(function(){
-					$scope.addColorFunction($(this));
-				});
+        $scope.renderSvg = function(svg) {
+            $scope.detailFrame = $sce.trustAsResourceUrl(svg);
 
-				$("#iframe1").contents().find("g:not(:first)").click(function(){ 
-					$scope.clickSvgElem(event, $(this)); 
-				});
+            setTimeout(function() {
+                var container = document.getElementById('contSVG');
+                if (container) {
+                    container.innerHTML = "<object name='iframe1' id='iframe1' data='" + svg + "' width='100%'></object>";
+                }
+            }, 0);
+        };
 
-			// }, 100)
+        $scope.addSvgAttributes = function() {
+            var frame = $('#iframe1');
+            if (!frame.length || !frame.contents()) return;
 
-			console.log("Prueba");
+            frame.contents().find('g:not(:first)').each(function() {
+                $scope.addColorFunction($(this));
+            });
 
-			// location.reload();
-	    };
+            frame.contents().find('g:not(:first)').off('click.triton').on('click.triton', function(event) {
+                $scope.clickSvgElem(event, $(this));
+            });
+        };
 
-	    // Función que se activa al pasar el mouse sobre una unidad
-		$scope.hoverSvgElem = function(elem) {
+        $scope.addColorFunction = function(elem) {
+            var key = elem.attr('id');
+            var unit = $scope.unidades.find(function(item) { return item.clave == key; });
 
-			// elem.attr("style", "cursor: pointer;");
+            if (!unit) return;
 
-			var nombre = elem.attr("id");
-			var unidad = $scope.unidades.find(x => x.clave == nombre);
+            var status = parseInt(unit.estatus, 10);
+            var style = status === 0 ? 'fill: #b7b3b3;' : status === 1 ? 'fill: #F9AF1B;' : 'fill: #4bbf78;';
+            elem.find('path').attr('style', style);
 
-			// if(unidad != null) {
-			if(unidad != null && unidad.estatus == 2) {
+            if (status === 2) {
+                elem.attr('style', 'cursor: pointer;');
+            }
+        };
 
-				elem.attr("style", "cursor: pointer;")
+        $scope.clickSvgElem = function(event, elem) {
+            var key = elem.attr('id');
+            var unit = $scope.unidades.find(function(item) { return item.clave == key; });
 
-				// elem.attr("style", "cursor: pointer;");
+            if (unit && parseInt(unit.estatus, 10) === 2) {
+                $scope.showUnidad(event, unit);
+            }
+        };
 
-				// var uni   = "g#" + nombre + "> path";
-				// var style = (unidad.estatus == 0) ? "fill: red;" : (unidad.estatus == 1) ? "fill: yellow;" : "fill: green;";
+        $scope.unitStatusLabel = function(unit) {
+            var status = parseInt(unit.estatus, 10);
+            var isRent = $scope.desarrollo.tipo_operacion === 'renta';
 
-				// elem.find('path').attr("style", style);
-			}
+            if (status === 2) return 'Disponible';
+            if (status === 1) return isRent ? 'En negociación' : 'Apartada';
+            return isRent ? 'Rentado' : 'Vendido';
+        };
 
-			// elem.mouseleave(function() { elem.find('path').attr("style", "fill: #fff;"); });
-			elem.mouseleave(function() { elem.attr("style", "cursor: default;"); });
-		};
+        $scope.operationActionLabel = function() {
+            return $scope.desarrollo.tipo_operacion === 'renta'
+                ? 'Solicitar información de renta'
+                : 'Solicitar información de venta';
+        };
 
-		// Función que se activa al pasar el mouse sobre una unidad
-		$scope.addColorFunction = function(elem) {
+        $scope.showUnidad = function(ev, data) {
+            $mdDialog.show({
+                templateUrl: '/partials/modals/unidad.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: true,
+                escapeToClose: true,
+                controller: unidadController,
+                locals: { datos: data }
+            });
+        };
 
-			// var nombre = elem;
-			var nombre = elem.attr("id");
-			var unidad = $scope.unidades.find(x => x.clave == nombre);
+        $scope.showImagen = function(ev, data) {
+            var images = $scope.galeria.imagenes;
+            var index = images.indexOf(data);
 
-			if(unidad != null) {
+            $mdDialog.show({
+                templateUrl: '/partials/modals/foto.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: true,
+                disableParentScroll: true,
+                escapeToClose: true,
+                controller: imagenController,
+                locals: { data: images, index: index }
+            });
+        };
 
-				var uni   = "g#" + nombre + "> path";
-				// var uni   = "#" + nombre + "> path";
-				var style = (unidad.estatus == 0) ? "fill: red;" : (unidad.estatus == 1) ? "fill: yellow;" : "fill: green;";
-
-				var prueba = $(nombre).find('path');
-
-				elem.find('path').attr("style", style);
-			}
-		};
-
-		// Función que se activa al seleccionar una unidad
-		$scope.clickSvgElem = function(event, prueba) {
-
-			var nombre = prueba.attr("id");
-			var unidad = $scope.unidades.find(x => x.clave == nombre);
-
-			if(unidad != null && unidad.estatus == 2)
-				$scope.showUnidad(event, unidad);
-		};
-
-		// Función que abre el modal con la información de la unidad
-		$scope.showUnidad = function(ev, data) {
-			$mdDialog.show({
-				templateUrl: '/partials/modals/unidad.html',
-				parent: angular.element(document.body),
-				targetEvent: ev,
-				clickOutsideToClose: true,
-				escapeToClose: false,
-				controller: unidadController,
-				locals: {
-					datos: data
-				}
-			});
-		};
-
-		// Función que abre el modal con la imagen en grande
-		$scope.showImagen = function(ev, data) {
-
-			let datos = $scope.galeria.imagenes;
-			let index = $scope.galeria.imagenes.indexOf(data);
-
-			$mdDialog.show({
-				templateUrl: '/partials/modals/foto.html',
-				parent: angular.element(document.body),
-				targetEvent: ev,
-				clickOutsideToClose: true,
-				disableParentScroll: true,
-				escapeToClose: false,
-				controller: imagenController,
-				locals: {
-					data: datos,
-					index: index
-				}
-			});
-		};
-
-		// Botón para regresar
-		$scope.regresar = function() {
-			window.history.back();
-		};
+        $scope.regresar = function() {
+            window.history.back();
+        };
 
         $scope.getDesarrollo();
 
-        /*------------------------------ Funciones Modal ------------------------------------*/
+        function unidadController($scope, $mdDialog, datos) {
+            $scope.unidad = datos;
+        }
 
-		function unidadController($scope, $mdDialog, datos) {
-			$scope.unidad = datos;
-		};
-
-		function imagenController($scope, $mdDialog, data, index) {	
-
-			$scope.index  = index;
-			$scope.images = data;
-		};
-  	}
-]) 
+        function imagenController($scope, $mdDialog, data, index) {
+            $scope.index = index;
+            $scope.images = data;
+        }
+    }
+]);
