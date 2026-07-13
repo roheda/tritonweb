@@ -1,147 +1,279 @@
-<md-dialog class="modal" id="desarrollo">
-	<form ng-cloak>
+<md-dialog class="modal desarrollo-editor-v2" id="desarrollo">
+    <style>
+        .desarrollo-editor-v2 { width: 94vw; max-width: 1180px; }
+        .desarrollo-editor-v2 .md-dialog-content { padding: 0; }
+        .desarrollo-editor-v2 .dev-tab { padding: 22px 26px 30px; }
+        .desarrollo-editor-v2 .dev-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 22px; }
+        .desarrollo-editor-v2 .dev-grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+        .desarrollo-editor-v2 .dev-field-full { grid-column: 1 / -1; }
+        .desarrollo-editor-v2 .dev-field label { display:block; margin-bottom:7px; font-weight:600; color:#6E6969; }
+        .desarrollo-editor-v2 .dev-field small { display:block; margin-top:5px; color:#777; line-height:1.4; }
+        .desarrollo-editor-v2 .dev-field input,
+        .desarrollo-editor-v2 .dev-field select,
+        .desarrollo-editor-v2 .dev-field textarea { width:100%; box-sizing:border-box; padding:10px 11px; border:1px solid #d8d5d5; border-radius:3px; background:#fff; }
+        .desarrollo-editor-v2 .dev-field textarea { min-height:100px; resize:vertical; }
+        .desarrollo-editor-v2 .dev-help { padding:14px 16px; margin-bottom:20px; border-left:4px solid #F9AF1B; background:#f7f6f6; color:#6E6969; line-height:1.5; }
+        .desarrollo-editor-v2 .dev-preview { min-height:170px; display:flex; align-items:center; justify-content:center; padding:12px; background:#f5f4f4; border:1px dashed #bbb; border-radius:4px; }
+        .desarrollo-editor-v2 .dev-preview img { max-width:100%; max-height:210px; object-fit:contain; }
+        .desarrollo-editor-v2 .dev-file-card { padding:16px; border:1px solid #e0dddd; border-radius:4px; background:#fff; }
+        .desarrollo-editor-v2 .dev-section-title { margin:0 0 4px; color:#6E6969; font-size:18px; }
+        .desarrollo-editor-v2 .dev-switch { padding:10px 0 0; }
+        .desarrollo-editor-v2 md-tabs-wrapper { background:#fff; }
+        .desarrollo-editor-v2 .dev-actions { position:sticky; bottom:0; background:#fff; border-top:1px solid #ddd; }
+        @media (max-width: 760px) {
+            .desarrollo-editor-v2 { width:98vw; }
+            .desarrollo-editor-v2 .dev-grid,
+            .desarrollo-editor-v2 .dev-grid-3 { grid-template-columns:1fr; }
+            .desarrollo-editor-v2 .dev-field-full { grid-column:auto; }
+        }
+    </style>
+
+    <form ng-cloak>
         <md-toolbar class="modal-toolbar">
             <div class="md-toolbar-tools">
-                <h2 style="color: #fff;">Desarrollos</h2>
+                <h2 style="color:#fff;">{{ updating ? 'Editar desarrollo' : 'Agregar desarrollo' }}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()" aria-label="Cerrar">×</md-button>
             </div>
         </md-toolbar>
-        <md-dialog-content class="p">
-            <div class="md-dialog-content">
-            	<md-tabs md-dynamic-height md-border-bottom>
-					<md-tab label="Datos">
-						<div layout-wrap layout="row" layout-align="center stretch">
-							<div flex="50">
-								<div layout-wrap layout="row" layout-align="center center">
-									<div flex="100" layout-padding class="title_modal">
-										<small>Llena todos los campos. <span class="small">(Campos obligatorios * )</span></small>
-									</div>
-									<div flex="50" layout-padding>
-										<label class="label" for="nombre">Nombre *</label><br/>
-										<input class="input" id="nombre" type="text" name="nombre" ng-model="objectDesarrollo.nombre">
-									</div>
-									<div flex="50" layout-padding>
-										<label class="label" for="idEstado">Estado *</label><br/>
-										<select class="input" data-ng-model="objectDesarrollo.idEstado" data-ng-options="o.id as o.nombre for o in estados"></select>
-									</div>
-									<div flex="100" layout-padding>
-										<label class="label" for="enlace">Link Página Web</label><br/>
-										<input class="input" id="enlace" type="text" name="enlace" ng-model="objectDesarrollo.enlace">
-									</div>
-									<div flex="100" layout-padding>
-										<label class="label" for="descripcion">Descripción</label><br/>
-										<textarea id="descripcion" type="text" name="descripcion" ng-model="objectDesarrollo.descripcion" rows="4" style="width: calc(100% - 17px);"></textarea>
-									</div>
-									<div flex="100" layout-padding>
-										<label class="label" for="idEstado">Logo *</label><br/>
-										<input class="input-file" ng-file-select="onFileSelect2($files)" type="file" style="width: 100%;">
-										<div class="image-cont">
-											<div id="img" class="contImage logo">
-												<img ng-src="{{imagen2}}">
-											</div>
-										</div>
-									</div>
-						        </div>
-						    </div>
-						    <div flex="50">
-								<div layout-wrap layout="row">
-									<div flex="100" layout-padding>
-										<label class="label">Fotografía</label><br/>
-										<div class="image-cont">
-											<div id="img" class="contImage p">
-												<img ng-src="{{imagen}}" style="width: 100%">
-											</div>
-											<md-progress-circular md-mode="indeterminate" class="md-hue-2" ng-show="loading"></md-progress-circular>
-										</div>
-										<span><small class="medidasRecomendadas">Medidas recomendadas: 1422 x 637px</small></span>
-										<input class="input-file" ng-file-select="onFileSelect($files)" type="file">
-									</div>
-									<div flex="100" layout-padding>
-										<label class="label" for="idEstado">Brochure *</label><br/>
-										<input class="input-file" ng-file-select="onFilePDFSelect($files)" type="file" style="width: 100%;">
-										<md-progress-circular md-mode="indeterminate" class="md-hue-2" ng-show="loadingBrochure"></md-progress-circular>
-									</div>
-								</div>
-							</div>
-						</div>
-					</md-tab>
-					<md-tab label="Elementos">
-						<div layout-wrap layout="row" layout-align="center center">
-							<div flex="100" layout-padding>
-								<label class="label" for="video">Link de Video (You Tube)</label><br/>
-								<input class="input" id="video" type="text" name="video" ng-model="objectDesarrollo.video">
-							</div>
-							<!-- <div flex="50" layout-padding>
-								<div layout-wrap layout="row" layout-align="center stretch">
-									<div flex="50">
-										<label class="label" for="idEstado">Logo *</label><br/>
-										<input class="input-file" ng-file-select="onFileSelect2($files)" type="file" style="width: 100%;">
-									</div>
-									<div flex="50">
-										<div class="image-cont">
-											<div id="img" class="contImage logo">
-												<img ng-src="{{imagen2}}">
-											</div>
-										</div>
-									</div>
-								</div>
-							</div> -->
-							<div flex="100" layout-padding>
-								<label class="label" for="idEstado">Amenidades</label><br/>
-								<input class="input-file" ng-file-select="onListFileSelect($files)" multiple accept="file/*" type="file" style="width: 100%; padding: 0;">
-							</div>
-							<div flex="100" layout-padding>
-								<label class="label" for="titulo">Lista de Amenidades</label><br/>
-								<table rules="rows" cellspacing="0" class="docs">
-									<thead>
-										<tr>
-											<th class="definedWidth text-center">Imagen</th>
-											<th class="text-left">Descripción</th>
-											<th class="definedWidth text-center">Eliminar</th>
-										</tr>
-									</thead>
-								</table>
-								<div class="contImages">
-									<table rules="rows" cellspacing="0" class="docs">
-										<tbody>
-											<tr ng-repeat="item in files">
-												<td class="definedWidth text-center"><img src="{{item.ruta}}" alt=""></td>
-												<td class="text-left">
-													<input class="input" id="descripcion" type="text" name="descripcion" ng-model="item.descripcion">
-												</td>
-												<td class="definedWidth text-center">
-													<div ng-click="deleteListFile($index, item)" class="cancelar">
-														<img src="../administrador/images/icons/incorrecto.png" alt="" style="width: 15px !important">
-													</div>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-						</div>
-					</md-tab>
-			        <md-tab label="Archivo SVG">
-						<div layout-wrap layout="row">
-							<div flex="100" layout-padding>
-								<label class="label">Archivo SVG</label><br/>
-								<div class="image-cont">
-									<div id="img" class="contImage p">
-										<img ng-src="{{imagen3}}" style="width: 100%">
-									</div>
-									<md-progress-circular md-mode="indeterminate" class="md-hue-2" ng-show="loading"></md-progress-circular>
-								</div>
-								<span><small class="medidasRecomendadas">Medidas recomendadas: 1422 x 637px</small></span>
-								<input class="input-file" ng-file-select="onFileSelect3($files)" type="file">
-							</div>
-						</div>
-			        </md-tab>
-			    </md-tabs>
-			</div>
+
+        <md-dialog-content>
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="Resumen">
+                    <div class="dev-tab">
+                        <div class="dev-help">
+                            Esta información se muestra en la tarjeta y en la portada del proyecto. Debe explicar en pocos segundos qué es, dónde está y para quién es.
+                        </div>
+                        <div class="dev-grid">
+                            <div class="dev-field">
+                                <label for="nombre">Nombre del desarrollo *</label>
+                                <input id="nombre" type="text" ng-model="objectDesarrollo.nombre" placeholder="Ej. Arenna">
+                            </div>
+                            <div class="dev-field">
+                                <label for="idEstado">Estado *</label>
+                                <select id="idEstado" ng-model="objectDesarrollo.idEstado" ng-options="o.id as o.nombre for o in estados"></select>
+                            </div>
+                            <div class="dev-field dev-field-full">
+                                <label for="descripcion_corta">Descripción breve</label>
+                                <textarea id="descripcion_corta" rows="3" maxlength="350" ng-model="objectDesarrollo.descripcion_corta" placeholder="Ej. Casas y townhouses en venta en Dzityá, diseñados para vivir con comodidad y funcionalidad."></textarea>
+                                <small>Se usa en el listado de desarrollos. Máximo recomendado: 250 caracteres.</small>
+                            </div>
+                            <div class="dev-field dev-field-full">
+                                <label for="descripcion">Descripción completa</label>
+                                <textarea id="descripcion" rows="7" ng-model="objectDesarrollo.descripcion" placeholder="Describe el concepto, los espacios, la ubicación y lo que distingue al proyecto."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </md-tab>
+
+                <md-tab label="Comercialización">
+                    <div class="dev-tab">
+                        <div class="dev-help">
+                            Esta sección permite que compradores y brokers distingan claramente si el proyecto es de venta o renta, qué producto ofrece y cuál es su situación comercial.
+                        </div>
+                        <div class="dev-grid-3">
+                            <div class="dev-field">
+                                <label for="tipo_desarrollo">Tipo de desarrollo</label>
+                                <select id="tipo_desarrollo" ng-model="objectDesarrollo.tipo_desarrollo">
+                                    <option value="">Selecciona</option>
+                                    <option value="residencial">Residencial</option>
+                                    <option value="comercial">Comercial</option>
+                                    <option value="mixto">Uso mixto</option>
+                                </select>
+                            </div>
+                            <div class="dev-field">
+                                <label for="tipo_operacion">Operación *</label>
+                                <select id="tipo_operacion" ng-model="objectDesarrollo.tipo_operacion">
+                                    <option value="">Selecciona</option>
+                                    <option value="venta">Venta</option>
+                                    <option value="renta">Renta</option>
+                                    <option value="venta_renta">Venta y renta</option>
+                                </select>
+                            </div>
+                            <div class="dev-field">
+                                <label for="tipo_producto">Tipo de producto</label>
+                                <input id="tipo_producto" type="text" ng-model="objectDesarrollo.tipo_producto" placeholder="Casas, departamentos, locales...">
+                            </div>
+                            <div class="dev-field">
+                                <label for="estado_comercial">Estado comercial</label>
+                                <select id="estado_comercial" ng-model="objectDesarrollo.estado_comercial">
+                                    <option value="">Selecciona</option>
+                                    <option value="disponible">Disponible</option>
+                                    <option value="ultimas_unidades">Últimas unidades</option>
+                                    <option value="proximamente">Próximamente</option>
+                                    <option value="vendido">100% vendido</option>
+                                    <option value="agotado">Agotado</option>
+                                    <option value="operando">En operación</option>
+                                    <option value="consultar">Consultar disponibilidad</option>
+                                </select>
+                            </div>
+                            <div class="dev-field">
+                                <label for="etapa">Etapa</label>
+                                <input id="etapa" type="text" ng-model="objectDesarrollo.etapa" placeholder="Entrega inmediata, en construcción, operando...">
+                            </div>
+                            <div class="dev-field">
+                                <label for="precio_desde">Precio o renta desde</label>
+                                <input id="precio_desde" type="number" min="0" step="0.01" ng-model="objectDesarrollo.precio_desde" placeholder="0.00">
+                            </div>
+                            <div class="dev-field dev-field-full">
+                                <label for="precio_texto">Texto comercial del precio</label>
+                                <input id="precio_texto" type="text" ng-model="objectDesarrollo.precio_texto" placeholder="Ej. Desde $3,647,120 MXN o Renta desde $18,500 mensuales">
+                            </div>
+                            <div class="dev-field dev-field-full">
+                                <md-switch class="dev-switch" ng-model="objectDesarrollo.mostrar_precio" ng-true-value="1" ng-false-value="0" aria-label="Mostrar precio">
+                                    Mostrar precio o texto comercial en el sitio
+                                </md-switch>
+                            </div>
+                            <div class="dev-field dev-field-full">
+                                <label for="disponibilidad_texto">Texto de disponibilidad</label>
+                                <input id="disponibilidad_texto" type="text" ng-model="objectDesarrollo.disponibilidad_texto" placeholder="Ej. Últimas 2 unidades o Locales disponibles sujetos a confirmación">
+                                <small>Si existen unidades capturadas, el sitio contará automáticamente las que tengan estatus disponible.</small>
+                            </div>
+                            <div class="dev-field dev-field-full">
+                                <label for="informacion_comercial">Información para venta o renta</label>
+                                <textarea id="informacion_comercial" rows="5" ng-model="objectDesarrollo.informacion_comercial" placeholder="Incluye características comerciales, tipo de cliente, condiciones relevantes, mantenimiento o información que ayude a decidir."></textarea>
+                            </div>
+                            <div class="dev-field dev-field-full">
+                                <label for="esquema_pago">Esquema de pago o contratación</label>
+                                <textarea id="esquema_pago" rows="4" ng-model="objectDesarrollo.esquema_pago" placeholder="Ej. Apartado, enganche, mensualidades, entrega, depósito de renta o requisitos comerciales."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </md-tab>
+
+                <md-tab label="Ubicación">
+                    <div class="dev-tab">
+                        <div class="dev-grid">
+                            <div class="dev-field">
+                                <label for="zona">Zona o colonia</label>
+                                <input id="zona" type="text" ng-model="objectDesarrollo.zona" placeholder="Dzityá, Montecristo, Ciudad Caucel...">
+                            </div>
+                            <div class="dev-field">
+                                <label for="ciudad">Ciudad</label>
+                                <input id="ciudad" type="text" ng-model="objectDesarrollo.ciudad" placeholder="Mérida">
+                            </div>
+                            <div class="dev-field dev-field-full">
+                                <label for="direccion">Dirección</label>
+                                <input id="direccion" type="text" ng-model="objectDesarrollo.direccion" placeholder="Dirección completa o referencia de ubicación">
+                            </div>
+                            <div class="dev-field dev-field-full">
+                                <label for="ubicacion">Descripción de la ubicación</label>
+                                <textarea id="ubicacion" rows="4" ng-model="objectDesarrollo.ubicacion" placeholder="Explica conectividad, vialidades, servicios y puntos cercanos."></textarea>
+                            </div>
+                            <div class="dev-field dev-field-full">
+                                <label for="mapa_url">URL para mapa</label>
+                                <input id="mapa_url" type="url" ng-model="objectDesarrollo.mapa_url" placeholder="URL de Google Maps o enlace de ubicación">
+                            </div>
+                        </div>
+                    </div>
+                </md-tab>
+
+                <md-tab label="Multimedia">
+                    <div class="dev-tab">
+                        <div class="dev-grid">
+                            <div class="dev-file-card">
+                                <h3 class="dev-section-title">Imagen principal *</h3>
+                                <div class="dev-preview"><img ng-src="{{imagen}}" alt="Vista previa de imagen principal"></div>
+                                <small>Recomendado: 1422 × 637 px.</small>
+                                <input class="input-file" ng-file-select="onFileSelect($files)" type="file" accept="image/*">
+                                <md-progress-circular md-mode="indeterminate" class="md-hue-2" ng-show="loading"></md-progress-circular>
+                            </div>
+                            <div class="dev-file-card">
+                                <h3 class="dev-section-title">Logo *</h3>
+                                <div class="dev-preview"><img ng-src="{{imagen2}}" alt="Vista previa del logo"></div>
+                                <input class="input-file" ng-file-select="onFileSelect2($files)" type="file" accept="image/*">
+                            </div>
+                            <div class="dev-file-card">
+                                <h3 class="dev-section-title">Brochure PDF</h3>
+                                <p>Documento descargable con la información comercial del desarrollo.</p>
+                                <input class="input-file" ng-file-select="onFilePDFSelect($files)" type="file" accept="application/pdf">
+                                <md-progress-circular md-mode="indeterminate" class="md-hue-2" ng-show="loadingBrochure"></md-progress-circular>
+                                <small ng-if="objectDesarrollo.brochure">Archivo actual: {{ objectDesarrollo.brochure }}</small>
+                            </div>
+                            <div class="dev-file-card">
+                                <h3 class="dev-section-title">Video</h3>
+                                <div class="dev-field">
+                                    <label for="video">Enlace de YouTube</label>
+                                    <input id="video" type="url" ng-model="objectDesarrollo.video" placeholder="https://www.youtube.com/watch?v=...">
+                                </div>
+                                <div class="dev-field">
+                                    <label for="enlace">Página o landing externa</label>
+                                    <input id="enlace" type="url" ng-model="objectDesarrollo.enlace" placeholder="https://...">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </md-tab>
+
+                <md-tab label="Amenidades">
+                    <div class="dev-tab">
+                        <div class="dev-help">Sube iconos o imágenes y escribe un nombre claro para cada amenidad o característica.</div>
+                        <input class="input-file" ng-file-select="onListFileSelect($files)" multiple accept="image/*" type="file">
+                        <div class="contImages" style="margin-top:18px;">
+                            <table rules="rows" cellspacing="0" class="docs">
+                                <thead>
+                                    <tr>
+                                        <th class="definedWidth text-center">Imagen</th>
+                                        <th class="text-left">Amenidad o característica</th>
+                                        <th class="definedWidth text-center">Eliminar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in files">
+                                        <td class="definedWidth text-center"><img ng-src="{{item.ruta}}" alt="" style="max-width:70px;"></td>
+                                        <td class="text-left"><input class="input" type="text" ng-model="item.descripcion" placeholder="Ej. Piscina, elevador, estacionamiento"></td>
+                                        <td class="definedWidth text-center">
+                                            <div ng-click="deleteListFile($index, item)" class="cancelar">
+                                                <img src="../administrador/images/icons/incorrecto.png" alt="Eliminar" style="width:15px !important">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </md-tab>
+
+                <md-tab label="SEO">
+                    <div class="dev-tab">
+                        <div class="dev-help">Estos campos ayudan a Google y a los buscadores con IA a entender exactamente qué ofrece el desarrollo.</div>
+                        <div class="dev-grid">
+                            <div class="dev-field dev-field-full">
+                                <label for="meta_title">Título SEO</label>
+                                <input id="meta_title" type="text" maxlength="255" ng-model="objectDesarrollo.meta_title" placeholder="Ej. Arenna | Casas y townhouses en venta en Dzityá">
+                            </div>
+                            <div class="dev-field dev-field-full">
+                                <label for="meta_description">Descripción SEO</label>
+                                <textarea id="meta_description" rows="4" maxlength="320" ng-model="objectDesarrollo.meta_description" placeholder="Resume producto, operación, ubicación y disponibilidad."></textarea>
+                            </div>
+                            <div class="dev-field dev-field-full">
+                                <label for="imagen_social">Imagen social</label>
+                                <input id="imagen_social" type="text" ng-model="objectDesarrollo.imagen_social" placeholder="Ruta de imagen; si se deja vacío se usará la imagen principal">
+                            </div>
+                        </div>
+                    </div>
+                </md-tab>
+
+                <md-tab label="Plano opcional">
+                    <div class="dev-tab">
+                        <div class="dev-help">
+                            El SVG ya no es obligatorio. Úsalo solamente cuando exista un plano interactivo preparado y relacionado con las claves de las unidades.
+                        </div>
+                        <div class="dev-file-card">
+                            <h3 class="dev-section-title">Archivo SVG</h3>
+                            <div class="dev-preview"><img ng-src="{{imagen3}}" alt="Vista previa del plano SVG"></div>
+                            <input class="input-file" ng-file-select="onFileSelect3($files)" type="file" accept="image/svg+xml">
+                            <md-progress-circular md-mode="indeterminate" class="md-hue-2" ng-show="loading"></md-progress-circular>
+                        </div>
+                    </div>
+                </md-tab>
+            </md-tabs>
         </md-dialog-content>
-        <md-dialog-actions class="p" layout="row" layout-align="end center" style="order: 2;">
-			<md-button ng-disabled="disabled" class="md-raised button new" ng-if="!updating" ng-click="save(objectDesarrollo)">Guardar</md-button>
-			<md-button ng-disabled="disabled" class="md-raised button new" ng-if="updating" ng-click="update(objectDesarrollo)">Editar</md-button>
-			<md-button class="md-raised button md-warn" ng-click="cancel()">Cancelar</md-button>
-		</md-dialog-actions>
+
+        <md-dialog-actions class="p dev-actions" layout="row" layout-align="end center">
+            <md-button ng-disabled="disabled" class="md-raised button new" ng-if="!updating" ng-click="save(objectDesarrollo)">Guardar desarrollo</md-button>
+            <md-button ng-disabled="disabled" class="md-raised button new" ng-if="updating" ng-click="update(objectDesarrollo)">Guardar cambios</md-button>
+            <md-button class="md-raised button md-warn" ng-click="cancel()">Cancelar</md-button>
+        </md-dialog-actions>
     </form>
 </md-dialog>
