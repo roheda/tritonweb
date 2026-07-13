@@ -1,22 +1,182 @@
-<div class="detalleDesarrollo triton-page-v2 triton-development-detail-v2">
+<div class="detalleDesarrollo triton-page-v2 triton-development-detail-v2 development-detail-commercial-v2">
+  <style>
+    .development-detail-commercial-v2 .tdd-top { padding:112px 0 72px; }
+    .development-detail-commercial-v2 .tdd-hero-grid { display:grid; grid-template-columns:minmax(0,1.05fr) minmax(380px,.95fr); gap:54px; align-items:center; }
+    .development-detail-commercial-v2 .tdd-hero-image { width:100%; min-height:470px; height:100%; object-fit:cover; border-radius:4px; box-shadow:0 20px 55px rgba(110,105,105,.18); }
+    .development-detail-commercial-v2 .tdd-brand-logo { width:140px; height:76px; margin-bottom:22px; object-fit:contain; object-position:left center; }
+    .development-detail-commercial-v2 .tdd-badges { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; }
+    .development-detail-commercial-v2 .tdd-badge { display:inline-flex; align-items:center; min-height:29px; padding:0 11px; border-radius:16px; background:#6E6969; color:#fff; font-size:11px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; }
+    .development-detail-commercial-v2 .tdd-badge-operation { background:#F9AF1B; }
+    .development-detail-commercial-v2 .tdd-badge-status { background:#fff; color:#6E6969; border:1px solid rgba(110,105,105,.25); }
+    .development-detail-commercial-v2 .tdd-lead { color:#6E6969; font-size:19px; line-height:1.7; }
+    .development-detail-commercial-v2 .tdd-facts { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin:28px 0; }
+    .development-detail-commercial-v2 .tdd-fact { min-height:92px; padding:16px; background:#fff; border:1px solid rgba(110,105,105,.20); border-radius:4px; }
+    .development-detail-commercial-v2 .tdd-fact small { display:block; margin-bottom:7px; color:#8a8585; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.8px; }
+    .development-detail-commercial-v2 .tdd-fact strong { display:block; color:#6E6969; font-size:17px; line-height:1.35; }
+    .development-detail-commercial-v2 .tdd-price { color:#F9AF1B !important; font-size:20px !important; }
+    .development-detail-commercial-v2 .tdd-info-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; margin-top:36px; }
+    .development-detail-commercial-v2 .tdd-info-card { padding:30px; background:#fff; border:1px solid rgba(110,105,105,.20); border-radius:4px; }
+    .development-detail-commercial-v2 .tdd-info-card h3 { margin-top:0; }
+    .development-detail-commercial-v2 .tdd-rich { color:#6E6969; line-height:1.75; white-space:pre-line; }
+    .development-detail-commercial-v2 .tdd-download { display:flex; align-items:center; justify-content:space-between; gap:20px; padding:24px 26px; margin-top:26px; border-radius:4px; background:#6E6969; color:#fff; }
+    .development-detail-commercial-v2 .tdd-download h3,.development-detail-commercial-v2 .tdd-download p { color:#fff; margin:0; }
+    .development-detail-commercial-v2 .tdd-download p { margin-top:5px; color:rgba(255,255,255,.78); }
+    .development-detail-commercial-v2 .tdd-units { width:100%; margin-top:34px; border-collapse:collapse; background:#fff; border:1px solid rgba(110,105,105,.18); }
+    .development-detail-commercial-v2 .tdd-units th { padding:14px; background:#6E6969; color:#fff; font-size:12px; text-align:left; }
+    .development-detail-commercial-v2 .tdd-units td { padding:15px 14px; border-bottom:1px solid rgba(110,105,105,.14); color:#6E6969; vertical-align:middle; }
+    .development-detail-commercial-v2 .tdd-unit-status { display:inline-flex; padding:5px 9px; border-radius:14px; background:rgba(75,191,120,.14); color:#257b48; font-size:11px; font-weight:700; }
+    .development-detail-commercial-v2 .tdd-unit-actions { display:flex; gap:8px; flex-wrap:wrap; }
+    .development-detail-commercial-v2 .tdd-unit-link { color:#6E6969; font-weight:700; text-decoration:underline; }
+    .development-detail-commercial-v2 .tdd-location-card { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:28px; align-items:center; padding:34px; background:#fff; border:1px solid rgba(110,105,105,.20); border-radius:4px; }
+    .development-detail-commercial-v2 #contSVG object { min-height:500px; border:1px solid rgba(110,105,105,.20); background:#fff; }
+    @media(max-width:980px){
+      .development-detail-commercial-v2 .tdd-hero-grid{grid-template-columns:1fr;}
+      .development-detail-commercial-v2 .tdd-hero-image{min-height:360px;}
+      .development-detail-commercial-v2 .tdd-info-grid{grid-template-columns:1fr;}
+    }
+    @media(max-width:680px){
+      .development-detail-commercial-v2 .tdd-facts{grid-template-columns:1fr;}
+      .development-detail-commercial-v2 .tdd-download,.development-detail-commercial-v2 .tdd-location-card{grid-template-columns:1fr; display:grid;}
+      .development-detail-commercial-v2 .tdd-units-wrap{overflow-x:auto;}
+      .development-detail-commercial-v2 .tdd-units{min-width:760px;}
+    }
+  </style>
+
   <main>
     <section class="tdd-top" aria-labelledby="detalle-desarrollo-title">
       <div class="tp-container">
         <nav class="tp-breadcrumb tp-breadcrumb-dark" aria-label="Migas de pan">
           <a href="/">Inicio</a><span>/</span><a href="/desarrollos">Desarrollos</a><span>/</span><span>{{ desarrollo.nombre }}</span>
         </nav>
-        <span class="tp-eyebrow">Proyecto de Triton Desarrollos</span>
-        <h1 id="detalle-desarrollo-title">{{ desarrollo.nombre }}</h1>
-        <p class="tp-lead">{{ desarrollo.descripcion }}</p>
-        <div class="tp-actions">
-          <a class="tp-btn tp-btn-primary" href="/contacto">Solicitar disponibilidad</a>
-          <a class="tp-btn tp-btn-outline" ng-if="desarrollo.brochure" href="{{ desarrollo.brochure }}"
-             target="_blank" rel="noopener">Descargar brochure</a>
+
+        <div class="tdd-hero-grid">
+          <div>
+            <img class="tdd-brand-logo" ng-if="desarrollo.logo" ng-src="{{ desarrollo.logo }}" alt="Logotipo de {{ desarrollo.nombre }}">
+            <div class="tdd-badges">
+              <span class="tdd-badge tdd-badge-operation">{{ desarrollo.operacion_texto || 'Consultar' }}</span>
+              <span class="tdd-badge">{{ desarrollo.tipo_desarrollo || 'Proyecto inmobiliario' }}</span>
+              <span class="tdd-badge tdd-badge-status">{{ desarrollo.estado_comercial_texto || 'Consultar disponibilidad' }}</span>
+            </div>
+
+            <h1 id="detalle-desarrollo-title">{{ desarrollo.nombre }}</h1>
+            <p class="tdd-lead">{{ desarrollo.descripcion_corta || desarrollo.tipo_producto }}</p>
+
+            <div class="tdd-facts">
+              <div class="tdd-fact">
+                <small>Producto</small>
+                <strong>{{ desarrollo.tipo_producto || 'Proyecto inmobiliario' }}</strong>
+              </div>
+              <div class="tdd-fact">
+                <small>Ubicación</small>
+                <strong>{{ desarrollo.ubicacion_completa || desarrollo.ubicacion || 'Mérida, Yucatán' }}</strong>
+              </div>
+              <div class="tdd-fact">
+                <small>Disponibilidad</small>
+                <strong>{{ desarrollo.resumen_disponibilidad || desarrollo.disponibilidad_texto || 'Consulta disponibilidad' }}</strong>
+              </div>
+              <div class="tdd-fact" ng-if="desarrollo.etapa">
+                <small>Etapa</small>
+                <strong>{{ desarrollo.etapa }}</strong>
+              </div>
+              <div class="tdd-fact" ng-if="desarrollo.mostrar_precio == 1 && (desarrollo.precio_texto || desarrollo.precio_desde)">
+                <small>{{ desarrollo.tipo_operacion == 'renta' ? 'Renta' : 'Precio' }}</small>
+                <strong class="tdd-price">{{ desarrollo.precio_texto || (desarrollo.precio_desde | currency:'$':0) }}</strong>
+              </div>
+            </div>
+
+            <div class="tp-actions">
+              <a class="tp-btn tp-btn-primary" href="/contacto">{{ operationActionLabel() }}</a>
+              <a class="tp-btn tp-btn-outline" ng-if="desarrollo.brochure" href="{{ desarrollo.brochure }}" target="_blank" rel="noopener">Descargar brochure</a>
+            </div>
+          </div>
+
+          <div>
+            <img class="tdd-hero-image" ng-src="{{ desarrollo.imagen }}"
+                 alt="{{ desarrollo.nombre }} — {{ desarrollo.tipo_producto }} en {{ desarrollo.ubicacion_completa || 'Mérida' }}">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tp-section" aria-labelledby="proyecto-title">
+      <div class="tp-container">
+        <div class="tp-grid-2">
+          <div>
+            <span class="tp-eyebrow">Conoce el proyecto</span>
+            <h2 id="proyecto-title">Información de {{ desarrollo.nombre }}</h2>
+          </div>
+          <div class="tdd-rich" ng-bind-html="desarrollo.descripcion"></div>
         </div>
 
-        <div class="tdd-video" ng-show="desarrollo.video != ''">
-          <script src="https://www.youtube.com/iframe_api"></script>
-          <youtube-video video-id="desarrollo.video" playerV-vars="playerVars"></youtube-video>
+        <div class="tdd-info-grid" ng-if="desarrollo.informacion_comercial || desarrollo.esquema_pago">
+          <article class="tdd-info-card" ng-if="desarrollo.informacion_comercial">
+            <span class="tp-eyebrow">Información comercial</span>
+            <h3>{{ desarrollo.tipo_operacion == 'renta' ? 'Condiciones de renta' : 'Información de venta' }}</h3>
+            <div class="tdd-rich" ng-bind-html="desarrollo.informacion_comercial"></div>
+          </article>
+          <article class="tdd-info-card" ng-if="desarrollo.esquema_pago">
+            <span class="tp-eyebrow">Proceso</span>
+            <h3>{{ desarrollo.tipo_operacion == 'renta' ? 'Requisitos y contratación' : 'Esquema de compra' }}</h3>
+            <div class="tdd-rich" ng-bind-html="desarrollo.esquema_pago"></div>
+          </article>
+        </div>
+
+        <div class="tdd-download" ng-if="desarrollo.brochure">
+          <div>
+            <h3>Brochure de {{ desarrollo.nombre }}</h3>
+            <p>Consulta especificaciones, imágenes y datos comerciales del proyecto.</p>
+          </div>
+          <a class="tp-btn tp-btn-primary" href="{{ desarrollo.brochure }}" target="_blank" rel="noopener">Descargar PDF</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="tp-section tp-section-soft" aria-labelledby="disponibilidad-title">
+      <div class="tp-container">
+        <div class="tp-center">
+          <span class="tp-eyebrow">Información vigente</span>
+          <h2 id="disponibilidad-title">{{ desarrollo.tipo_operacion == 'renta' ? 'Espacios disponibles para renta' : 'Unidades disponibles para venta' }}</h2>
+          <p class="tp-lead">
+            {{ desarrollo.resumen_disponibilidad || desarrollo.disponibilidad_texto || 'Consulta con un asesor la disponibilidad vigente.' }}
+          </p>
+        </div>
+
+        <div class="tdd-units-wrap" ng-if="unidadesDisponibles.length > 0">
+          <table class="tdd-units">
+            <thead>
+              <tr>
+                <th>{{ desarrollo.tipo_operacion == 'renta' ? 'Espacio / local' : 'Unidad' }}</th>
+                <th>Tipo</th>
+                <th>Superficie</th>
+                <th>{{ desarrollo.tipo_operacion == 'renta' ? 'Renta' : 'Precio' }}</th>
+                <th>Estado</th>
+                <th>Información</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="unit in unidadesDisponibles track by unit.id">
+                <td><strong>{{ unit.clave }}</strong><br><small>{{ unit.descripcion }}</small></td>
+                <td>{{ unit.tipo || desarrollo.tipo_producto }}</td>
+                <td>
+                  <span ng-if="unit.construccion">{{ unit.construccion }} m²</span>
+                  <span ng-if="!unit.construccion && unit.terreno">{{ unit.terreno }} m²</span>
+                  <span ng-if="!unit.construccion && !unit.terreno">Consultar</span>
+                </td>
+                <td><strong>{{ unit.precio ? (unit.precio | currency:'$':0) : 'Consultar' }}</strong></td>
+                <td><span class="tdd-unit-status">{{ unitStatusLabel(unit) }}</span></td>
+                <td class="tdd-unit-actions">
+                  <a class="tdd-unit-link" ng-if="unit.brochure" href="{{ unit.brochure }}" target="_blank" rel="noopener">Ficha</a>
+                  <a class="tdd-unit-link" href="/contacto">Solicitar información</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="tp-empty" ng-if="unidadesDisponibles.length == 0">
+          <h3>{{ desarrollo.disponibilidad_texto || desarrollo.estado_comercial_texto || 'Consulta disponibilidad' }}</h3>
+          <p>La disponibilidad puede cambiar. Confirma directamente con el equipo comercial antes de tomar una decisión.</p>
+          <a class="tp-btn tp-btn-primary" href="/contacto">Confirmar disponibilidad</a>
         </div>
       </div>
     </section>
@@ -26,7 +186,7 @@
         <div class="tp-center">
           <span class="tp-eyebrow">Características del proyecto</span>
           <h2 id="amenidades-title">Amenidades y beneficios</h2>
-          <p class="tp-lead">Espacios y atributos pensados para mejorar la experiencia de quienes viven, visitan o invierten en el proyecto.</p>
+          <p class="tp-lead">Espacios y atributos que ayudan a entender la experiencia y funcionalidad del desarrollo.</p>
         </div>
         <ul class="tdd-amenities">
           <li ng-repeat="ame in desarrollo.amenidades track by $index">
@@ -43,63 +203,50 @@
       <div class="tp-container">
         <span class="tp-eyebrow">Conoce los espacios</span>
         <h2 id="galeria-title">Galería de {{ desarrollo.nombre }}</h2>
-        <p class="tp-lead">Explora imágenes del diseño, distribución, arquitectura y áreas del desarrollo.</p>
-
+        <p class="tp-lead">Explora imágenes de arquitectura, distribución, interiores y áreas del proyecto.</p>
         <div class="tdd-gallery" role="list">
           <figure role="listitem" ng-repeat="elem in galeria.imagenes track by $index">
-            <img ng-src="{{ elem.ruta }}"
-                 alt="{{ desarrollo.nombre }} — imagen {{ $index + 1 }}"
-                 ng-click="showImagen($event, elem)">
+            <img ng-src="{{ elem.ruta }}" alt="{{ desarrollo.nombre }} — imagen {{ $index + 1 }}" ng-click="showImagen($event, elem)">
           </figure>
         </div>
+      </div>
+    </section>
 
-        <div class="tp-actions">
-          <a class="tp-btn tp-btn-primary" href="/contacto">Contactar a un asesor</a>
+    <section class="tp-section" ng-if="desarrollo.ubicacion_completa || desarrollo.ubicacion || desarrollo.direccion" aria-labelledby="ubicacion-title">
+      <div class="tp-container">
+        <div class="tdd-location-card">
+          <div>
+            <span class="tp-eyebrow">Ubicación</span>
+            <h2 id="ubicacion-title">{{ desarrollo.ubicacion_completa || desarrollo.nombre }}</h2>
+            <p ng-if="desarrollo.direccion"><strong>{{ desarrollo.direccion }}</strong></p>
+            <p class="tp-lead" ng-if="desarrollo.ubicacion">{{ desarrollo.ubicacion }}</p>
+          </div>
+          <a class="tp-btn tp-btn-primary" ng-if="desarrollo.mapa_url" href="{{ desarrollo.mapa_url }}" target="_blank" rel="noopener">Abrir en mapas</a>
         </div>
       </div>
     </section>
 
-    <section class="tp-section" ng-show="desarrollo.svg != ''" aria-labelledby="disponibilidad-title">
+    <section class="tp-section tp-section-soft" ng-if="desarrollo.svg" aria-labelledby="plano-title">
       <div class="tp-container">
         <div class="tp-center">
-          <span class="tp-eyebrow">Consulta el proyecto</span>
-          <h2 id="disponibilidad-title">Disponibilidad</h2>
-          <p class="tp-lead">Revisa el plano de disponibilidad y confirma con un asesor cuáles unidades continúan vigentes.</p>
+          <span class="tp-eyebrow">Plano interactivo opcional</span>
+          <h2 id="plano-title">Ubica las unidades del proyecto</h2>
+          <p class="tp-lead">Verde indica disponible, amarillo indica apartado o en negociación y gris indica vendido o rentado.</p>
         </div>
-        <object class="tdd-embed" name="iframe1" id="iframe1" data="{{detailFrame}}" width="100%"
-                aria-label="Plano de disponibilidad de {{ desarrollo.nombre }}"></object>
-
-        <div class="tp-actions" style="justify-content:center;" ng-show="desarrollo.enlace != ''">
-          <a class="tp-btn tp-btn-primary" href="{{desarrollo.enlace}}">Descubre {{ desarrollo.nombre }}</a>
-        </div>
+        <div id="contSVG" style="margin-top:30px;"></div>
       </div>
     </section>
 
-    <section class="tp-section tp-section-soft ubicacion"
-             ng-if="desarrollo.nombre && desarrollo.nombre.toLowerCase() == 'kantera'"
-             aria-labelledby="ubicacion-kantera-title">
+    <section class="tp-section" ng-show="desarrollo.video" aria-labelledby="video-title">
       <div class="tp-container">
         <div class="tp-center">
-          <span class="tp-eyebrow">Ubicación</span>
-          <h2 id="ubicacion-kantera-title">Kantera en Dzityá, Mérida</h2>
+          <span class="tp-eyebrow">Recorrido del proyecto</span>
+          <h2 id="video-title">Conoce {{ desarrollo.nombre }} en video</h2>
         </div>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.2341997595786!2d-89.65238128522974!3d21.063306291974268!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f5675ce4c977789%3A0xc2e02b0dedfcef57!2sKANTERA%20DZITYA!5e0!3m2!1ses-419!2smx!4v1664842905889!5m2!1ses-419!2smx"
-                width="100%" height="430" style="border:0;" allowfullscreen loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade" title="Mapa de Kantera Dzityá"></iframe>
-      </div>
-    </section>
-
-    <section class="tp-section tp-section-soft ubicacion"
-             ng-if="desarrollo.nombre && desarrollo.nombre.toLowerCase() == 'plaza las vías'"
-             aria-labelledby="ubicacion-plaza-title">
-      <div class="tp-container">
-        <div class="tp-center">
-          <span class="tp-eyebrow">Ubicación</span>
-          <h2 id="ubicacion-plaza-title">Plaza Las Vías en Mérida</h2>
+        <div class="tdd-video">
+          <script src="https://www.youtube.com/iframe_api"></script>
+          <youtube-video video-id="desarrollo.video" playerV-vars="playerVars"></youtube-video>
         </div>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.3638180997123!2d-89.62484176322937!3d21.01812392493529!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f5677fcbef7bb81%3A0x30e34ff0ac3e08bc!2sPlaza%20Las%20V%C3%ADas!5e0!3m2!1ses-419!2smx!4v1665548367543!5m2!1ses-419!2smx"
-                width="100%" height="430" style="border:0;" allowfullscreen loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade" title="Mapa de Plaza Las Vías"></iframe>
       </div>
     </section>
 
@@ -112,12 +259,12 @@
             <p>Triton Desarrollos cuenta con 10 años de experiencia en proyectos inmobiliarios en Mérida y el sureste de México.</p>
           </article>
           <article class="tp-card">
-            <h3>Enfoque en calidad</h3>
-            <p>Planeación, especificaciones, supervisión y revisión previa a la entrega.</p>
+            <h3>Información para decidir</h3>
+            <p>Operación, producto, ubicación, brochure, unidades y condiciones comerciales en una sola ficha.</p>
           </article>
           <article class="tp-card">
-            <h3>Atención durante la compra</h3>
-            <p>Información sobre disponibilidad, características, documentación y siguientes pasos.</p>
+            <h3>Atención para compradores y brokers</h3>
+            <p>Confirma datos vigentes, documentación y siguientes pasos directamente con el equipo comercial.</p>
           </article>
         </div>
       </div>
@@ -126,10 +273,11 @@
     <section class="tp-cta">
       <div class="tp-container">
         <span class="tp-eyebrow">Conoce {{ desarrollo.nombre }}</span>
-        <h2>Solicita información vigente del proyecto</h2>
-        <p class="tp-lead">Recibe disponibilidad, precios, tipologías y opciones de compra directamente con el equipo de Triton Desarrollos.</p>
+        <h2>{{ desarrollo.tipo_operacion == 'renta' ? 'Solicita condiciones y disponibilidad de renta' : 'Solicita precios y disponibilidad de venta' }}</h2>
+        <p class="tp-lead">Recibe información vigente y resuelve tus dudas antes de iniciar una operación.</p>
         <div class="tp-actions" style="justify-content:center;">
-          <a class="tp-btn tp-btn-primary" href="/contacto">Solicitar información</a>
+          <a class="tp-btn tp-btn-primary" href="/contacto">{{ operationActionLabel() }}</a>
+          <a class="tp-btn tp-btn-light" ng-if="desarrollo.brochure" href="{{ desarrollo.brochure }}" target="_blank" rel="noopener">Descargar brochure</a>
         </div>
       </div>
     </section>
