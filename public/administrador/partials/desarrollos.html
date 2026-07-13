@@ -1,44 +1,84 @@
-<div class="desarrollos">	
-	<div layout-wrap layout="row">
-		<div flex="100" layout-padding>
-			<md-button class="md-raised button new" ng-click="openPopup($event)">+ Agregar Desarrollo</md-button>
-			<md-button class="md-raised button refresh" ng-click="getDataGrid()">Refrescar Datos</md-button>
-		</div>
-	</div>
-	<div layout-wrap layout="row">
-		<div flex="100" layout-padding>
-			<div layout="row" layout-align="end center">
-				<input class="buscar" type="text" placeholder="Buscar" ng-model="search">
-			</div>
-		</div>
-		<div flex="100" layout-padding>
-			<table class="grid" rules="rows" cellspacing="0">
-				<thead>
-					<tr>
-						<td class="ordenar" ng-click="ordenar('imagen')">Imagen</td>
-						<td class="ordenar" ng-click="ordenar('nombre')">Nombre</td>
-						<td class="ordenar" ng-click="ordenar('descripcion')">Descripcion</td>
-						<td class="ordenar text-center" ng-click="ordenar('fecha')">Fecha</td>
-						<td class="text-center acciones">Acciones</td>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="elem in grid | filter: search | orderBy: campo : orden">
-						<td class="img"><img src="{{elem.imagen}}" alt=""></td>
-						<td>{{elem.nombre}}</td>
-						<td>{{elem.descripcion}}</td>
-						<td class="text-center">{{elem.fecha | date: 'dd-MM-yyyy hh:mm a' }}</td>
-						<td class="acciones">
-							<div layout="row" layout-align="center center">
-								<md-switch class="switch" ng-true-value="1" ng-false-value="0" aria-label="Cambiar estatus" ng-model="elem.estatus" ng-change="changeStatus(elem)" md-no-ink></md-switch>
-								<span class="icono ver-lotes" ng-click="openGalleryPopup($event, elem.id)"></span>
-								<span class="icono editar" ng-click="openEditPopup($event, elem)"></span>
-								<span class="icono borrar" ng-click="deleteRegister($event, elem)"></span>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>	
+<div class="desarrollos desarrollos-admin-v2">
+    <style>
+        .desarrollos-admin-v2 .dev-admin-toolbar { display:flex; justify-content:space-between; gap:16px; align-items:center; flex-wrap:wrap; }
+        .desarrollos-admin-v2 .dev-admin-summary { color:#6E6969; font-size:13px; }
+        .desarrollos-admin-v2 .dev-badge { display:inline-block; padding:5px 9px; border-radius:14px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.4px; }
+        .desarrollos-admin-v2 .dev-badge-sale { background:rgba(249,175,27,.18); color:#8b5c00; }
+        .desarrollos-admin-v2 .dev-badge-rent { background:rgba(110,105,105,.14); color:#5b5656; }
+        .desarrollos-admin-v2 .dev-badge-mixed { background:#ece8ff; color:#5a479c; }
+        .desarrollos-admin-v2 .dev-admin-title { font-weight:700; margin-bottom:5px; }
+        .desarrollos-admin-v2 .dev-admin-sub { color:#777; font-size:12px; line-height:1.45; }
+        .desarrollos-admin-v2 .dev-status { font-weight:700; color:#6E6969; }
+        .desarrollos-admin-v2 .grid td { vertical-align:middle; }
+        .desarrollos-admin-v2 .dev-desc { max-width:340px; line-height:1.45; }
+        @media (max-width:980px) {
+            .desarrollos-admin-v2 .grid { min-width:1100px; }
+            .desarrollos-admin-v2 [layout-padding] { overflow-x:auto; }
+        }
+    </style>
+
+    <div layout-wrap layout="row">
+        <div flex="100" layout-padding class="dev-admin-toolbar">
+            <div>
+                <md-button class="md-raised button new" ng-click="openPopup($event)">+ Agregar desarrollo</md-button>
+                <md-button class="md-raised button refresh" ng-click="getDataGrid()">Refrescar datos</md-button>
+            </div>
+            <div class="dev-admin-summary">{{ grid.length }} proyectos registrados</div>
+        </div>
+    </div>
+
+    <div layout-wrap layout="row">
+        <div flex="100" layout-padding>
+            <div layout="row" layout-align="end center">
+                <input class="buscar" type="text" placeholder="Buscar desarrollo, operación o ubicación" ng-model="search">
+            </div>
+        </div>
+
+        <div flex="100" layout-padding>
+            <table class="grid" rules="rows" cellspacing="0">
+                <thead>
+                    <tr>
+                        <td>Imagen</td>
+                        <td class="ordenar" ng-click="ordenar('nombre')">Desarrollo</td>
+                        <td class="ordenar" ng-click="ordenar('tipo_operacion')">Operación</td>
+                        <td class="ordenar" ng-click="ordenar('tipo_producto')">Producto</td>
+                        <td class="ordenar" ng-click="ordenar('ubicacion_completa')">Ubicación</td>
+                        <td class="ordenar" ng-click="ordenar('unidades_disponibles')">Disponibilidad</td>
+                        <td class="ordenar" ng-click="ordenar('estado_comercial')">Estado comercial</td>
+                        <td class="text-center acciones">Acciones</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="elem in grid | filter: search | orderBy: campo : orden">
+                        <td class="img"><img ng-src="{{elem.imagen}}" alt="{{elem.nombre}}"></td>
+                        <td>
+                            <div class="dev-admin-title">{{elem.nombre}}</div>
+                            <div class="dev-admin-sub dev-desc">{{elem.descripcion_corta || elem.descripcion}}</div>
+                        </td>
+                        <td>
+                            <span class="dev-badge"
+                                  ng-class="{'dev-badge-sale': elem.tipo_operacion == 'venta', 'dev-badge-rent': elem.tipo_operacion == 'renta', 'dev-badge-mixed': elem.tipo_operacion == 'venta_renta'}">
+                                {{elem.operacion_texto || 'Sin definir'}}
+                            </span>
+                        </td>
+                        <td>{{elem.tipo_producto || 'Sin definir'}}</td>
+                        <td>{{elem.ubicacion_completa || elem.ubicacion || 'Sin capturar'}}</td>
+                        <td>
+                            <div class="dev-status">{{elem.resumen_disponibilidad || elem.disponibilidad_texto || 'Consultar'}}</div>
+                            <div class="dev-admin-sub" ng-if="elem.total_unidades > 0">{{elem.total_unidades}} unidades registradas</div>
+                        </td>
+                        <td>{{elem.estado_comercial_texto || 'Sin definir'}}</td>
+                        <td class="acciones">
+                            <div layout="row" layout-align="center center">
+                                <md-switch class="switch" ng-true-value="1" ng-false-value="0" aria-label="Cambiar estatus" ng-model="elem.estatus" ng-change="changeStatus(elem)" md-no-ink></md-switch>
+                                <span class="icono ver-lotes" title="Editar galería" ng-click="openGalleryPopup($event, elem.id)"></span>
+                                <span class="icono editar" title="Editar desarrollo" ng-click="openEditPopup($event, elem)"></span>
+                                <span class="icono borrar" title="Eliminar desarrollo" ng-click="deleteRegister($event, elem)"></span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
