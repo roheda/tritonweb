@@ -3,13 +3,15 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 class AddCommercialFieldsToDesarrollos extends Migration
 {
     public function up()
     {
+        DB::statement('ALTER TABLE desarrollos MODIFY descripcion TEXT NULL');
+
         Schema::table('desarrollos', function (Blueprint $table) {
-            $table->text('descripcion')->nullable()->change();
             $table->string('descripcion_corta', 350)->nullable()->after('descripcion');
             $table->string('tipo_desarrollo', 30)->nullable()->after('descripcion_corta');
             $table->string('tipo_operacion', 20)->nullable()->after('tipo_desarrollo');
@@ -57,5 +59,7 @@ class AddCommercialFieldsToDesarrollos extends Migration
                 'imagen_social'
             ]);
         });
+
+        DB::statement('ALTER TABLE desarrollos MODIFY descripcion VARCHAR(255) NULL');
     }
 }
