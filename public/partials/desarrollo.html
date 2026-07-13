@@ -1,4 +1,27 @@
-<div class="desarrollos triton-page-v2 triton-developments-v2">
+<div class="desarrollos triton-page-v2 triton-developments-v2 developments-commercial-v2">
+  <style>
+    .developments-commercial-v2 .td-list { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .developments-commercial-v2 .td-card { position:relative; }
+    .developments-commercial-v2 .td-card-main { aspect-ratio:16/9; }
+    .developments-commercial-v2 .td-card-badges { position:absolute; top:16px; left:16px; z-index:2; display:flex; flex-wrap:wrap; gap:7px; }
+    .developments-commercial-v2 .td-badge { display:inline-flex; align-items:center; min-height:27px; padding:0 10px; border-radius:15px; color:#fff; background:#6E6969; font-size:11px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; box-shadow:0 5px 16px rgba(0,0,0,.16); }
+    .developments-commercial-v2 .td-badge-sale { background:#F9AF1B; }
+    .developments-commercial-v2 .td-badge-rent { background:#6E6969; }
+    .developments-commercial-v2 .td-badge-status { background:#fff; color:#6E6969; }
+    .developments-commercial-v2 .td-card-logo { height:64px; width:120px; }
+    .developments-commercial-v2 .td-card-title { margin:0 0 8px; font-size:24px; }
+    .developments-commercial-v2 .td-product { margin:0 0 16px; color:#6E6969; font-weight:700; }
+    .developments-commercial-v2 .td-facts { display:grid; gap:10px; margin:18px 0 22px; padding:16px; background:rgba(110,105,105,.06); border-radius:4px; }
+    .developments-commercial-v2 .td-fact { display:grid; grid-template-columns:105px minmax(0,1fr); gap:10px; font-size:13px; line-height:1.4; }
+    .developments-commercial-v2 .td-fact strong { color:#6E6969; }
+    .developments-commercial-v2 .td-price { color:#6E6969; font-size:18px; font-weight:700; }
+    .developments-commercial-v2 .td-availability { color:#6E6969; font-weight:700; }
+    .developments-commercial-v2 .td-card-actions { display:grid; grid-template-columns:1fr auto; gap:10px; align-items:center; margin-top:auto; }
+    .developments-commercial-v2 .td-brochure { display:inline-flex; align-items:center; justify-content:center; min-height:49px; padding:0 16px; border:1px solid rgba(110,105,105,.28); border-radius:3px; color:#6E6969; font-size:13px; font-weight:700; }
+    @media(max-width:1100px){ .developments-commercial-v2 .td-list{grid-template-columns:repeat(2,minmax(0,1fr));} }
+    @media(max-width:680px){ .developments-commercial-v2 .td-list{grid-template-columns:1fr;} .developments-commercial-v2 .td-card-actions{grid-template-columns:1fr;} .developments-commercial-v2 .td-brochure{width:100%;} }
+  </style>
+
   <main>
     <section class="tp-hero" aria-labelledby="desarrollos-title">
       <div class="tp-container tp-hero-content">
@@ -6,14 +29,14 @@
           <a href="/">Inicio</a><span>/</span><span>Desarrollos</span>
         </nav>
         <span class="tp-eyebrow">Proyectos inmobiliarios en Mérida</span>
-        <h1 id="desarrollos-title">Desarrollos para vivir, invertir y crecer</h1>
+        <h1 id="desarrollos-title">Propiedades en venta y espacios comerciales en renta</h1>
         <p class="tp-lead">
-          Conoce los proyectos residenciales y comerciales de Triton Desarrollos, una desarrolladora con 10 años de experiencia
-          y un enfoque en calidad, funcionalidad y atención cercana.
+          Compara de forma clara qué ofrece cada proyecto de Triton Desarrollos: operación, producto, ubicación,
+          disponibilidad, precio, etapa, brochure y condiciones comerciales.
         </p>
         <div class="tp-actions">
-          <a class="tp-btn tp-btn-primary" href="/contacto">Solicitar disponibilidad</a>
-          <a class="tp-btn tp-btn-light" href="/inversion">Opciones de inversión</a>
+          <a class="tp-btn tp-btn-primary" href="/contacto">Solicitar información</a>
+          <a class="tp-btn tp-btn-light" href="/inversion">Guía de inversión</a>
         </div>
       </div>
     </section>
@@ -21,27 +44,60 @@
     <section class="tp-section" aria-labelledby="catalogo-title">
       <div class="tp-container">
         <div class="tp-center">
-          <span class="tp-eyebrow">Portafolio de proyectos</span>
-          <h2 id="catalogo-title">Encuentra el desarrollo adecuado para ti</h2>
+          <span class="tp-eyebrow">Portafolio de Triton</span>
+          <h2 id="catalogo-title">Elige entre desarrollos residenciales y comerciales</h2>
           <p class="tp-lead">
-            Revisa ubicación, concepto, características y disponibilidad. Cada ficha te permite conocer mejor el proyecto
-            antes de solicitar atención personalizada.
+            Las casas, townhouses y departamentos se identifican como venta; las plazas y locales comerciales se identifican como renta.
+            Abre cada ficha para revisar información completa y unidades disponibles.
           </p>
         </div>
 
         <ul class="td-list" aria-label="Listado de desarrollos de Triton" ng-if="desarrollos.length > 0">
-          <li ng-repeat="desa in desarrollos track by $index"
-              ng-click="selectDesarrollo(desa)"
-              ng-class="{active: selectedDes.id == desa.id}">
+          <li ng-repeat="desa in desarrollos track by $index">
             <article class="td-card">
+              <div class="td-card-badges">
+                <span class="td-badge" ng-class="{'td-badge-sale': desa.tipo_operacion == 'venta', 'td-badge-rent': desa.tipo_operacion == 'renta'}">
+                  {{ desa.operacion_texto || 'Consultar' }}
+                </span>
+                <span class="td-badge td-badge-status">{{ desa.estado_comercial_texto || 'Consultar disponibilidad' }}</span>
+              </div>
+
               <img ng-src="{{ desa.imagen }}" class="td-card-main"
-                   alt="{{ desa.nombre || 'Desarrollo inmobiliario de Triton Desarrollos' }}">
+                   alt="{{ desa.nombre }} — {{ desa.tipo_producto || 'desarrollo inmobiliario' }} en {{ desa.ubicacion_completa || 'Mérida' }}">
+
               <div class="td-card-body">
-                <img class="td-card-logo" ng-src="{{ desa.logo }}"
-                     alt="Logotipo de {{ desa.nombre || 'desarrollo Triton' }}">
-                <div class="td-card-copy" ng-bind-html="desa.descripcion | limitHtml: 240"></div>
-                <a class="tp-btn tp-btn-outline" href="/desarrollos/{{ desa.slug }}"
-                   aria-label="Conocer más sobre {{ desa.nombre }}">Conocer proyecto</a>
+                <img class="td-card-logo" ng-src="{{ desa.logo }}" alt="Logotipo de {{ desa.nombre }}">
+                <h3 class="td-card-title">{{ desa.nombre }}</h3>
+                <p class="td-product">{{ desa.tipo_producto || 'Proyecto inmobiliario' }}</p>
+                <div class="td-card-copy" ng-bind-html="(desa.descripcion_corta || desa.descripcion) | limitHtml: 240"></div>
+
+                <div class="td-facts">
+                  <div class="td-fact">
+                    <strong>Ubicación</strong>
+                    <span>{{ desa.ubicacion_completa || desa.ubicacion || 'Mérida, Yucatán' }}</span>
+                  </div>
+                  <div class="td-fact">
+                    <strong>Disponibilidad</strong>
+                    <span class="td-availability">{{ desa.resumen_disponibilidad || desa.disponibilidad_texto || 'Consulta disponibilidad' }}</span>
+                  </div>
+                  <div class="td-fact" ng-if="desa.etapa">
+                    <strong>Etapa</strong>
+                    <span>{{ desa.etapa }}</span>
+                  </div>
+                  <div class="td-fact" ng-if="desa.mostrar_precio == 1 && (desa.precio_texto || desa.precio_desde)">
+                    <strong>{{ desa.tipo_operacion == 'renta' ? 'Renta' : 'Precio' }}</strong>
+                    <span class="td-price">{{ desa.precio_texto || (desa.precio_desde | currency:'$':0) }}</span>
+                  </div>
+                </div>
+
+                <div class="td-card-actions">
+                  <a class="tp-btn tp-btn-primary" href="/desarrollos/{{ desa.slug }}"
+                     aria-label="Ver información completa de {{ desa.nombre }}">
+                    Ver información completa
+                  </a>
+                  <a class="td-brochure" ng-if="desa.brochure" href="{{ desa.brochure }}" target="_blank" rel="noopener"
+                     aria-label="Descargar brochure de {{ desa.nombre }}">Brochure</a>
+                </div>
               </div>
             </article>
           </li>
@@ -54,17 +110,17 @@
       </div>
     </section>
 
-    <section class="tp-section tp-section-soft" aria-labelledby="criterios-title">
+    <section class="tp-section tp-section-soft" aria-labelledby="comparar-title">
       <div class="tp-container">
         <div class="tp-center">
-          <span class="tp-eyebrow">Cómo desarrollamos</span>
-          <h2 id="criterios-title">Criterios que guían nuestros proyectos</h2>
+          <span class="tp-eyebrow">Información para decidir</span>
+          <h2 id="comparar-title">Qué revisar antes de elegir un proyecto</h2>
         </div>
         <div class="tp-grid-4" style="margin-top:38px;">
-          <article class="tp-card"><span class="tp-card-icon">01</span><h3>Ubicación</h3><p>Evaluamos conectividad, servicios y relación con el entorno.</p></article>
-          <article class="tp-card"><span class="tp-card-icon">02</span><h3>Funcionalidad</h3><p>Diseñamos espacios pensados para las actividades reales de sus usuarios.</p></article>
-          <article class="tp-card"><span class="tp-card-icon">03</span><h3>Calidad</h3><p>Definimos materiales, procesos de supervisión y revisiones de entrega.</p></article>
-          <article class="tp-card"><span class="tp-card-icon">04</span><h3>Acompañamiento</h3><p>Brindamos información durante la compra y canales de seguimiento posterior.</p></article>
+          <article class="tp-card"><span class="tp-card-icon">01</span><h3>Venta o renta</h3><p>Identifica desde el inicio si se trata de una propiedad para comprar o un espacio comercial para rentar.</p></article>
+          <article class="tp-card"><span class="tp-card-icon">02</span><h3>Ubicación</h3><p>Compara zona, conectividad, servicios, público objetivo y relación con el entorno.</p></article>
+          <article class="tp-card"><span class="tp-card-icon">03</span><h3>Disponibilidad</h3><p>Consulta unidades, precios y estatus vigentes antes de iniciar una negociación.</p></article>
+          <article class="tp-card"><span class="tp-card-icon">04</span><h3>Documentación</h3><p>Descarga el brochure y solicita las condiciones comerciales y contractuales aplicables.</p></article>
         </div>
       </div>
     </section>
@@ -73,24 +129,24 @@
       <div class="tp-container">
         <div class="tp-center">
           <span class="tp-eyebrow">Preguntas frecuentes</span>
-          <h2 id="desarrollos-faq-title">Sobre los desarrollos de Triton</h2>
+          <h2 id="desarrollos-faq-title">Sobre los proyectos de Triton</h2>
         </div>
         <div class="tp-faq-wrap">
           <details>
-            <summary>¿Dónde se encuentran los proyectos de Triton Desarrollos?</summary>
-            <div class="tp-faq-answer">Los proyectos se desarrollan principalmente en Mérida y otras ubicaciones del sureste de México.</div>
+            <summary>¿Qué proyectos de Triton son para venta?</summary>
+            <div class="tp-faq-answer">Los desarrollos residenciales de casas, townhouses y departamentos se muestran como proyectos en venta, salvo que la ficha indique una condición diferente.</div>
           </details>
           <details>
-            <summary>¿Cómo puedo consultar la disponibilidad?</summary>
-            <div class="tp-faq-answer">Abre la ficha de cada desarrollo o comunícate con el equipo para recibir disponibilidad vigente.</div>
+            <summary>¿Qué proyectos son para renta?</summary>
+            <div class="tp-faq-answer">Las plazas comerciales se muestran como proyectos de renta de locales. Cada ficha indica disponibilidad y condiciones comerciales.</div>
           </details>
           <details>
-            <summary>¿Triton desarrolla vivienda y espacios comerciales?</summary>
-            <div class="tp-faq-answer">Sí. El portafolio incluye proyectos residenciales y comerciales.</div>
+            <summary>¿Dónde puedo consultar precios y disponibilidad?</summary>
+            <div class="tp-faq-answer">Cada ficha muestra un resumen comercial, unidades disponibles cuando existen registros, brochure y un medio para contactar al equipo.</div>
           </details>
           <details>
-            <summary>¿Qué experiencia tiene Triton Desarrollos?</summary>
-            <div class="tp-faq-answer">Triton cuenta con 10 años de experiencia y una trayectoria que incluye desarrollos entregados al 100%.</div>
+            <summary>¿La información sirve para brokers?</summary>
+            <div class="tp-faq-answer">Sí. Las fichas concentran ubicación, operación, producto, brochure, disponibilidad y datos comerciales para orientar correctamente a un prospecto.</div>
           </details>
         </div>
       </div>
@@ -99,8 +155,8 @@
     <section class="tp-cta">
       <div class="tp-container">
         <span class="tp-eyebrow">Atención personalizada</span>
-        <h2>Conoce precios, tipologías y disponibilidad</h2>
-        <p class="tp-lead">Nuestro equipo puede ayudarte a comparar opciones para vivir, invertir o establecer un espacio comercial.</p>
+        <h2>Confirma precios, disponibilidad y condiciones vigentes</h2>
+        <p class="tp-lead">Un asesor puede ayudarte a comparar opciones para vivir, invertir o establecer un negocio.</p>
         <div class="tp-actions" style="justify-content:center;">
           <a class="tp-btn tp-btn-primary" href="/contacto">Hablar con un asesor</a>
         </div>
