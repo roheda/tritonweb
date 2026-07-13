@@ -1,30 +1,31 @@
 -- Triton Web: información comercial clara para compradores y brokers
 -- Importar en phpMyAdmin antes de desplegar el código de esta rama.
+-- Este archivo está pensado para una primera instalación: las columnas no deben existir previamente.
 
 SET NAMES utf8mb4;
 START TRANSACTION;
 
 ALTER TABLE `desarrollos`
   MODIFY COLUMN `descripcion` TEXT NULL,
-  ADD COLUMN IF NOT EXISTS `descripcion_corta` VARCHAR(350) NULL AFTER `descripcion`,
-  ADD COLUMN IF NOT EXISTS `tipo_desarrollo` VARCHAR(30) NULL AFTER `descripcion_corta`,
-  ADD COLUMN IF NOT EXISTS `tipo_operacion` VARCHAR(20) NULL AFTER `tipo_desarrollo`,
-  ADD COLUMN IF NOT EXISTS `tipo_producto` VARCHAR(100) NULL AFTER `tipo_operacion`,
-  ADD COLUMN IF NOT EXISTS `estado_comercial` VARCHAR(40) NULL AFTER `tipo_producto`,
-  ADD COLUMN IF NOT EXISTS `precio_desde` DECIMAL(14,2) NULL AFTER `estado_comercial`,
-  ADD COLUMN IF NOT EXISTS `precio_texto` VARCHAR(255) NULL AFTER `precio_desde`,
-  ADD COLUMN IF NOT EXISTS `mostrar_precio` TINYINT NOT NULL DEFAULT 1 AFTER `precio_texto`,
-  ADD COLUMN IF NOT EXISTS `etapa` VARCHAR(100) NULL AFTER `mostrar_precio`,
-  ADD COLUMN IF NOT EXISTS `zona` VARCHAR(150) NULL AFTER `ubicacion`,
-  ADD COLUMN IF NOT EXISTS `ciudad` VARCHAR(100) NULL AFTER `zona`,
-  ADD COLUMN IF NOT EXISTS `direccion` VARCHAR(255) NULL AFTER `ciudad`,
-  ADD COLUMN IF NOT EXISTS `mapa_url` TEXT NULL AFTER `direccion`,
-  ADD COLUMN IF NOT EXISTS `informacion_comercial` TEXT NULL AFTER `mapa_url`,
-  ADD COLUMN IF NOT EXISTS `esquema_pago` TEXT NULL AFTER `informacion_comercial`,
-  ADD COLUMN IF NOT EXISTS `disponibilidad_texto` VARCHAR(255) NULL AFTER `esquema_pago`,
-  ADD COLUMN IF NOT EXISTS `meta_title` VARCHAR(255) NULL AFTER `disponibilidad_texto`,
-  ADD COLUMN IF NOT EXISTS `meta_description` VARCHAR(320) NULL AFTER `meta_title`,
-  ADD COLUMN IF NOT EXISTS `imagen_social` VARCHAR(255) NULL AFTER `meta_description`;
+  ADD COLUMN `descripcion_corta` VARCHAR(350) NULL AFTER `descripcion`,
+  ADD COLUMN `tipo_desarrollo` VARCHAR(30) NULL AFTER `descripcion_corta`,
+  ADD COLUMN `tipo_operacion` VARCHAR(20) NULL AFTER `tipo_desarrollo`,
+  ADD COLUMN `tipo_producto` VARCHAR(100) NULL AFTER `tipo_operacion`,
+  ADD COLUMN `estado_comercial` VARCHAR(40) NULL AFTER `tipo_producto`,
+  ADD COLUMN `precio_desde` DECIMAL(14,2) NULL AFTER `estado_comercial`,
+  ADD COLUMN `precio_texto` VARCHAR(255) NULL AFTER `precio_desde`,
+  ADD COLUMN `mostrar_precio` TINYINT NOT NULL DEFAULT 1 AFTER `precio_texto`,
+  ADD COLUMN `etapa` VARCHAR(100) NULL AFTER `mostrar_precio`,
+  ADD COLUMN `zona` VARCHAR(150) NULL AFTER `ubicacion`,
+  ADD COLUMN `ciudad` VARCHAR(100) NULL AFTER `zona`,
+  ADD COLUMN `direccion` VARCHAR(255) NULL AFTER `ciudad`,
+  ADD COLUMN `mapa_url` TEXT NULL AFTER `direccion`,
+  ADD COLUMN `informacion_comercial` TEXT NULL AFTER `mapa_url`,
+  ADD COLUMN `esquema_pago` TEXT NULL AFTER `informacion_comercial`,
+  ADD COLUMN `disponibilidad_texto` VARCHAR(255) NULL AFTER `esquema_pago`,
+  ADD COLUMN `meta_title` VARCHAR(255) NULL AFTER `disponibilidad_texto`,
+  ADD COLUMN `meta_description` VARCHAR(320) NULL AFTER `meta_title`,
+  ADD COLUMN `imagen_social` VARCHAR(255) NULL AFTER `meta_description`;
 
 UPDATE `desarrollos`
 SET `descripcion_corta` = COALESCE(`descripcion_corta`, `descripcion`),
