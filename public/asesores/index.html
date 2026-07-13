@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro de cliente con asesor</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: #f5f5f5;
+      color: #222;
+      padding: 24px;
+    }
+
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 32px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      font-size: 28px;
+    }
+
+    p {
+      margin-top: 0;
+      margin-bottom: 24px;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 16px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #d9d9d9;
+      border-radius: 10px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s ease;
+      background: #fff;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #ff7a00;
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .checkbox {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .checkbox input {
+      width: auto;
+      margin-top: 3px;
+    }
+
+    .actions {
+      margin-top: 24px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    button {
+      background: #ff7a00;
+      color: white;
+      border: none;
+      padding: 14px 22px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    button:hover {
+      opacity: 0.92;
+    }
+
+    .status {
+      font-size: 14px;
+      color: #444;
+    }
+
+    .required {
+      color: #d93025;
+    }
+
+    .section-title {
+      margin: 28px 0 16px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #222;
+    }
+
+    @media (max-width: 640px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .container {
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Registro de cliente con asesor</h1>
+    <p>
+      Completa la información para registrar al cliente y enviarlo a HubSpot vía Zapier.
+    </p>
+
+    <form id="leadForm">
+      <div class="section-title">Datos del cliente</div>
+      <div class="grid">
+        <div class="field">
+          <label for="cliente_nombre">Nombre del cliente <span class="required">*</span></label>
+          <input type="text" id="cliente_nombre" name="cliente_nombre" required />
+        </div>
+
+        <div class="field">
+          <label for="cliente_apellido">Apellidos del cliente <span class="required">*</span></label>
+          <input type="text" id="cliente_apellido" name="cliente_apellido" required />
+        </div>
+
+        <div class="field">
+          <label for="cliente_telefono">Teléfono del cliente (opcional) 10 dígitos</label>
+          <input type="tel" id="cliente_telefono" name="cliente_telefono" pattern="[0-9]{10}" maxlength="10" inputmode="numeric" />
+        </div>
+
+        <div class="field">
+          <label for="cliente_correo">Correo del cliente (opcional) </label>
+          <input type="email" id="cliente_correo" name="cliente_correo" />
+        </div>
+      </div>
+
+      <div class="section-title">Datos del asesor</div>
+<div class="grid">
+  <div class="field">
+    <label for="asesor_nombre">Nombre del asesor <span class="required">*</span></label>
+    <input type="text" id="asesor_nombre" name="asesor_nombre" required />
+  </div>
+
+  <div class="field">
+    <label for="asesor_apellido">Apellido del asesor <span class="required">*</span></label>
+    <input type="text" id="asesor_apellido" name="asesor_apellido" required />
+  </div>
+
+  <div class="field">
+    <label for="inmobiliaria_asesor">Inmobiliaria</label>
+    <input type="text" id="inmobiliaria_asesor" name="inmobiliaria_asesor" />
+  </div>
+
+  <div class="field">
+    <label for="telefono_asesor">Teléfono del asesor 10 dígitos<span class="required">*</span></label>
+    <input type="tel" id="telefono_asesor" name="telefono_asesor" required pattern="[0-9]{10}" maxlength="10" inputmode="numeric" />
+  </div>
+
+  <div class="field">
+    <label for="correo_asesor">Correo del asesor <span class="required">*</span></label>
+    <input type="email" id="correo_asesor" name="correo_asesor" required />
+  </div>
+</div>
+
+      <div class="section-title">Información comercial</div>
+      <div class="grid">
+        <div class="field">
+          <label for="dealstage">Estado del embudo <span class="required">*</span></label>
+          <select id="dealstage" name="dealstage" required>
+            <option value="">Selecciona</option>
+            <option value="qualifiedtobuy">Calificado para comprar</option>
+            <option value="appointmentscheduled">Cita programada</option>
+            <option value="17141177">Visita o videollamada realizada</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="cita_agendada">Cita agendada (opcional)</label>
+          <input type="datetime-local" id="cita_agendada" name="cita_agendada" />
+        </div>
+
+        <div class="field">
+          <label for="hubspot_owner_id">Propietario del negocio <span class="required">*</span></label>
+          <select id="hubspot_owner_id" name="hubspot_owner_id" required>
+            <option value="">Selecciona</option>
+            <option value="48499610">rodrigo@tritondesarrollos.com</option>
+            <option value="316289574">mmonroy@tritondesarrollos.com</option>
+            <option value="1735279864">gerryjimenez137@gmail.com</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="origen_cliente">¿Cómo llegó este cliente a nosotros? <span class="required">*</span></label>
+          <select id="origen_cliente" name="origen_cliente" required>
+            <option value="">Selecciona</option>
+            <option value="Recomendación del asesor">Recomendación del asesor</option>
+            <option value="Recomendación de cliente">Recomendación de cliente</option>
+            <option value="Pasó por el desarrollo / Walk-in">Walk-in</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="proyecto_interes">Proyecto de interés</label>
+          <input type="text" id="proyecto_interes" name="proyecto_interes" />
+        </div>
+
+        <div class="field">
+          <label for="presupuesto_estimado">Presupuesto estimado</label>
+          <input type="text" id="presupuesto_estimado" name="presupuesto_estimado" />
+        </div>
+
+        <div class="field full">
+          <label for="notas">Notas</label>
+          <textarea id="notas" name="notas"></textarea>
+        </div>
+
+              </div>
+
+      <input type="hidden" name="fecha_registro" id="fecha_registro" />
+      <input type="hidden" name="origen_registro" value="Formulario asesor" />
+
+      <div class="actions">
+        <button type="submit">Enviar</button>
+        <span class="status" id="formStatus"></span>
+      </div>
+    </form>
+  </div>
+
+ <script>
+  const form = document.getElementById("leadForm");
+  const statusEl = document.getElementById("formStatus");
+  const ZAPIER_WEBHOOK_URL = "https://hooks.zapier.com/hooks/catch/15928337/u7ptjqy/";
+
+  function setFechaRegistro() {
+    document.getElementById("fecha_registro").value = new Date().toISOString();
+  }
+
+  setFechaRegistro();
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+
+    // 🔥 VALIDACIÓN DE TELÉFONOS AQUÍ
+    const telCliente = formData.get("cliente_telefono");
+    const telAsesor = formData.get("telefono_asesor");
+
+    if (telCliente && telCliente.length !== 10) {
+      statusEl.textContent = "El teléfono del cliente debe tener 10 dígitos";
+      return;
+    }
+
+    if (telAsesor.length !== 10) {
+      statusEl.textContent = "El teléfono del asesor debe tener 10 dígitos";
+      return;
+    }
+
+    statusEl.textContent = "Enviando...";
+
+    try {
+      const response = await fetch(ZAPIER_WEBHOOK_URL, {
+        method: "POST",
+        body: new URLSearchParams(formData)
+      });
+
+      if (!response.ok) {
+        throw new Error("Error en webhook");
+      }
+
+      statusEl.textContent = "Enviado correctamente";
+      form.reset();
+      setFechaRegistro();
+    } catch (error) {
+      console.error(error);
+      statusEl.textContent = "Error al enviar";
+    }
+  });
+</script>
+<script>
+function limpiarTelefono(input) {
+  input.value = input.value
+    .replace(/\D/g, '')     // quitar todo lo que no sea número
+    .slice(0, 10);          // limitar a 10 dígitos
+}
+
+document.getElementById("cliente_telefono").addEventListener("input", function() {
+  limpiarTelefono(this);
+});
+
+document.getElementById("telefono_asesor").addEventListener("input", function() {
+  limpiarTelefono(this);
+});
+</script>
+</body>
+</html>

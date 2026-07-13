@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>POSTVENTA | Triton Desarrollos</title>
+
+  <style>
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background:#0b0f14;
+      color:#fff;
+    }
+    .wrap{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:40px 20px;
+    }
+    .container{
+      max-width:1100px;
+      width:100%;
+      display:grid;
+      grid-template-columns:1.1fr 1fr;
+      gap:24px;
+    }
+    .panel{
+      background:rgba(255,151,11,.85);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:18px;
+      padding:32px;
+    }
+    .logo{
+      margin-bottom:20px;
+    }
+    .logo img{
+      height:90px;
+      width:auto;
+    }
+    h1{
+      font-size:34px;
+      margin:0 0 12px;
+    }
+    p{
+      color:rgba(255,255,255,.75);
+      line-height:1.6;
+    }
+    .form-title{
+      font-size:16px;
+      font-weight:600;
+      margin-bottom:12px;
+    }
+    #hubspotForm{
+      margin-top:20px;
+    }
+
+    @media(max-width:900px){
+      .container{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+
+<body>
+  <main class="wrap">
+    <section class="container">
+
+      <!-- INFO -->
+      <div class="panel">
+        <div class="logo">
+          <img src="logotriton.png" alt="Triton Desarrollos">
+        </div>
+
+        <h1>POSTVENTA TRITON</h1>
+        <p>
+          En Triton Desarrollos queremos ofrecerte una disculpa.
+Sabemos que presentar un ticket de postventa implica una molestia, y agradecemos tu paciencia y confianza.
+</p>
+<p>
+Este formulario nos permite dar seguimiento a temas de postventa de forma
+          ordenada y priorizada. Por favor describe con el mayor detalle posible tu solicitud.
+        </p>
+        <p style="margin-top:16px;">
+          <b>No olvides:</b> Agrega imagenes y/o videos que ayuden a entender el problema de manera inmediata, sino el formulario no se enviará.
+        </p>
+      </div>
+
+      <!-- FORM -->
+      <div class="panel">
+        <div class="form-title">Formulario de solicitud</div>
+
+        <div id="hubspotForm"></div>
+        <div id="hsStatus" style="font-size:13px;color:rgba(255,255,255,.6)">
+          Cargando formulario…
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- HUBSPOT -->
+  <script>
+    (function () {
+      var s = document.createElement("script");
+      s.src = "https://js.hsforms.net/forms/embed/v2.js";
+      s.async = true;
+
+      s.onload = function () {
+        hbspt.forms.create({
+          portalId: "7887105",
+          formId: "263e1ec6-d0c5-49a9-a819-c1cb46d3fc4d",
+          region: "na1",
+          target: "#hubspotForm"
+        });
+        document.getElementById("hsStatus").textContent = "";
+      };
+
+      document.body.appendChild(s);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<md-dialog class="modal" id="usuario">
+	<form ng-cloak>
+        <md-toolbar class="modal-toolbar">
+            <div class="md-toolbar-tools">
+                <h2 style="color: #fff;">Usuario</h2>
+            </div>
+        </md-toolbar>
+        <md-dialog-content class="p">
+            <div class="md-dialog-content">
+			    <div class="scrollview" dx-scroll-view="{ direction: 'vertical' }">
+					<div layout-wrap layout="row" layout-align="center stretch">
+						<div flex="33">
+							<div layout-wrap layout="row" layout-align="center center">
+								<div flex="100" layout-padding class="title_modal">
+									<small>Llena todos los campos. <span class="small">(Campos obligatorios * )</span></small>
+								</div>
+					            <div flex="100" layout-padding>
+					              	<label class="label" for="nombre">Nombre *</label><br/>
+					              	<input class="input" id="nombre" type="text" name="nombre" ng-model="objectUsuario.nombre">
+					            </div>
+					            <div flex="100" layout-padding>
+					              	<label class="label" for="apellidoPaterno">Apellido Paterno *</label><br/>
+					              	<input class="input" id="apellidoPaterno" type="text" name="apellidoPaterno" ng-model="objectUsuario.apPaterno">
+					            </div>
+					            <div flex="100" layout-padding>
+					              	<label class="label" for="apellidoMaterno">Apellido Materno</label><br/>
+					              	<input class="input" id="apellidoMaterno" type="text" name="apellidoMaterno" ng-model="objectUsuario.apMaterno">
+					            </div>
+					            <div flex="100" layout-padding>
+					              	<label class="label" for="email">Correo Electrónico *</label><br/>
+					              	<input class="input" id="email" type="text" name="email" ng-model="objectUsuario.email">
+					            </div>				            
+				            </div>
+						</div>
+						<div flex="33">
+							<div layout-wrap layout="row">
+								<div flex="100" layout-padding style="padding-top: 4px;">
+									<label class="label">Fotografía</label><br/>
+									<div class="image-cont">
+										<div id="img" class="contImage p">
+											<img class="md-avatar" ng-src="{{imagen}}" style="width: 100%">
+										</div>
+										<md-progress-circular md-mode="indeterminate" class="md-hue-2" ng-show="loading"></md-progress-circular>
+									</div>
+									<input class="input-file" ng-file-select="onFileSelect($files)" type="file">
+								</div>
+								<div flex="100" layout-padding>
+					              	<md-checkbox ng-show="updating" ng-click="contrasenia = !contrasenia">Editar Contraseña*</md-checkbox>
+					            </div>
+					            <div flex="100" layout-padding>
+					              	<label class="label" for="password">Contraseña</label><br/>
+					              	<input ng-disabled="!contrasenia" type="password" class="input" id="password" type="text" name="password" ng-model="userPassword">
+					            </div>
+					            <div flex="100" layout-padding>
+					              	<label class="label" for="confirmPassword">Confirmar Contraseña</label><br/>
+					              	<input ng-disabled="!contrasenia" type="password" class="input" id="confirmPassword" type="text" name="confirmPassword" ng-model="confirmPass">
+					            </div>
+							</div>
+						</div>
+						<div flex="33">
+							<div layout-wrap layout="row">
+								<div flex="100" layout-padding>
+					              	<label class="label" for="tipoPuesto">Permisos</label><br/>
+					              	<md-checkbox class="m0" aria-label="Seleccionar todos" ng-click="checkAll()" ng-checked="selectAll">Seleccionar Todos</md-checkbox>
+					              	<md-divider></md-divider>
+					            </div>
+					            <div flex="100" class="contPermisos ph">
+					              	<md-checkbox ng-repeat="elem in permisos" class="m0 pl" ng-checked="elem.checked" ng-click="elem.checked = !elem.checked">{{elem.descripcion}}</md-checkbox>
+					            </div>
+				            </div>
+			            </div>
+					</div>
+			    </div>
+			</div>
+        </md-dialog-content>
+        <md-dialog-actions class="p" layout="row" layout-align="end center" style="order: 2;">
+			<md-button ng-disabled="disabled" class="md-raised button new" ng-if="!updating" ng-click="save(objectUsuario)">Guardar</md-button>
+			<md-button ng-disabled="disabled" class="md-raised button new" ng-if="updating" ng-click="update(objectUsuario)">Editar</md-button>
+			<md-button class="md-raised button md-warn" ng-click="cancel()">Cancelar</md-button>
+		</md-dialog-actions>
+    </form>
+</md-dialog>

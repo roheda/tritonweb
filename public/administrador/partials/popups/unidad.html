@@ -1,0 +1,87 @@
+<md-dialog class="modal" id="directorio">
+	<form ng-cloak>
+        <md-toolbar class="modal-toolbar">
+            <div class="md-toolbar-tools">
+                <h2 style="color: #fff;">Directorio</h2>
+            </div>
+        </md-toolbar>
+        <md-dialog-content class="p">
+            <div class="md-dialog-content">
+			    <div layout-wrap layout="row">
+					<div flex="100" layout-padding class="title_modal">
+						<small>Llena todos los campos. <span class="small">(Campos obligatorios * )</span></small>
+					</div>
+			    </div>
+			    <div class="scrollview" dx-scroll-view="{ direction: 'vertical' }">
+					<div layout-wrap layout="row" layout-align="center stretch">
+						<div flex="50">
+							<div layout-wrap layout="row" layout-align="center center">
+								<div flex="50" layout-padding>
+									  <label class="label" for="clave">Clave *</label><br/>
+									  <input class="input" id="clave" type="text" name="clave" ng-model="objectUnidad.clave">
+								</div>
+								<div flex="50" layout-padding>
+									<label class="label" for="descripcion" style="width: 100%;">Descripción *</label><br/>
+									<input class="input" id="descripcion" type="text" name="descripcion" ng-model="objectUnidad.descripcion">
+								</div>
+								<div flex="50" layout-padding>
+									<label class="label" for="tipo">Tipo *</label><br/>
+									<input class="input" id="tipo" type="text" name="tipo" ng-model="objectUnidad.tipo">
+									<!-- <select class="input" data-ng-model="objectUnidad.tipo" data-ng-options="o.value as o.text for o in tipos"></select> -->
+								</div>
+								<div flex="50" layout-padding>
+									<label class="label" for="equipamiento" style="width: 100%;">Equipamiento</label><br/>
+									<input class="input" id="equipamiento" type="text" name="equipamiento" ng-model="objectUnidad.equipamiento">
+								</div>
+								<div flex="50" layout-padding>
+									<label class="label" for="terreno" style="width: 100%;">Terreno (m2) *</label><br/>
+									<input class="input" id="terreno" type="number" name="terreno" ng-model="objectUnidad.terreno">
+								</div>
+								<div flex="50" layout-padding>
+									<label class="label" for="construccion" style="width: 100%;">Construcción (m2) *</label><br/>
+									<input class="input" id="construccion" type="number" name="construccion" ng-model="objectUnidad.construccion">
+								</div>
+								<div flex="50" layout-padding>
+									<label class="label" for="estatus">Estatus *</label><br/>
+									<select class="input" data-ng-model="objectUnidad.estatus" data-ng-options="o.value as o.text for o in disponible"></select>
+								</div>
+								<div flex="50" layout-padding>
+									<label class="label" for="precio" style="width: 100%;">Precio *</label><br/>
+									<input class="input" id="precio" type="number" name="precio" ng-model="objectUnidad.precio">
+							  	</div>
+							  	<div flex="100" layout-padding>
+									<label class="label" for="idEstado">Brochure *</label><br/>
+									<input class="input-file" ng-file-select="onFilePDFSelect($files)" type="file" style="width: 100%;">
+									<md-progress-circular md-mode="indeterminate" class="md-hue-2" ng-show="loadingBrochure"></md-progress-circular>
+								</div>
+								<div flex="100" layout-padding ng-if="brochure != ''">
+									<a href="{{brochure}}" target="_blank"><img src="../administrador/images/iconos/pdf.png" alt="" width="30px"></a>
+								</div>
+				            </div>
+						</div>
+						<div flex="50">
+							<div layout-wrap layout="row">
+								<div flex="100" layout-padding>
+									<label class="label">Fotografía</label><br/>
+									<div class="image-cont">
+										<div id="img" class="contImage p">
+											<img ng-src="{{imagen}}" style="width: 100%">
+										</div>
+										<md-progress-circular md-mode="indeterminate" class="md-hue-2" ng-show="loading"></md-progress-circular>
+									</div>
+									<span><small class="medidasRecomendadas">Medidas recomendadas: 1422 x 637px</small></span>
+									<input class="input-file" ng-file-select="onFileSelect($files)" type="file">
+								</div>
+							</div>
+						</div>
+					</div>
+			    </div>
+			</div>
+        </md-dialog-content>
+        <md-dialog-actions class="p" layout="row" layout-align="end center" style="order: 2;">
+			<md-button ng-disabled="disabled" class="md-raised button new" ng-if="!updating" ng-click="save(objectUnidad)">Guardar</md-button>
+			<md-button ng-disabled="disabled" class="md-raised button new" ng-if="updating" ng-click="update(objectUnidad)">Editar</md-button>
+			<md-button class="md-raised button md-warn" ng-click="cancel()">Cancelar</md-button>
+		</md-dialog-actions>
+    </form>
+</md-dialog>

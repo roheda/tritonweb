@@ -1,0 +1,2 @@
+[18-Aug-2022 03:27:31 UTC] PHP Fatal error:  Class 'Illuminate\Foundation\Exceptions\Handler' not found in /home/tritondesarrollo/demo-sitio.tritondesarrollos.com/app/Exceptions/Handler.php on line 9
+[18-Aug-2022 03:27:33 UTC] PHP Fatal error:  Class 'Illuminate\Foundation\Exceptions\Handler' not found in /home/tritondesarrollo/demo-sitio.tritondesarrollos.com/app/Exceptions/Handler.php on line 9

@@ -1,0 +1,57 @@
+<md-dialog class="modal" id="nota">
+	<form ng-cloak>
+        <md-toolbar class="modal-toolbar">
+            <div class="md-toolbar-tools">
+                <h2 style="color: #fff;">Nota</h2>
+            </div>
+        </md-toolbar>
+        <md-dialog-content class="p">
+            <div class="md-dialog-content">
+			    <div layout-wrap layout="row">
+					<div flex="100" layout-padding class="title_modal">
+						<small>Llena todos los campos. <span class="small">(Campos obligatorios * )</span></small>
+					</div>
+			    </div>
+			    <div class="scrollview" dx-scroll-view="{ direction: 'vertical' }">
+					<div layout-wrap layout="row" layout-align="center stretch">
+						<div flex="60">
+							<div layout-wrap layout="row" layout-align="center center">
+					            <div flex="50" layout-padding>
+					              	<label class="label" for="titulo">Título *</label><br/>
+					              	<input class="input" id="titulo" type="text" name="titulo" ng-model="objectNota.titulo">
+					            </div>
+								<div flex="50" layout-padding>
+									<label class="label" for="categoria">Categoría *</label><br/>
+									<select class="input" data-ng-model="objectNota.categoria" data-ng-options="o.titulo as o.titulo for o in categorias"></select>
+								</div>
+					            <div flex="100" class="p">
+					              	<div text-angular="text-angular" name="descripcion" ng-model="objectNota.descripcion" ta-toolbar="[['bold','underline','italics','undo','redo', 'ul','ol', 'insertImage','insertLink']]"></div>
+					            </div>
+				            </div>
+						</div>
+						<div flex="40">
+							<div layout-wrap layout="row">
+								<div flex="100" layout-padding>
+									<label class="label">Fotografía</label><br/>
+									<div class="image-cont">
+										<div id="img" class="contImage p">
+											<img ng-src="{{imagen}}" style="width: 100%">
+										</div>
+										<md-progress-circular md-mode="indeterminate" class="md-hue-2" ng-show="loading"></md-progress-circular>
+									</div>
+									<span><small class="medidasRecomendadas">Medidas recomendadas: 1422 x 637px</small></span>
+									<input class="input-file" ng-file-select="onFileSelect($files)" type="file">
+								</div>
+							</div>
+						</div>
+					</div>
+			    </div>
+			</div>
+        </md-dialog-content>
+        <md-dialog-actions class="p" layout="row" layout-align="end center" style="order: 2;">
+			<md-button ng-disabled="disabled" class="md-raised button new" ng-if="!updating" ng-click="save(objectNota)">Guardar</md-button>
+			<md-button ng-disabled="disabled" class="md-raised button new" ng-if="updating" ng-click="update(objectNota)">Editar</md-button>
+			<md-button class="md-raised button md-warn" ng-click="cancel()">Cancelar</md-button>
+		</md-dialog-actions>
+    </form>
+</md-dialog>

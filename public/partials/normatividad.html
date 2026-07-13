@@ -1,0 +1,61 @@
+<div class="normatividad">
+	<section class="normativity">
+		<div layout="row" layout-align="center center">
+			<div flex="80" class="position-relative">
+				<img src="../img/normatividad/portada.png" alt="">
+				<!-- <div layout="row" layout-align="center center" class="contText position-absolute total-height">
+					<div flex-gt-xs="40" flex-offset-gt-xs="60" flex="100">
+						<h1 class="m0">Normatividad</h1>	
+						<h2 class="m0">del Programa<br/>triton Vida</h2>
+					</div>
+				</div> -->
+			</div>
+		</div>
+	</section>
+	<section class="download">
+		<div layout="row" layout-align="center center">
+			<div flex-gt-xs="80" flex="90" class=" text-center">
+				<p class="normal m0">Puedes descargar y consultar los elementos públicos <br/>del <b>Programa triton Vida</b></p>
+				<img src="../img/home/leaves-line2.png" alt="Linea de hojas 2" class="leaves-line mt+" width="250">
+			</div>
+		</div>
+		<div layout="row" layout-align="center center">
+			<div flex-gt-xs="80" flex="90" class=" text-center">
+				<h3>Normativas</h3>
+			</div>
+		</div>
+		<div layout="row" layout-align="center center" class="pv+++">
+			<div flex-gt-xs="80" flex="90">
+				<div layout="row" layout-wrap layout-align="center stretch">
+					<div flex-gt-sm="25" flex-gt-xs="50" flex="100" class="contDoctos" ng-repeat="n in normativas | filter: { tipoNormativa: '1' }">
+						<a href="{{n.enlace}}" target="_blank">
+							<figure>
+								<img src="../img/normatividad/documento.png" alt="Documento">
+								<figcaption>Reglas <br/>de Operación</figcaption>
+							</figure>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div layout="row" layout-align="center center">
+			<div flex-gt-xs="80" flex="90" class=" text-center">
+				<h3>Resultados</h3>
+			</div>
+		</div>
+		<div layout="row" layout-align="center center" class="pv+++">
+			<div flex-gt-xs="80" flex="90">
+				<div layout="row" layout-wrap layout-align="center stretch">
+					<div flex-gt-sm="25" flex-gt-xs="50" flex="100" class="contDoctos" ng-repeat="n in normativas | filter: { tipoNormativa: '2' }">
+						<a href="#">
+							<figure>
+								<img src="../img/normatividad/documento.png" alt="Documento">
+								<figcaption>Reglas <br/>de Operación</figcaption>
+							</figure>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>

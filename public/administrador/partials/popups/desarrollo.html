@@ -1,0 +1,147 @@
+<md-dialog class="modal" id="desarrollo">
+	<form ng-cloak>
+        <md-toolbar class="modal-toolbar">
+            <div class="md-toolbar-tools">
+                <h2 style="color: #fff;">Desarrollos</h2>
+            </div>
+        </md-toolbar>
+        <md-dialog-content class="p">
+            <div class="md-dialog-content">
+            	<md-tabs md-dynamic-height md-border-bottom>
+					<md-tab label="Datos">
+						<div layout-wrap layout="row" layout-align="center stretch">
+							<div flex="50">
+								<div layout-wrap layout="row" layout-align="center center">
+									<div flex="100" layout-padding class="title_modal">
+										<small>Llena todos los campos. <span class="small">(Campos obligatorios * )</span></small>
+									</div>
+									<div flex="50" layout-padding>
+										<label class="label" for="nombre">Nombre *</label><br/>
+										<input class="input" id="nombre" type="text" name="nombre" ng-model="objectDesarrollo.nombre">
+									</div>
+									<div flex="50" layout-padding>
+										<label class="label" for="idEstado">Estado *</label><br/>
+										<select class="input" data-ng-model="objectDesarrollo.idEstado" data-ng-options="o.id as o.nombre for o in estados"></select>
+									</div>
+									<div flex="100" layout-padding>
+										<label class="label" for="enlace">Link Página Web</label><br/>
+										<input class="input" id="enlace" type="text" name="enlace" ng-model="objectDesarrollo.enlace">
+									</div>
+									<div flex="100" layout-padding>
+										<label class="label" for="descripcion">Descripción</label><br/>
+										<textarea id="descripcion" type="text" name="descripcion" ng-model="objectDesarrollo.descripcion" rows="4" style="width: calc(100% - 17px);"></textarea>
+									</div>
+									<div flex="100" layout-padding>
+										<label class="label" for="idEstado">Logo *</label><br/>
+										<input class="input-file" ng-file-select="onFileSelect2($files)" type="file" style="width: 100%;">
+										<div class="image-cont">
+											<div id="img" class="contImage logo">
+												<img ng-src="{{imagen2}}">
+											</div>
+										</div>
+									</div>
+						        </div>
+						    </div>
+						    <div flex="50">
+								<div layout-wrap layout="row">
+									<div flex="100" layout-padding>
+										<label class="label">Fotografía</label><br/>
+										<div class="image-cont">
+											<div id="img" class="contImage p">
+												<img ng-src="{{imagen}}" style="width: 100%">
+											</div>
+											<md-progress-circular md-mode="indeterminate" class="md-hue-2" ng-show="loading"></md-progress-circular>
+										</div>
+										<span><small class="medidasRecomendadas">Medidas recomendadas: 1422 x 637px</small></span>
+										<input class="input-file" ng-file-select="onFileSelect($files)" type="file">
+									</div>
+									<div flex="100" layout-padding>
+										<label class="label" for="idEstado">Brochure *</label><br/>
+										<input class="input-file" ng-file-select="onFilePDFSelect($files)" type="file" style="width: 100%;">
+										<md-progress-circular md-mode="indeterminate" class="md-hue-2" ng-show="loadingBrochure"></md-progress-circular>
+									</div>
+								</div>
+							</div>
+						</div>
+					</md-tab>
+					<md-tab label="Elementos">
+						<div layout-wrap layout="row" layout-align="center center">
+							<div flex="100" layout-padding>
+								<label class="label" for="video">Link de Video (You Tube)</label><br/>
+								<input class="input" id="video" type="text" name="video" ng-model="objectDesarrollo.video">
+							</div>
+							<!-- <div flex="50" layout-padding>
+								<div layout-wrap layout="row" layout-align="center stretch">
+									<div flex="50">
+										<label class="label" for="idEstado">Logo *</label><br/>
+										<input class="input-file" ng-file-select="onFileSelect2($files)" type="file" style="width: 100%;">
+									</div>
+									<div flex="50">
+										<div class="image-cont">
+											<div id="img" class="contImage logo">
+												<img ng-src="{{imagen2}}">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div> -->
+							<div flex="100" layout-padding>
+								<label class="label" for="idEstado">Amenidades</label><br/>
+								<input class="input-file" ng-file-select="onListFileSelect($files)" multiple accept="file/*" type="file" style="width: 100%; padding: 0;">
+							</div>
+							<div flex="100" layout-padding>
+								<label class="label" for="titulo">Lista de Amenidades</label><br/>
+								<table rules="rows" cellspacing="0" class="docs">
+									<thead>
+										<tr>
+											<th class="definedWidth text-center">Imagen</th>
+											<th class="text-left">Descripción</th>
+											<th class="definedWidth text-center">Eliminar</th>
+										</tr>
+									</thead>
+								</table>
+								<div class="contImages">
+									<table rules="rows" cellspacing="0" class="docs">
+										<tbody>
+											<tr ng-repeat="item in files">
+												<td class="definedWidth text-center"><img src="{{item.ruta}}" alt=""></td>
+												<td class="text-left">
+													<input class="input" id="descripcion" type="text" name="descripcion" ng-model="item.descripcion">
+												</td>
+												<td class="definedWidth text-center">
+													<div ng-click="deleteListFile($index, item)" class="cancelar">
+														<img src="../administrador/images/icons/incorrecto.png" alt="" style="width: 15px !important">
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</md-tab>
+			        <md-tab label="Archivo SVG">
+						<div layout-wrap layout="row">
+							<div flex="100" layout-padding>
+								<label class="label">Archivo SVG</label><br/>
+								<div class="image-cont">
+									<div id="img" class="contImage p">
+										<img ng-src="{{imagen3}}" style="width: 100%">
+									</div>
+									<md-progress-circular md-mode="indeterminate" class="md-hue-2" ng-show="loading"></md-progress-circular>
+								</div>
+								<span><small class="medidasRecomendadas">Medidas recomendadas: 1422 x 637px</small></span>
+								<input class="input-file" ng-file-select="onFileSelect3($files)" type="file">
+							</div>
+						</div>
+			        </md-tab>
+			    </md-tabs>
+			</div>
+        </md-dialog-content>
+        <md-dialog-actions class="p" layout="row" layout-align="end center" style="order: 2;">
+			<md-button ng-disabled="disabled" class="md-raised button new" ng-if="!updating" ng-click="save(objectDesarrollo)">Guardar</md-button>
+			<md-button ng-disabled="disabled" class="md-raised button new" ng-if="updating" ng-click="update(objectDesarrollo)">Editar</md-button>
+			<md-button class="md-raised button md-warn" ng-click="cancel()">Cancelar</md-button>
+		</md-dialog-actions>
+    </form>
+</md-dialog>

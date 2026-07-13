@@ -1,0 +1,40 @@
+<md-dialog class="modal" id="categorias">
+	<form ng-cloak>
+        <md-toolbar class="modal-toolbar">
+            <div class="md-toolbar-tools">
+                <h2 style="color: #fff;">Detalle de Comentario</h2>
+            </div>
+        </md-toolbar>
+        <md-dialog-content class="p">
+            <div class="md-dialog-content">
+			    <div class="scrollview" dx-scroll-view="{ direction: 'vertical' }">
+					<div layout-wrap layout="row" layout-align="center center">
+			            <div flex="50" layout-padding>
+			              	<label class="label" for="nombre">Nombre</label><br/>
+			              	<input ng-disabled="true" class="input" id="nombre" type="text" name="nombre" ng-model="objectContacto.nombre">
+			            </div>
+			            <div flex="50" layout-padding>
+			              	<label class="label" for="apellidos">Apellidos</label><br/>
+			              	<input ng-disabled="true" class="input" id="apellidos" type="text" name="apellidos" ng-model="objectContacto.apellidos">
+			            </div>
+			            <div flex="50" layout-padding>
+			              	<label class="label" for="correo">Correo Electrónico</label><br/>
+			              	<input ng-disabled="true" class="input" id="correo" type="email" name="correo" ng-model="objectContacto.correo">
+			            </div>
+			            <div flex="50" layout-padding>
+			              	<label class="label" for="telefono">Teléfono</label><br/>
+			              	<input ng-disabled="true" class="input" id="telefono" type="text" name="telefono" ng-model="objectContacto.telefono">
+			            </div>
+			            <div flex="100" layout-padding>
+			            	<label class="label" for="mensaje">Mensaje</label><br/>
+			              	<textarea ng-disabled="true" class="input" id="mensaje" type="text" name="mensaje" ng-model="objectContacto.mensaje"></textarea>
+			            </div>
+		            </div>
+			    </div>
+			</div>
+        </md-dialog-content>
+        <md-dialog-actions class="p" layout="row" layout-align="end center" style="order: 2;">
+			<md-button class="md-raised button md-warn" ng-click="cancel()">Cancelar</md-button>
+		</md-dialog-actions>
+    </form>
+</md-dialog>

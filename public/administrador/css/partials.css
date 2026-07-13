@@ -1,0 +1,372 @@
+.button {
+  margin: 0 8px 0 0 !important;
+  padding: 0px 15px !important;
+  text-transform: capitalize !important;
+  line-height: 30px !important;
+  min-height: 30px !important; }
+  .button.new {
+    background-color: #03c355 !important;
+    color: #fff !important; }
+    .button.new.md-button.md-raised[disabled] {
+      background-color: rgba(0, 0, 0, 0.12) !important; }
+  .button.refresh {
+    background-color: #f5f5f5 !important; }
+  .button.md-button.md-raised[disabled] {
+    background-color: rgba(0, 0, 0, 0.12) !important; }
+
+::placeholder {
+  color: #a8a8a8 !important; }
+
+.buscar {
+  background: #fff;
+  border: 1px solid gray;
+  color: #000000;
+  font-size: 12px;
+  margin: 0;
+  padding: 5px 7px; }
+
+.selectGrid .input {
+  background: #fff;
+  border: 1px solid #808080;
+  box-sizing: border-box;
+  color: #000000;
+  font-size: 12px;
+  margin: 0;
+  padding: 5px 7px;
+  width: 200px; }
+.selectGrid select {
+  padding-left: 5px !important; }
+
+table.grid {
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+  border-top: 1px solid lightgrey;
+  border-bottom: 1px solid lightgrey; }
+  table.grid thead td,
+  table.grid tbody td {
+    color: #232323;
+    font-weight: normal;
+    font-size: 12px;
+    padding: 5px 10px; }
+    table.grid thead td.img,
+    table.grid tbody td.img {
+      width: 70px;
+      padding-right: 20px; }
+      table.grid thead td.img img,
+      table.grid tbody td.img img {
+        max-height: 50px;
+        object-fit: contain;
+        width: 100%; }
+      table.grid thead td.img.vertical img,
+      table.grid tbody td.img.vertical img {
+        width: auto !important; }
+    table.grid thead td.ordenar,
+    table.grid tbody td.ordenar {
+      cursor: pointer; }
+    table.grid thead td.acciones,
+    table.grid tbody td.acciones {
+      width: 150px; }
+      table.grid thead td.acciones.small,
+      table.grid tbody td.acciones.small {
+        width: 85px; }
+  table.grid tbody tr:hover {
+    background: #f5f5f5; }
+
+md-dialog.modal {
+  max-width: 1000px !important; }
+  md-dialog.modal .small {
+    font-size: 11px !important; }
+  md-dialog.modal .md-warn {
+    color: #fff !important; }
+  md-dialog.modal .md-dialog-content {
+    padding: 0px; }
+    md-dialog.modal .md-dialog-content .title_modal small {
+      padding: 8px 0; }
+    md-dialog.modal .md-dialog-content label.label {
+      color: #767676;
+      -ms-text-overflow: ellipsis;
+      -o-text-overflow: ellipsis;
+      text-overflow: ellipsis;
+      cursor: default;
+      float: left;
+      overflow: hidden;
+      padding: 8px 0;
+      white-space: nowrap;
+      width: 40%; }
+      md-dialog.modal .md-dialog-content label.label.padding-left {
+        padding: 0 0 0 8px !important; }
+    md-dialog.modal .md-dialog-content .input {
+      background: #fff;
+      border: 1px solid #808080;
+      box-sizing: border-box;
+      color: #000000;
+      font-size: 12px;
+      margin: 0;
+      padding: 5px 7px;
+      width: 100%; }
+    md-dialog.modal .md-dialog-content select {
+      padding-left: 5px !important; }
+  md-dialog.modal .input-file {
+    font-size: 12px !important; }
+  md-dialog.modal .image-cont {
+    position: relative; }
+    md-dialog.modal .image-cont .contImage.logo {
+      height: 60px; }
+      md-dialog.modal .image-cont .contImage.logo img {
+        height: 100%;
+        width: auto; }
+    md-dialog.modal .image-cont .contImage img {
+      max-height: 220px;
+      object-fit: contain !important; }
+    md-dialog.modal .image-cont md-progress-circular {
+      position: absolute !important;
+      top: calc(50% - 25px) !important;
+      left: calc(50% - 25px) !important; }
+      md-dialog.modal .image-cont md-progress-circular .md-inner .md-left .md-half-circle {
+        border-left-color: #980008;
+        border-top-color: #980008; }
+      md-dialog.modal .image-cont md-progress-circular .md-inner .md-right .md-half-circle {
+        border-right-color: #980008;
+        border-top-color: #980008; }
+  md-dialog.modal#perfil {
+    max-width: 50% !important; }
+    md-dialog.modal#perfil #check {
+      padding-top: 15px !important; }
+    md-dialog.modal#perfil .dx-checkbox-indeterminate .dx-checkbox-icon:before {
+      display: none !important; }
+    md-dialog.modal#perfil .dx-button-success {
+      background-color: #0D47A1 !important;
+      border-color: #0D47A1 !important; }
+  md-dialog.modal#usuario {
+    width: 900px; }
+    md-dialog.modal#usuario label {
+      width: 100%; }
+    md-dialog.modal#usuario .image-cont .contImage img {
+      width: 150px !important; }
+    md-dialog.modal#usuario #check {
+      padding-top: 15px !important; }
+    md-dialog.modal#usuario .dx-checkbox-indeterminate .dx-checkbox-icon:before {
+      display: none !important; }
+    md-dialog.modal#usuario .dx-button-success {
+      background-color: #0D47A1 !important;
+      border-color: #0D47A1 !important; }
+    md-dialog.modal#usuario .contPermisos {
+      height: 220px;
+      overflow: auto; }
+  md-dialog.modal#slide {
+    width: 620px; }
+    md-dialog.modal#slide textarea {
+      height: 90px; }
+  md-dialog.modal#normativa {
+    width: 600px; }
+    md-dialog.modal#normativa textarea {
+      height: 90px; }
+    md-dialog.modal#normativa .input-file {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 100%; }
+    md-dialog.modal#normativa .radioButton {
+      height: 77px; }
+      md-dialog.modal#normativa .radioButton md-radio-group md-radio-button {
+        margin: 5px; }
+  md-dialog.modal#desarrollo table.docs {
+    border: 1px solid lightgrey;
+    margin: 0px;
+    padding: 0px;
+    width: 100%; }
+    md-dialog.modal#desarrollo table.docs thead tr th,
+    md-dialog.modal#desarrollo table.docs tbody tr th {
+      background: #5a5a5a;
+      padding: 5px;
+      color: #fff; }
+    md-dialog.modal#desarrollo table.docs thead tr td,
+    md-dialog.modal#desarrollo table.docs tbody tr td {
+      color: #232323;
+      font-size: 12px;
+      font-weight: normal;
+      padding: 5px; }
+      md-dialog.modal#desarrollo table.docs thead tr td img,
+      md-dialog.modal#desarrollo table.docs tbody tr td img {
+        max-height: 60px !important; }
+    md-dialog.modal#desarrollo table.docs thead tr .definedWidth,
+    md-dialog.modal#desarrollo table.docs tbody tr .definedWidth {
+      width: 100px !important; }
+      md-dialog.modal#desarrollo table.docs thead tr .definedWidth .cancelar,
+      md-dialog.modal#desarrollo table.docs tbody tr .definedWidth .cancelar {
+        color: red !important;
+        cursor: pointer !important; }
+    md-dialog.modal#desarrollo table.docs thead tr:hover,
+    md-dialog.modal#desarrollo table.docs tbody tr:hover {
+      background: #f5f5f5; }
+  md-dialog.modal#galeria {
+    width: 700px;
+    max-height: 95%; }
+    md-dialog.modal#galeria .contImages {
+      border-bottom: 1px solid lightgrey;
+      height: 250px;
+      margin-top: -1px;
+      overflow: auto;
+      padding: 0; }
+      md-dialog.modal#galeria .contImages img {
+        width: 90% !important;
+        max-height: 70px !important;
+        object-fit: contain !important; }
+    md-dialog.modal#galeria table.docs {
+      border: 1px solid lightgrey;
+      margin: 0px;
+      padding: 0px;
+      width: 100%; }
+      md-dialog.modal#galeria table.docs thead tr th,
+      md-dialog.modal#galeria table.docs tbody tr th {
+        background: #5a5a5a;
+        padding: 5px;
+        color: #fff; }
+      md-dialog.modal#galeria table.docs thead tr td,
+      md-dialog.modal#galeria table.docs tbody tr td {
+        color: #232323;
+        font-size: 12px;
+        font-weight: normal;
+        padding: 5px; }
+      md-dialog.modal#galeria table.docs thead tr .definedWidth,
+      md-dialog.modal#galeria table.docs tbody tr .definedWidth {
+        width: 100px !important; }
+        md-dialog.modal#galeria table.docs thead tr .definedWidth .cancelar,
+        md-dialog.modal#galeria table.docs tbody tr .definedWidth .cancelar {
+          color: red !important;
+          cursor: pointer !important; }
+      md-dialog.modal#galeria table.docs thead tr:hover,
+      md-dialog.modal#galeria table.docs tbody tr:hover {
+        background: #f5f5f5; }
+  md-dialog.modal#video {
+    width: 700px; }
+    md-dialog.modal#video textarea {
+      height: 145px; }
+    md-dialog.modal#video .image-cont .contImage {
+      text-align: center; }
+      md-dialog.modal#video .image-cont .contImage img {
+        height: 202px;
+        width: 100%;
+        object-fit: contain !important; }
+
+md-switch.switch {
+  margin: 0 !important; }
+  md-switch.switch .md-container {
+    height: 20px !important;
+    margin: 0 !important; }
+    md-switch.switch .md-container .md-bar {
+      background-color: #cc9999 !important;
+      width: 30px !important;
+      top: 5px !important;
+      height: 10px !important; }
+    md-switch.switch .md-container .md-thumb {
+      background-color: #993333 !important;
+      height: 15px !important;
+      width: 15px !important; }
+  md-switch.switch.md-checked .md-bar {
+    background-color: #a5d6a7 !important; }
+  md-switch.switch.md-checked .md-thumb {
+    background-color: #007130 !important; }
+
+.icono {
+  background-position: left top;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  display: inline-block;
+  height: 17px;
+  margin: 0 5px;
+  vertical-align: middle;
+  width: 17px; }
+  .icono.editar {
+    background-image: url("../images/icons/Vector-Smart-Object-copy-8.png"); }
+  .icono.imprimirticket {
+    background-image: url("../images/icons/printer70.png"); }
+  .icono.imprimirticket-gray {
+    background-image: url("../images/icons/printer70_gray.png"); }
+  .icono.imprimirticket-gray {
+    background-image: url("../images/icons/printer70.png"); }
+  .icono.detallepago {
+    background-image: url("../images/icons/detalle_de_pago.png"); }
+  .icono.detallepago {
+    background-image: url("../images/icons/detalle_de_pago_white.png"); }
+  .icono.detallepagoCorrecto {
+    background-image: url("../images/icons/detalle_de_pago_white.png"); }
+  .icono.ver-info {
+    background-image: url("../images/icons/Vector-Smart-Object-copy-7.png"); }
+  .icono.buscarFirma {
+    background-image: url("../images/icons/firma.png"); }
+  .icono.buscarIncorrecto {
+    background-image: url("../images/icons/incorrecto.png"); }
+  .icono.buscarCorrecto {
+    background-image: url("../images/icons/correcto.png"); }
+  .icono.new-group {
+    background-image: url("../images/icons/Elementos/Group-13.png"); }
+  .icono.delete-group {
+    background-image: url("../images/icons/Elementos/Group-14.png"); }
+  .icono.borrar {
+    background-image: url("../images/icons/Vector-Smart-Object-copy-9.png"); }
+  .icono.recibo {
+    background-image: url("../images/icons/recibo.png"); }
+  .icono.cancelar-pagos {
+    background-image: url("../images/icons/CancelarPago.png"); }
+  .icono.cancelar-pagosDetalle {
+    background-image: url("../images/icons/CancelarBlanco.png"); }
+  .icono.listdetalle {
+    background-image: url("../images/icons/lista-detalle.png"); }
+  .icono.ver-lotes {
+    background-image: url("../images/icons/Lotes.png"); }
+  .icono.saldo-enganche {
+    background-image: url("../images/icons/icono_detalle_de_pago.png"); }
+  .icono.water-payment {
+    background-image: url("../images/icons/pago-detalle-agua.png"); }
+  .icono.clean-payment {
+    background-image: url("../images/icons/pagos-detalle-limpieza.png"); }
+  .icono.borrar-imagen {
+    background-image: url("../images/icons/Elementos/icono_borrar.png"); }
+  .icono.cambio-clientes-usuario {
+    background-image: url("../images/icons/Cambio-de-estatus.png"); }
+  .icono.copropietario {
+    background-image: url("../images/icons/users26.png"); }
+  .icono.semamaforo-verde {
+    background-image: url("../images/icons/Verde.png"); }
+  .icono.semamaforo-amarillo {
+    background-image: url("../images/icons/Amarillo.png"); }
+  .icono.semamaforo-rojo {
+    background-image: url("../images/icons/Rojo.png"); }
+  .icono.imprimirVenta {
+    background-image: url("../images/icons/icono_impresora.png"); }
+  .icono.historial {
+    background-image: url("../images/icons/ic_historial.png");
+    width: 22px; }
+  .icono.switch-on {
+    background-image: url("../images/icons/switch-on.png");
+    width: 19px; }
+  .icono.switch-off {
+    background-image: url("../images/icons/switch-off.png");
+    width: 19px; }
+  .icono.agregarSubalmacen {
+    background-image: url("../images/icons/icono_agregar_nuevoregistro.png"); }
+
+.md-button.md-pri-theme.md-primary {
+  background: #00b94e !important;
+  color: #fff; }
+  .md-button.md-pri-theme.md-primary.ng-scope {
+    background: #da000b !important; }
+
+.ta-scroll-window {
+  border: 1px solid darkgrey; }
+  .ta-scroll-window .ta-bind {
+    height: 225px;
+    min-height: 225px;
+    padding: 3px 8px;
+    overflow-y: scroll; }
+    .ta-scroll-window .ta-bind p {
+      margin: 2px 0px; }
+    .ta-scroll-window .ta-bind ul {
+      margin: 2px 0px; }
+
+md-checkbox.md-checked .md-icon {
+  background-color: #7ab829 !important; }
+
+/*# sourceMappingURL=partials.css.map */

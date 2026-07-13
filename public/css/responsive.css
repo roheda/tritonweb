@@ -1,0 +1,204 @@
+@media (max-width: 1280px) {
+  .home .what-is-it img.triton {
+    bottom: 0;
+    height: auto;
+    right: -10px;
+    width: 30%; }
+  .home .located-in .leaves-line {
+    display: none; }
+  .home .located-in .contText {
+    margin-top: 0px;
+    max-width: 80%; }
+    .home .located-in .contText .leaves-bottom {
+      margin-top: 15px; }
+  .home .located-in .map {
+    max-width: 80%;
+    position: relative; }
+
+  .triton .impulses {
+    height: auto !important; }
+  .triton .structure .content {
+    position: relative !important; } }
+@media (max-width: 960px) {
+  h1 {
+    font-size: 46px; }
+
+  h2 {
+    font-size: 32px; }
+
+  .home .what-is-it img.triton {
+    bottom: 0;
+    height: auto;
+    right: -10px;
+    width: 30%; }
+  .home .video img.leaves-left, .home .video img.leaves-right {
+    width: 100px; }
+  .home .rural-development {
+    padding: 50px 0; }
+
+  .triton .impulses ul li figure figcaption {
+    font-size: 18px; }
+  .triton .goal .imgGoal .contText img {
+    height: 70px; }
+  .triton .goal .imgGoal .contText p {
+    font-size: 18px; }
+  .triton .structure .content {
+    padding-top: 0px;
+    position: relative !important; }
+    .triton .structure .content .sign:after {
+      right: 0px; }
+    .triton .structure .content .sign.right:after {
+      right: 0px; }
+
+  .social .community .contText {
+    margin-bottom: 20px; }
+
+  .productiva .agroforestry img.hojas {
+    width: 50px; }
+  .productiva .community .content .contText {
+    margin-bottom: 20px; }
+
+  .galeria .our-land img.leaves-left, .galeria .our-land img.leaves-right {
+    width: 100px; } }
+@media (max-width: 768px) {
+  h1 {
+    font-size: 40px; }
+
+  h2 {
+    font-size: 30px; }
+
+  p {
+    font-size: 24px; }
+    p.small {
+      font-size: 21px; }
+
+  .galeria .our-land iframe {
+    height: 330px !important; }
+
+  .unidad-modal .total-height {
+    height: auto; } }
+@media (max-width: 600px) {
+  h1 {
+    font-size: 42px; }
+
+  h2 {
+    font-size: 28px; }
+
+  footer {
+    text-align: center; }
+    footer ul.enlaces {
+      text-align: center; }
+
+  .home {
+    padding-top: 55px; }
+    .home .slider {
+      height: 400px; }
+      .home .slider .flexslider .flex-viewport .slides li img {
+        object-fit: cover; }
+      .home .slider .flexslider .flex-viewport .slides li .text-slider h2 {
+        font-size: 34px !important;
+        text-shadow: 2px 2px black; }
+      .home .slider .flexslider .flex-viewport .slides li .text-slider p {
+        text-shadow: 2px 2px black; }
+      .home .slider .flexslider .flex-viewport .slides li .text-slider .btn-transparent {
+        background-color: #f2970b; }
+    .home .about-us .about-content .square {
+      width: 16px; }
+    .home .about-us .about-content .contText {
+      padding-right: 24px !important; }
+      .home .about-us .about-content .contText h3 {
+        font-size: 20px;
+        text-align: center; }
+      .home .about-us .about-content .contText p {
+        font-size: 12px !important;
+        text-align: center; }
+    .home .about-us .about-content .about-1 {
+      padding: 24px 0 0 24px !important; }
+    .home .about-us .about-content .about-2 {
+      padding: 24px 0 0 0 !important; }
+    .home .about-us .circle {
+      font-size: 12px;
+      height: 45px;
+      width: 45px; }
+    .home .our-team .cont-team .team-description {
+      padding: 0 !important; }
+      .home .our-team .cont-team .team-description h3 {
+        font-size: 20px;
+        text-align: center; }
+      .home .our-team .cont-team .team-description p {
+        font-size: 12px !important;
+        text-align: center; }
+    .home .our-team ul {
+      margin-top: 0px !important; }
+      .home .our-team ul li {
+        padding: 24px !important; }
+        .home .our-team ul li figure img {
+          border: 1px solid #f2970b;
+          height: 130px;
+          width: 130px; }
+        .home .our-team ul li figure figcaption {
+          font-size: 14px; }
+          .home .our-team ul li figure figcaption span.gray {
+            color: #fff !important; }
+        .home .our-team ul li .cont-team {
+          background-color: transparent !important;
+          padding: 0; }
+        .home .our-team ul li .square {
+          display: none !important; }
+
+  .triton .objetives .contText img.hojas {
+    display: none; }
+  .triton .impulses ul li figure img {
+    width: 50%; }
+  .triton .goal .imgGoal .contText img {
+    height: 50px; }
+  .triton .goal .imgGoal .contText p {
+    font-size: 16px; }
+
+  .social .inclusion .textSection p {
+    text-align: left !important;
+    padding-left: 0 !important; }
+  .social .inclusion img.hojas {
+    display: none; }
+
+  .productiva .agroforestry img.hojas {
+    display: none; }
+
+  .galeria .our-land img.leaves-left, .galeria .our-land img.leaves-right {
+    width: 70px; }
+  .galeria .our-land iframe {
+    height: 270px !important; }
+
+  .normatividad .download .contDoctos {
+    padding: 20px 0; }
+    .normatividad .download .contDoctos figure {
+      margin: 0;
+      text-align: center; }
+      .normatividad .download .contDoctos figure img {
+        margin: auto;
+        width: 60%; }
+
+  .contacto .contact {
+    padding-top: 0;
+    padding-bottom: 50px; }
+    .contacto .contact h2 {
+      text-align: center; }
+
+  .formContacto .content {
+    padding: 0px !important; } }
+@media (max-width: 500px) {
+  h1 {
+    font-size: 28px !important; }
+
+  h2 {
+    font-size: 21px !important; }
+
+  p {
+    font-size: 16px; }
+    p.small {
+      font-size: 14px; }
+
+  .home .criteria .leaves-right {
+    display: none !important; } }
+
+/*# sourceMappingURL=responsive.css.map */

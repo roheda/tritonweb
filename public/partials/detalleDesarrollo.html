@@ -1,0 +1,137 @@
+<div class="detalleDesarrollo triton-page-v2 triton-development-detail-v2">
+  <main>
+    <section class="tdd-top" aria-labelledby="detalle-desarrollo-title">
+      <div class="tp-container">
+        <nav class="tp-breadcrumb tp-breadcrumb-dark" aria-label="Migas de pan">
+          <a href="/">Inicio</a><span>/</span><a href="/desarrollos">Desarrollos</a><span>/</span><span>{{ desarrollo.nombre }}</span>
+        </nav>
+        <span class="tp-eyebrow">Proyecto de Triton Desarrollos</span>
+        <h1 id="detalle-desarrollo-title">{{ desarrollo.nombre }}</h1>
+        <p class="tp-lead">{{ desarrollo.descripcion }}</p>
+        <div class="tp-actions">
+          <a class="tp-btn tp-btn-primary" href="/contacto">Solicitar disponibilidad</a>
+          <a class="tp-btn tp-btn-outline" ng-if="desarrollo.brochure" href="{{ desarrollo.brochure }}"
+             target="_blank" rel="noopener">Descargar brochure</a>
+        </div>
+
+        <div class="tdd-video" ng-show="desarrollo.video != ''">
+          <script src="https://www.youtube.com/iframe_api"></script>
+          <youtube-video video-id="desarrollo.video" playerV-vars="playerVars"></youtube-video>
+        </div>
+      </div>
+    </section>
+
+    <section class="tp-section" ng-show="desarrollo.amenidades.length > 0" aria-labelledby="amenidades-title">
+      <div class="tp-container">
+        <div class="tp-center">
+          <span class="tp-eyebrow">Características del proyecto</span>
+          <h2 id="amenidades-title">Amenidades y beneficios</h2>
+          <p class="tp-lead">Espacios y atributos pensados para mejorar la experiencia de quienes viven, visitan o invierten en el proyecto.</p>
+        </div>
+        <ul class="tdd-amenities">
+          <li ng-repeat="ame in desarrollo.amenidades track by $index">
+            <article class="tdd-amenity">
+              <img ng-src="{{ ame.ruta }}" alt="{{ ame.descripcion }}">
+              <h3>{{ ame.descripcion }}</h3>
+            </article>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="tp-section tp-section-soft" ng-show="galeria.id != null" aria-labelledby="galeria-title">
+      <div class="tp-container">
+        <span class="tp-eyebrow">Conoce los espacios</span>
+        <h2 id="galeria-title">Galería de {{ desarrollo.nombre }}</h2>
+        <p class="tp-lead">Explora imágenes del diseño, distribución, arquitectura y áreas del desarrollo.</p>
+
+        <div class="tdd-gallery" role="list">
+          <figure role="listitem" ng-repeat="elem in galeria.imagenes track by $index">
+            <img ng-src="{{ elem.ruta }}"
+                 alt="{{ desarrollo.nombre }} — imagen {{ $index + 1 }}"
+                 ng-click="showImagen($event, elem)">
+          </figure>
+        </div>
+
+        <div class="tp-actions">
+          <a class="tp-btn tp-btn-primary" href="/contacto">Contactar a un asesor</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="tp-section" ng-show="desarrollo.svg != ''" aria-labelledby="disponibilidad-title">
+      <div class="tp-container">
+        <div class="tp-center">
+          <span class="tp-eyebrow">Consulta el proyecto</span>
+          <h2 id="disponibilidad-title">Disponibilidad</h2>
+          <p class="tp-lead">Revisa el plano de disponibilidad y confirma con un asesor cuáles unidades continúan vigentes.</p>
+        </div>
+        <object class="tdd-embed" name="iframe1" id="iframe1" data="{{detailFrame}}" width="100%"
+                aria-label="Plano de disponibilidad de {{ desarrollo.nombre }}"></object>
+
+        <div class="tp-actions" style="justify-content:center;" ng-show="desarrollo.enlace != ''">
+          <a class="tp-btn tp-btn-primary" href="{{desarrollo.enlace}}">Descubre {{ desarrollo.nombre }}</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="tp-section tp-section-soft ubicacion"
+             ng-if="desarrollo.nombre && desarrollo.nombre.toLowerCase() == 'kantera'"
+             aria-labelledby="ubicacion-kantera-title">
+      <div class="tp-container">
+        <div class="tp-center">
+          <span class="tp-eyebrow">Ubicación</span>
+          <h2 id="ubicacion-kantera-title">Kantera en Dzityá, Mérida</h2>
+        </div>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.2341997595786!2d-89.65238128522974!3d21.063306291974268!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f5675ce4c977789%3A0xc2e02b0dedfcef57!2sKANTERA%20DZITYA!5e0!3m2!1ses-419!2smx!4v1664842905889!5m2!1ses-419!2smx"
+                width="100%" height="430" style="border:0;" allowfullscreen loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade" title="Mapa de Kantera Dzityá"></iframe>
+      </div>
+    </section>
+
+    <section class="tp-section tp-section-soft ubicacion"
+             ng-if="desarrollo.nombre && desarrollo.nombre.toLowerCase() == 'plaza las vías'"
+             aria-labelledby="ubicacion-plaza-title">
+      <div class="tp-container">
+        <div class="tp-center">
+          <span class="tp-eyebrow">Ubicación</span>
+          <h2 id="ubicacion-plaza-title">Plaza Las Vías en Mérida</h2>
+        </div>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.3638180997123!2d-89.62484176322937!3d21.01812392493529!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f5677fcbef7bb81%3A0x30e34ff0ac3e08bc!2sPlaza%20Las%20V%C3%ADas!5e0!3m2!1ses-419!2smx!4v1665548367543!5m2!1ses-419!2smx"
+                width="100%" height="430" style="border:0;" allowfullscreen loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade" title="Mapa de Plaza Las Vías"></iframe>
+      </div>
+    </section>
+
+    <section class="tp-section tp-section-gray" aria-labelledby="respaldo-title">
+      <div class="tp-container">
+        <div class="tp-grid-3">
+          <article>
+            <span class="tp-eyebrow">Experiencia</span>
+            <h2 id="respaldo-title">Un proyecto respaldado por Triton</h2>
+            <p>Triton Desarrollos cuenta con 10 años de experiencia en proyectos inmobiliarios en Mérida y el sureste de México.</p>
+          </article>
+          <article class="tp-card">
+            <h3>Enfoque en calidad</h3>
+            <p>Planeación, especificaciones, supervisión y revisión previa a la entrega.</p>
+          </article>
+          <article class="tp-card">
+            <h3>Atención durante la compra</h3>
+            <p>Información sobre disponibilidad, características, documentación y siguientes pasos.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="tp-cta">
+      <div class="tp-container">
+        <span class="tp-eyebrow">Conoce {{ desarrollo.nombre }}</span>
+        <h2>Solicita información vigente del proyecto</h2>
+        <p class="tp-lead">Recibe disponibilidad, precios, tipologías y opciones de compra directamente con el equipo de Triton Desarrollos.</p>
+        <div class="tp-actions" style="justify-content:center;">
+          <a class="tp-btn tp-btn-primary" href="/contacto">Solicitar información</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

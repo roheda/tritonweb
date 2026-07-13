@@ -1,0 +1,3 @@
+[18-Aug-2022 03:27:29 UTC] PHP Fatal error:  Call to undefined function asset() in /home/tritondesarrollo/demo-sitio.tritondesarrollos.com/resources/views/index.php on line 9
+[18-Aug-2022 03:27:31 UTC] PHP Fatal error:  Call to undefined function asset() in /home/tritondesarrollo/demo-sitio.tritondesarrollos.com/resources/views/index.php on line 9
+[18-Aug-2022 03:27:33 UTC] PHP Fatal error:  Call to undefined function asset() in /home/tritondesarrollo/demo-sitio.tritondesarrollos.com/resources/views/index.php on line 9

@@ -1,0 +1,624 @@
+<div class="home triton-nosotros-v2">
+	<style>
+		.triton-nosotros-v2 {
+			--triton-white: #FFFFFF;
+			--triton-gray: #6E6969;
+			--triton-yellow: #F9AF1B;
+			--triton-border: rgba(110, 105, 105, .24);
+			color: var(--triton-gray);
+		}
+		.triton-nosotros-v2 * {
+			box-sizing: border-box;
+		}
+		.triton-nosotros-v2 .tn-container {
+			width: 90%;
+			max-width: 1180px;
+			margin: 0 auto;
+		}
+		.triton-nosotros-v2 .tn-section {
+			padding: 86px 0;
+		}
+		.triton-nosotros-v2 .tn-eyebrow {
+			display: inline-block;
+			margin-bottom: 12px;
+			color: var(--triton-yellow);
+			font-size: 13px;
+			font-weight: 700;
+			letter-spacing: 2px;
+			text-transform: uppercase;
+		}
+		.triton-nosotros-v2 h1,
+		.triton-nosotros-v2 h2,
+		.triton-nosotros-v2 h3 {
+			color: var(--triton-gray);
+			line-height: 1.18;
+		}
+		.triton-nosotros-v2 h1 {
+			margin: 0 0 22px;
+			font-size: clamp(38px, 5vw, 68px);
+			max-width: 850px;
+		}
+		.triton-nosotros-v2 h2 {
+			margin: 0 0 18px;
+			font-size: clamp(30px, 3.4vw, 46px);
+		}
+		.triton-nosotros-v2 h3 {
+			font-size: 22px;
+		}
+		.triton-nosotros-v2 p {
+			line-height: 1.75;
+		}
+		.triton-nosotros-v2 .tn-lead {
+			max-width: 780px;
+			font-size: 19px;
+			color: var(--triton-gray);
+		}
+		.triton-nosotros-v2 .tn-hero {
+			position: relative;
+			min-height: 650px;
+			background:
+				linear-gradient(90deg, rgba(110, 105, 105, .94) 0%, rgba(110, 105, 105, .80) 46%, rgba(110, 105, 105, .25) 100%),
+				url("../img/home/quienes-somos.webp") center/cover no-repeat;
+			display: flex;
+			align-items: center;
+			overflow: hidden;
+		}
+		.triton-nosotros-v2 .tn-hero-content {
+			position: relative;
+			z-index: 2;
+			padding: 95px 0;
+			color: #fff;
+		}
+		.triton-nosotros-v2 .tn-hero h1,
+		.triton-nosotros-v2 .tn-hero p {
+			color: #fff;
+		}
+		.triton-nosotros-v2 .tn-hero .tn-lead {
+			color: rgba(255,255,255,.88);
+		}
+		.triton-nosotros-v2 .tn-actions {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 14px;
+			margin-top: 30px;
+		}
+		.triton-nosotros-v2 .tn-btn {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			min-height: 50px;
+			padding: 0 26px;
+			border: 1px solid transparent;
+			border-radius: 3px;
+			font-weight: 700;
+			text-decoration: none;
+			transition: transform .2s ease, background .2s ease;
+		}
+		.triton-nosotros-v2 .tn-btn:hover {
+			transform: translateY(-2px);
+		}
+		.triton-nosotros-v2 .tn-btn-primary {
+			background: var(--triton-yellow);
+			color: #fff;
+		}
+		.triton-nosotros-v2 .tn-btn-light {
+			border-color: rgba(255,255,255,.7);
+			color: #fff;
+		}
+		.triton-nosotros-v2 .tn-stats {
+			position: relative;
+			z-index: 3;
+			margin-top: -54px;
+		}
+		.triton-nosotros-v2 .tn-stats-grid {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			background: #fff;
+			border-radius: 4px;
+			box-shadow: 0 18px 55px rgba(110,105,105,.18);
+			overflow: hidden;
+		}
+		.triton-nosotros-v2 .tn-stat {
+			padding: 34px 30px;
+			border-right: 1px solid var(--triton-border);
+		}
+		.triton-nosotros-v2 .tn-stat:last-child {
+			border-right: 0;
+		}
+		.triton-nosotros-v2 .tn-stat strong {
+			display: block;
+			color: var(--triton-yellow);
+			font-size: 34px;
+			line-height: 1;
+			margin-bottom: 10px;
+		}
+		.triton-nosotros-v2 .tn-stat span {
+			color: var(--triton-gray);
+			font-size: 15px;
+			font-weight: 700;
+		}
+		.triton-nosotros-v2 .tn-grid-2 {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 64px;
+			align-items: center;
+		}
+		.triton-nosotros-v2 .tn-image {
+			width: 100%;
+			min-height: 480px;
+			object-fit: cover;
+			border-radius: 3px;
+			box-shadow: 0 20px 55px rgba(110,105,105,.18);
+		}
+		.triton-nosotros-v2 .tn-list {
+			padding: 0;
+			margin: 28px 0 0;
+			list-style: none;
+		}
+		.triton-nosotros-v2 .tn-list li {
+			position: relative;
+			padding: 0 0 18px 34px;
+			color: var(--triton-gray);
+			line-height: 1.65;
+		}
+		.triton-nosotros-v2 .tn-list li::before {
+			content: "✓";
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 22px;
+			height: 22px;
+			border-radius: 50%;
+			background: rgba(249,175,27,.16);
+			color: var(--triton-yellow);
+			text-align: center;
+			line-height: 22px;
+			font-weight: 700;
+		}
+		.triton-nosotros-v2 .tn-quality {
+			background: rgba(110, 105, 105, .06);
+		}
+		.triton-nosotros-v2 .tn-cards {
+			display: grid;
+			grid-template-columns: repeat(4, 1fr);
+			gap: 20px;
+			margin-top: 42px;
+		}
+		.triton-nosotros-v2 .tn-card {
+			background: #fff;
+			padding: 34px 28px;
+			border: 1px solid var(--triton-border);
+			border-radius: 3px;
+			min-height: 285px;
+		}
+		.triton-nosotros-v2 .tn-card-number {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			width: 44px;
+			height: 44px;
+			margin-bottom: 24px;
+			border-radius: 50%;
+			background: var(--triton-gray);
+			color: #fff;
+			font-weight: 700;
+		}
+		.triton-nosotros-v2 .tn-card p {
+			color: var(--triton-gray);
+		}
+		.triton-nosotros-v2 .tn-trust {
+			background: var(--triton-gray);
+			color: #fff;
+		}
+		.triton-nosotros-v2 .tn-trust h2,
+		.triton-nosotros-v2 .tn-trust h3,
+		.triton-nosotros-v2 .tn-trust p {
+			color: #fff;
+		}
+		.triton-nosotros-v2 .tn-trust-grid {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 26px;
+			margin-top: 38px;
+		}
+		.triton-nosotros-v2 .tn-trust-item {
+			padding: 28px;
+			border: 1px solid rgba(255,255,255,.17);
+			border-radius: 3px;
+		}
+		.triton-nosotros-v2 .tn-trust-item p {
+			color: rgba(255,255,255,.76);
+		}
+		.triton-nosotros-v2 .tn-team {
+			background: #fff;
+		}
+		.triton-nosotros-v2 .tn-team-intro {
+			margin-bottom: 42px;
+		}
+		.triton-nosotros-v2 .tn-team-list {
+			padding: 0;
+			margin: 0;
+			list-style: none;
+		}
+		.triton-nosotros-v2 .tn-team-list figure {
+			margin: 0;
+			background: rgba(110, 105, 105, .06);
+			height: 100%;
+		}
+		.triton-nosotros-v2 .tn-team-list figure img {
+			width: 100%;
+			aspect-ratio: 4/5;
+			object-fit: cover;
+			display: block;
+		}
+		.triton-nosotros-v2 .tn-team-list figcaption {
+			padding: 20px;
+			font-weight: 700;
+		}
+		.triton-nosotros-v2 .tn-faq {
+			background: rgba(110, 105, 105, .06);
+		}
+		.triton-nosotros-v2 .tn-faq-wrap {
+			max-width: 900px;
+			margin: 38px auto 0;
+		}
+		.triton-nosotros-v2 .tn-faq details {
+			background: #fff;
+			border: 1px solid var(--triton-border);
+			border-radius: 3px;
+			margin-bottom: 13px;
+			overflow: hidden;
+		}
+		.triton-nosotros-v2 .tn-faq summary {
+			position: relative;
+			cursor: pointer;
+			padding: 23px 58px 23px 25px;
+			font-size: 18px;
+			font-weight: 700;
+			list-style: none;
+		}
+		.triton-nosotros-v2 .tn-faq summary::-webkit-details-marker {
+			display: none;
+		}
+		.triton-nosotros-v2 .tn-faq summary::after {
+			content: "+";
+			position: absolute;
+			right: 25px;
+			top: 17px;
+			font-size: 30px;
+			font-weight: 400;
+			color: var(--triton-yellow);
+		}
+		.triton-nosotros-v2 .tn-faq details[open] summary::after {
+			content: "–";
+		}
+		.triton-nosotros-v2 .tn-faq-answer {
+			padding: 0 25px 24px;
+			color: var(--triton-gray);
+		}
+		.triton-nosotros-v2 .tn-cta {
+			background:
+				linear-gradient(90deg, rgba(110,105,105,.95), rgba(110,105,105,.82)),
+				url("../img/home/trayectoria.webp") center/cover no-repeat;
+			text-align: center;
+			color: #fff;
+		}
+		.triton-nosotros-v2 .tn-cta h2,
+		.triton-nosotros-v2 .tn-cta p {
+			color: #fff;
+		}
+		.triton-nosotros-v2 .tn-cta .tn-lead {
+			margin-left: auto;
+			margin-right: auto;
+			color: rgba(255,255,255,.82);
+		}
+		@media (max-width: 960px) {
+			.triton-nosotros-v2 .tn-grid-2 {
+				grid-template-columns: 1fr;
+				gap: 38px;
+			}
+			.triton-nosotros-v2 .tn-cards {
+				grid-template-columns: repeat(2, 1fr);
+			}
+			.triton-nosotros-v2 .tn-trust-grid {
+				grid-template-columns: 1fr;
+			}
+			.triton-nosotros-v2 .tn-hero {
+				min-height: 590px;
+				background-position: 62% center;
+			}
+		}
+		@media (max-width: 640px) {
+			.triton-nosotros-v2 .tn-section {
+				padding: 64px 0;
+			}
+			.triton-nosotros-v2 .tn-container {
+				width: 88%;
+			}
+			.triton-nosotros-v2 .tn-stats {
+				margin-top: 0;
+			}
+			.triton-nosotros-v2 .tn-stats-grid {
+				grid-template-columns: 1fr;
+				box-shadow: none;
+			}
+			.triton-nosotros-v2 .tn-stat {
+				border-right: 0;
+				border-bottom: 1px solid var(--triton-border);
+			}
+			.triton-nosotros-v2 .tn-cards {
+				grid-template-columns: 1fr;
+			}
+			.triton-nosotros-v2 .tn-image {
+				min-height: 330px;
+			}
+			.triton-nosotros-v2 .tn-actions {
+				flex-direction: column;
+				align-items: stretch;
+			}
+		}
+	</style>
+
+	<main>
+		<section class="tn-hero" aria-labelledby="triton-hero-title">
+			<div class="tn-container tn-hero-content">
+				<span class="tn-eyebrow">Desarrolladora inmobiliaria en Mérida</span>
+				<h1 id="triton-hero-title">10 años desarrollando espacios con calidad y confianza</h1>
+				<p class="tn-lead">
+					En Triton Desarrollos creamos proyectos residenciales y comerciales en Mérida y el sureste de México,
+					con diseño funcional, supervisión de procesos y acompañamiento durante la compra.
+				</p>
+				<div class="tn-actions">
+					<a class="tn-btn tn-btn-primary" href="/desarrollos">Conocer desarrollos</a>
+					<a class="tn-btn tn-btn-light" href="/contacto">Hablar con un asesor</a>
+				</div>
+			</div>
+		</section>
+
+		<section class="tn-stats" aria-label="Datos principales de Triton Desarrollos">
+			<div class="tn-container">
+				<div class="tn-stats-grid">
+					<div class="tn-stat">
+						<strong>10 años</strong>
+						<span>de experiencia inmobiliaria</span>
+					</div>
+					<div class="tn-stat">
+						<strong>5</strong>
+						<span>desarrollos entregados al 100%</span>
+					</div>
+					<div class="tn-stat">
+						<strong>Mérida</strong>
+						<span>sede y principal zona de operación</span>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="tn-section" aria-labelledby="quienes-somos-title">
+			<div class="tn-container tn-grid-2">
+				<div>
+					<span class="tn-eyebrow">Quiénes somos</span>
+					<h2 id="quienes-somos-title">Desarrollamos proyectos pensados para vivirse bien</h2>
+					<p class="tn-lead">
+						Triton Desarrollos es una desarrolladora inmobiliaria con sede en Mérida, Yucatán. Durante 10 años
+						hemos participado en la planeación, construcción y comercialización de proyectos que buscan crear
+						espacios funcionales, duraderos y conectados con las necesidades de sus usuarios.
+					</p>
+					<p>
+						Nuestra experiencia forma parte de un legado empresarial familiar de más de 60 años. Esa trayectoria
+						nos impulsa a trabajar con responsabilidad, visión de largo plazo y atención cercana en cada etapa.
+					</p>
+					<ul class="tn-list">
+						<li>Proyectos residenciales y comerciales en el sureste de México.</li>
+						<li>Planeación enfocada en ubicación, funcionalidad y calidad de vida.</li>
+						<li>Seguimiento desde la elección de la propiedad hasta la entrega.</li>
+						<li>Equipo multidisciplinario y oficinas establecidas en Mérida.</li>
+					</ul>
+				</div>
+				<div>
+					<img class="tn-image" src="../img/home/quienes-somos.webp"
+						alt="Proyecto residencial desarrollado por Triton Desarrollos en Mérida">
+				</div>
+			</div>
+		</section>
+
+		<section class="tn-section tn-quality" aria-labelledby="calidad-title">
+			<div class="tn-container">
+				<span class="tn-eyebrow">Nuestro enfoque</span>
+				<h2 id="calidad-title">La calidad se construye en cada etapa</h2>
+				<p class="tn-lead">
+					Para Triton, la calidad no es únicamente una característica final. Es un proceso que comienza en la
+					planeación y continúa durante la construcción, la entrega y la atención posterior.
+				</p>
+
+				<div class="tn-cards">
+					<article class="tn-card">
+						<span class="tn-card-number">01</span>
+						<h3>Planeación</h3>
+						<p>Analizamos ubicación, distribución, funcionalidad y necesidades del usuario antes de ejecutar cada proyecto.</p>
+					</article>
+					<article class="tn-card">
+						<span class="tn-card-number">02</span>
+						<h3>Materiales</h3>
+						<p>Definimos especificaciones y soluciones constructivas acordes con el diseño, el uso y las condiciones de Yucatán.</p>
+					</article>
+					<article class="tn-card">
+						<span class="tn-card-number">03</span>
+						<h3>Supervisión</h3>
+						<p>Damos seguimiento a estructura, instalaciones, acabados y avances para detectar y atender detalles oportunamente.</p>
+					</article>
+					<article class="tn-card">
+						<span class="tn-card-number">04</span>
+						<h3>Entrega y postventa</h3>
+						<p>Revisamos la vivienda antes de entregarla y mantenemos canales de atención para reportes posteriores.</p>
+					</article>
+				</div>
+			</div>
+		</section>
+
+		<section class="tn-section" aria-labelledby="trayectoria-title">
+			<div class="tn-container tn-grid-2">
+				<div>
+					<img class="tn-image" src="../img/home/trayectoria.webp"
+						alt="Trayectoria de proyectos inmobiliarios de Triton Desarrollos">
+				</div>
+				<div>
+					<span class="tn-eyebrow">Nuestra trayectoria</span>
+					<h2 id="trayectoria-title">Experiencia que se demuestra con proyectos</h2>
+					<p class="tn-lead">
+						A lo largo de una década hemos desarrollado proyectos inmobiliarios con creatividad, colaboración
+						y una visión orientada a mejorar la experiencia de quienes viven, invierten o trabajan en ellos.
+					</p>
+					<p>
+						Nuestra trayectoria incluye cinco desarrollos entregados al 100% y nuevos proyectos en evolución.
+						Cada etapa nos permite perfeccionar procesos, fortalecer al equipo y construir relaciones de largo plazo.
+					</p>
+					<div class="tn-actions">
+						<a class="tn-btn tn-btn-primary" href="/desarrollos">Ver proyectos</a>
+						<a class="tn-btn" style="border-color:#6E6969;color:#6E6969;" href="/inversion">Conocer opciones de inversión</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="tn-section tn-trust" aria-labelledby="confianza-title">
+			<div class="tn-container">
+				<span class="tn-eyebrow">Confianza con evidencia</span>
+				<h2 id="confianza-title">¿Por qué elegir Triton Desarrollos?</h2>
+				<p class="tn-lead">
+					Una desarrolladora confiable debe ofrecer información clara, experiencia comprobable y acompañamiento.
+					Estos son los principios con los que buscamos construir relaciones duraderas.
+				</p>
+				<div class="tn-trust-grid">
+					<article class="tn-trust-item">
+						<h3>Trayectoria verificable</h3>
+						<p>Presentamos proyectos, ubicaciones, avances y medios de contacto para facilitar una decisión informada.</p>
+					</article>
+					<article class="tn-trust-item">
+						<h3>Procesos claros</h3>
+						<p>Explicamos características, etapas de compra, especificaciones y documentación de cada desarrollo.</p>
+					</article>
+					<article class="tn-trust-item">
+						<h3>Atención cercana</h3>
+						<p>Mantenemos comunicación durante la compra, la entrega y el seguimiento posterior de la propiedad.</p>
+					</article>
+				</div>
+			</div>
+		</section>
+
+		<section class="tn-section tn-team" aria-labelledby="equipo-title">
+			<div class="tn-container">
+				<div class="tn-grid-2 tn-team-intro">
+					<div>
+						<span class="tn-eyebrow">Nuestro equipo</span>
+						<h2 id="equipo-title">Profesionales comprometidos con cada proyecto</h2>
+						<p class="tn-lead">
+							Reunimos perfiles de desarrollo, construcción, arquitectura, administración y atención comercial
+							para coordinar cada etapa y responder de manera cercana a nuestros clientes.
+						</p>
+					</div>
+					<div>
+						<img class="tn-image" style="min-height:360px;" src="img/equipo.jpg"
+							alt="Equipo profesional de Triton Desarrollos en Mérida">
+					</div>
+				</div>
+
+				<ul class="tn-team-list" layout="row" layout-wrap layout-align="center stretch">
+					<li flex-gt-sm="33" flex-gt-xs="50" flex="100" ng-repeat="person in equipo track by $index">
+						<figure>
+							<img ng-src="{{ person.foto }}" alt="{{ person.nombre }}, {{ person.puesto }} en Triton Desarrollos">
+							<figcaption>
+								{{ person.nombre }}<br>
+								<span class="gray">{{ person.puesto }}</span>
+							</figcaption>
+						</figure>
+					</li>
+				</ul>
+			</div>
+		</section>
+
+		<section class="tn-section tn-faq" aria-labelledby="faq-title">
+			<div class="tn-container">
+				<div class="text-center">
+					<span class="tn-eyebrow">Preguntas frecuentes</span>
+					<h2 id="faq-title">Conoce mejor a Triton Desarrollos</h2>
+					<p class="tn-lead" style="margin-left:auto;margin-right:auto;">
+						Respuestas directas sobre nuestra experiencia, calidad, proyectos y proceso de atención.
+					</p>
+				</div>
+
+				<div class="tn-faq-wrap">
+					<details>
+						<summary>¿Quién es Triton Desarrollos?</summary>
+						<div class="tn-faq-answer">
+							Triton Desarrollos es una desarrolladora inmobiliaria con sede en Mérida, Yucatán,
+							enfocada en proyectos residenciales y comerciales, diseño funcional y calidad constructiva.
+						</div>
+					</details>
+					<details>
+						<summary>¿Cuántos años de experiencia tiene Triton Desarrollos?</summary>
+						<div class="tn-faq-answer">
+							Triton Desarrollos cuenta con 10 años de experiencia en la planeación, desarrollo,
+							construcción y comercialización de proyectos inmobiliarios.
+						</div>
+					</details>
+					<details>
+						<summary>¿Qué distingue a Triton Desarrollos?</summary>
+						<div class="tn-faq-answer">
+							Nos distingue el enfoque en calidad, funcionalidad, supervisión de procesos y atención
+							cercana durante las distintas etapas de la compra.
+						</div>
+					</details>
+					<details>
+						<summary>¿Dónde desarrolla sus proyectos?</summary>
+						<div class="tn-faq-answer">
+							Nuestra sede se encuentra en Mérida, Yucatán, y desarrollamos proyectos principalmente
+							en Mérida y el sureste de México.
+						</div>
+					</details>
+					<details>
+						<summary>¿Cómo controla Triton la calidad de sus proyectos?</summary>
+						<div class="tn-faq-answer">
+							La calidad se trabaja mediante planeación, definición de especificaciones, seguimiento de obra,
+							revisión de instalaciones y acabados, y una inspección previa a la entrega.
+						</div>
+					</details>
+					<details>
+						<summary>¿Triton ofrece atención después de la entrega?</summary>
+						<div class="tn-faq-answer">
+							Sí. Contamos con canales de atención para recibir y dar seguimiento a los reportes relacionados
+							con la propiedad después de su entrega.
+						</div>
+					</details>
+					<details>
+						<summary>¿Cómo puedo conocer los desarrollos disponibles?</summary>
+						<div class="tn-faq-answer">
+							Puedes consultar la sección <a href="/desarrollos">Desarrollos</a> o comunicarte con un asesor
+							mediante la sección de <a href="/contacto">Contacto</a>.
+						</div>
+					</details>
+					<details>
+						<summary>¿Dónde están las oficinas de Triton Desarrollos?</summary>
+						<div class="tn-faq-answer">
+							Nuestras oficinas se encuentran en Calle 19 número 465, colonia Altabrisa, Mérida, Yucatán.
+						</div>
+					</details>
+				</div>
+			</div>
+		</section>
+
+		<section class="tn-section tn-cta" aria-labelledby="cta-title">
+			<div class="tn-container">
+				<span class="tn-eyebrow">Conoce nuestros proyectos</span>
+				<h2 id="cta-title">Encuentra una propiedad para vivir o invertir en Mérida</h2>
+				<p class="tn-lead">
+					Recibe información de disponibilidad, características, ubicación y proceso de compra con atención personalizada.
+				</p>
+				<div class="tn-actions" style="justify-content:center;">
+					<a class="tn-btn tn-btn-primary" href="/desarrollos">Ver desarrollos</a>
+					<a class="tn-btn tn-btn-light" href="/contacto">Solicitar información</a>
+				</div>
+			</div>
+		</section>
+	</main>
+</div>

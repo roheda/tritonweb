@@ -1,0 +1,40 @@
+<md-dialog class="unidad-modal" flex-gt-sm="65" flex-gt-xs="75" flex="90">
+	<md-dialog-content>
+		<div layout="row" layout-align="center start" layout-wrap class="total-height">
+			<div flex="100" flex-gt-sm="50" class="content-unidad formulario bg-gray total-height">
+				<div layout="row" layout-align="center center" layout-wrap class="">
+					<div flex-gt-sm="80" flex-gt-xs="90" flex="100" class="text-center">
+						<img src="img/menu/logo_principal.png" alt="" width="150px">
+						<p class="ph++" style="font-size: 10px;">Agenda tu cita</p>
+						<p class="ph++" style="font-size: 10px;">Regístrate para hablar con uno de nuestros asesores y conoce kantera, planes de pago, información sobre plusvalía y unidades disponibles en kantera.</p>
+						<div ng-include="'./partials/contactForm.html'" class="include"></div>	
+					</div>
+				</div>
+			</div>
+			<div flex="100" flex-gt-sm="50" class="content-unidad detalle-unidad total-height">
+				<div layout="row" layout-align="center start" layout-wrap>
+					<div flex="100" flex-gt-xs="50" flex-gt-sm="50" class="text-center">
+						<img src="{{unidad.imagen}}" alt="">
+					</div>
+					<div flex="100" flex-gt-xs="50" flex-gt-sm="50">
+						<div layout="row" layout-align="center center">
+							<div flex-gt-sm="80" flex-gt-xs="90" flex="100">
+								<h3 class="primary-color">Unidad {{unidad.clave}}</h3>
+								<p class="normal">{{unidad.tipo}}</p>
+								<p class="normal">{{unidad.construccion}} m2</p>
+								<p class="price">{{unidad.precio | currency}}</p>
+							</div>
+						</div>
+					</div>
+					<div flex="100" class="mt++ text-center">
+						<a href="{{ unidad.brochure }}" target="_blank"><button class="button btn-border">Descargar PDF</button></a>
+						<p class="text-left">Descripción:</p>
+						<p class="text-justify">{{unidad.descripcion}}</p>
+						<!-- <p class="text-left">Importante (Clausulas aviso)</p>
+						<p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque imperdiet porttitor ullamcorper. Integer condimentum vitae neque eu congue. Mauris fermentum fringilla lorem nec viverra. Sed eget dignissim velit. Curabitur aliquet, nulla ut mollis mollis, augue tellus suscipit neque, eu molestie elit arcu at orci.</p> -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</md-dialog-content>
+</md-dialog>

@@ -1,0 +1,43 @@
+<div class="galeria">	
+	<div layout-wrap layout="row">
+		<div flex="100" layout-padding>
+			<md-button class="md-raised button new" ng-click="openPopup($event)">+ Agregar Galeria</md-button>
+			<md-button class="md-raised button refresh" ng-click="getDataGrid()">Refrescar Datos</md-button>
+		</div>
+	</div>
+	<div layout-wrap layout="row">
+		<div flex="100" layout-padding>
+			<div layout="row" layout-align="end center">
+				<input class="buscar" type="text" placeholder="Buscar" ng-model="search">
+			</div>
+		</div>
+		<div flex="100" layout-padding>
+			<table class="grid" rules="rows" cellspacing="0">
+				<thead>
+					<tr>
+						<td class="ordenar" ng-click="ordenar('isDesarrollo')">Desarrollo</td>
+						<td class="ordenar" ng-click="ordenar('titulo')">Título</td>
+						<td class="ordenar" ng-click="ordenar('fecha')">Fecha</td>
+						<td class="text-center">Cantidad de Imagenes</td>
+						<td class="text-center acciones">Acciones</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="elem in grid | filter: search | orderBy: campo:orden">
+						<td>{{elem.Desarrollo}}</td>
+						<td>{{elem.titulo}}</td>
+						<td>{{elem.fecha | date: 'dd-MM-yyyy hh:mm a' }}</td>
+						<td class="text-center">{{elem.cantidad}}</td>
+						<td class="acciones">
+							<div layout="row" layout-align="center center">
+								<md-switch class="switch" ng-true-value="1" ng-false-value="0" aria-label="Cambiar estatus" ng-model="elem.estatus" ng-change="changeStatus(elem)" md-no-ink></md-switch>
+								<span class="icono editar" ng-click="openEditPopup($event, elem)"></span>
+								<span class="icono borrar" ng-click="deleteRegister($event, elem)"></span>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>	
+</div>

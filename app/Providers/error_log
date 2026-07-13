@@ -1,0 +1,3 @@
+[18-Aug-2022 03:27:32 UTC] PHP Fatal error:  Class 'Illuminate\Support\ServiceProvider' not found in /home/tritondesarrollo/demo-sitio.tritondesarrollos.com/app/Providers/AppServiceProvider.php on line 8
+[18-Aug-2022 03:27:33 UTC] PHP Fatal error:  Class 'Illuminate\Foundation\Support\Providers\AuthServiceProvider' not found in /home/tritondesarrollo/demo-sitio.tritondesarrollos.com/app/Providers/AuthServiceProvider.php on line 9
+[18-Aug-2022 03:27:33 UTC] PHP Fatal error:  Class 'Illuminate\Support\ServiceProvider' not found in /home/tritondesarrollo/demo-sitio.tritondesarrollos.com/app/Providers/AppServiceProvider.php on line 8

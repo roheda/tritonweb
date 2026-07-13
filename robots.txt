@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Sitemap:https://tritondesarrollos.com/sitemap.xml
+Sitemap:https://tritondesarrollos.com/sitemap_1.xml

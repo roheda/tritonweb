@@ -1,0 +1,121 @@
+<md-dialog id="perfil">
+	<form class="ng-pristine ng-valid">
+        <md-toolbar md-colors="{'background-color': 'colormaterial-50'}" class="_md _md-toolbar-transitions" style="background-color: rgb(0,43,60);">
+            <div class="md-toolbar-tools">
+                <h2 style="color: #fff;">Perfil de Usuario</h2>
+            </div>
+        </md-toolbar>
+        <md-dialog-content id="dialogContent_2">
+            <md-content class="ng-scope _md md-no-flicker">
+                <div class="dx-fieldset margin-fieldset esconder-scroll ">
+					<div layout="row" layout-wrap>
+                        <div flex="50">
+		                    <strong class="nombre-dialog">Usuario</strong><br>
+		                    <p class="text-indicaciones ng-binding"></p><br>
+                           	<div layout="row" layout-align="space-around center" layout-wrap>
+                                <div flex="45">
+                                    <div class="dx-field">
+										<div class="dx-field-label">Nombre</div>
+										<div class="dx-field-value ancho-total-element" 
+										ng-model="objectUser.nombre"
+										dx-text-box="{ bindingOptions : { value : 'objectUser.nombre'} }" dx-validator="{ validationRules : [{ type: 'required', message: 'Campo requerido' }] }"></div>
+									</div>
+								</div>
+								<div flex="45">
+									<div class="dx-field">
+										<div class="dx-field-label">Apellido paterno</div>
+										<div class="dx-field-value ancho-total-element" 
+										ng-model="objectUser.apPaterno"
+										dx-text-box="{ bindingOptions : { value : 'objectUser.apPaterno'} }" dx-validator="{ validationRules : [{ type: 'required', message: 'Campo requerido' }] }"></div>
+									</div>
+								</div>
+								<div flex="45">
+									<div class="dx-field">
+										<div class="dx-field-label">Apellido materno</div>
+										<div class="dx-field-value ancho-total-element" 
+										ng-model="objectUser.apMaterno"
+										dx-text-box="{ bindingOptions : { value : 'objectUser.apMaterno'} }" dx-validator="{ validationRules : [{ type: 'required', message: 'Campo requerido' }] }"></div>
+									</div>
+                                </div>
+                                <div flex="45">
+									<div class="dx-field">
+										<div class="dx-field-label">Nombre de usuario</div>
+										<div class="dx-field-value ancho-total-element" 
+										ng-model="objectUser.username"
+										dx-text-box="{ bindingOptions : { value : 'objectUser.username'} }" dx-validator="{ validationRules : [{ type: 'required', message: 'Campo requerido' }] }"></div>
+									</div>
+                                </div>
+                                <div flex="45">
+									<div class="dx-field">
+										<div class="dx-field-label">Correo Electrónico</div>
+              							<div class="dx-field-value ancho-total-element" 
+              							ng-model="objectUser.email"
+              							dx-text-box="{ bindingOptions: { value : 'objectUser.email'} }" dx-validator="{ validationRules : [{ type: 'required', message: 'Campo requerido' },{type: 'email'}] }"></div>
+									</div>
+                                </div>
+                                <div flex="45">
+                                	<div class="dx-field" id="check">
+										<div dx-check-box="{text: 'Editar contraseña'}" ng-model="checkboxModel.value1" ng-click="verificar()"></div>
+									</div>
+                                </div>
+                                <div flex="45">
+									<div class="dx-field" ng-if="mostrarpassword">
+										<div class="dx-field-label">Contraseña</div>
+										<div class="dx-field-value ancho-total-element" dx-text-box="{ bindingOptions : { value : 'objectUser.password'}, mode:'password' }" dx-validator="{ validationRules : [{ type: 'stringLength', min: 6, message: 'La contraseña debe tener al menos 6 caracteres'}] }">></div>
+									</div>
+                                </div>
+                                <div flex="45">
+									<div class="dx-field" ng-if="mostrarconfirmepassword">
+										<div class="dx-field-label">Repetir Contraseña</div>
+										<div class="dx-field-value ancho-total-element" dx-text-box="{ bindingOptions: {value: 'objectUser.confirmedPassword'}, mode: 'password' }"></div>
+									</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div flex="50">
+							<div layout="row" layout-align="center center">
+								<div flex="90">
+									<strong>Imagen de perfil</strong><br/>
+									<p><small>Seleccione una imagen de perfil</small></p>
+									<div id="img_cargada" style="width: 60%; position: relative;">
+										<img height="250" ng-src="{{objectUser.path}}" width="250" >
+										<md-progress-circular md-mode="indeterminate" ng-show="loading" style="text-align:center"></md-progress-circular>
+									</div>
+									<br/>
+									<input ng-file-select="onFileSelect($files)" type="file">
+									<div class="sel-files">
+										<div class="sel-file" ng-class="{ 'last' : $index == selectedFiles.length-1 }" ng-repeat="f in selectedFiles">
+											<i class="fi-x" ng-click="abort($index)" ng-show="(hasUploader($index) && progress[$index] < 100)"></i>
+										</div>
+									</div>
+								</div>
+							</div>
+                        </div>
+                        <div flex="100">
+		                    <div layout-wrap layout="row">
+								<div flex="100" layout-padding>
+									<div layout="row" layout-align="end center">
+										<div dx-button="{ text: 'Actualizar', onClick: actualizarPerfil , type: 'success' }"></div>
+									</div>
+								</div>
+							</div>             	
+                        </div>
+                    </div>
+                </div>
+            </md-content>
+        </md-dialog-content>
+    </form>
+</md-dialog>
+<style type="text/css">
+	#perfilUsuario md-progress-circular .md-inner .md-right .md-half-circle {
+	    border-right-color: #002b3c !important;
+	}
+	#perfilUsuario md-progress-circular .md-inner .md-left .md-half-circle, md-progress-circular .md-inner .md-right .md-half-circle {
+	    border-top-color: #002b3c !important;
+	}
+	#perfilUsuario md-progress-circular {
+	    position: absolute !important;
+	    top: 45px !important;
+	    left: 15% !important;
+	}
+</style>

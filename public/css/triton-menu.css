@@ -1,0 +1,437 @@
+/* Menú global de Triton Desarrollos
+   Paleta oficial: blanco #FFFFFF, gris #6E6969, amarillo #F9AF1B */
+
+:root {
+  --triton-menu-white: #FFFFFF;
+  --triton-menu-gray: #6E6969;
+  --triton-menu-yellow: #F9AF1B;
+  --triton-menu-border: rgba(110, 105, 105, .20);
+  --triton-header-height: 84px;
+  --triton-header-height-mobile: 72px;
+}
+
+/* Altura y estructura general */
+header.triton-site-header {
+  display: flex;
+  align-items: center;
+  height: var(--triton-header-height);
+  padding: 0;
+  background: var(--triton-menu-white);
+  border-bottom: 1px solid var(--triton-menu-border);
+  box-shadow: 0 5px 20px rgba(110, 105, 105, .10);
+}
+
+.triton-header-shell {
+  width: 94%;
+  max-width: 1680px;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.triton-header-desktop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  gap: 34px;
+}
+
+/* Marca y teléfono */
+.triton-brand-group {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  min-width: 330px;
+}
+
+.triton-brand-link {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 !important;
+  padding-right: 28px;
+}
+
+header.triton-site-header .triton-brand-link img {
+  display: block;
+  width: 116px;
+  max-height: 58px;
+  object-fit: contain;
+}
+
+.triton-sales-contact {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 48px;
+  padding-left: 28px;
+  border-left: 1px solid var(--triton-menu-border);
+  text-align: left;
+}
+
+.triton-sales-label {
+  margin-bottom: 3px;
+  color: var(--triton-menu-yellow);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+header.triton-site-header .triton-sales-contact a {
+  margin: 0;
+  color: var(--triton-menu-gray);
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Navegación */
+.triton-navigation-group {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 0;
+  gap: clamp(24px, 3vw, 48px);
+}
+
+.triton-main-nav ul {
+  display: flex;
+  align-items: center;
+  gap: clamp(22px, 2.3vw, 42px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+header.triton-site-header .triton-main-nav li {
+  position: relative;
+  padding: 0;
+  white-space: nowrap;
+}
+
+header.triton-site-header .triton-main-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 84px;
+  margin: 0;
+  color: var(--triton-menu-gray);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: .1px;
+  transition: color .2s ease;
+}
+
+header.triton-site-header .triton-main-nav a:hover,
+header.triton-site-header .triton-main-nav li.active a {
+  color: var(--triton-menu-yellow) !important;
+}
+
+header.triton-site-header .triton-main-nav li.active a::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  border-radius: 4px 4px 0 0;
+  background: var(--triton-menu-yellow);
+}
+
+header.triton-site-header .triton-main-nav li.active a::before {
+  display: none !important;
+}
+
+.triton-header-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  margin: 0 !important;
+  padding: 0 23px;
+  border-radius: 25px;
+  background: var(--triton-menu-yellow);
+  color: var(--triton-menu-white) !important;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.triton-header-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(249, 175, 27, .28);
+}
+
+/* Compensa la altura del encabezado fijo en todas las páginas */
+.home,
+.triton-page-v2,
+.triton-article-v2 {
+  padding-top: var(--triton-header-height) !important;
+}
+
+/* Encabezado móvil */
+.triton-header-mobile {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.triton-mobile-logo {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 !important;
+}
+
+header.triton-site-header .triton-mobile-logo img {
+  display: block;
+  width: 108px;
+  max-height: 52px;
+  object-fit: contain;
+}
+
+.triton-mobile-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.triton-mobile-phone {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  margin: 0 !important;
+  padding: 0 13px;
+  border: 1px solid var(--triton-menu-border);
+  border-radius: 22px;
+  color: var(--triton-menu-gray) !important;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+header.triton-site-header .triton-menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  min-width: 46px !important;
+  height: 46px;
+  min-height: 46px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 50%;
+  background: var(--triton-menu-yellow);
+}
+
+.triton-menu-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 21px;
+  gap: 4px;
+}
+
+.triton-menu-icon i {
+  display: block;
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--triton-menu-white);
+}
+
+/* Menú lateral móvil */
+md-sidenav.triton-mobile-nav {
+  width: min(88vw, 390px);
+  max-width: 390px;
+  padding: 0;
+  background: var(--triton-menu-white);
+  color: var(--triton-menu-gray);
+}
+
+.triton-mobile-nav-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 82px;
+  padding: 15px 22px;
+  border-bottom: 1px solid var(--triton-menu-border);
+}
+
+.triton-mobile-nav-logo img {
+  display: block;
+  width: 112px;
+  max-height: 54px;
+  object-fit: contain;
+}
+
+.triton-mobile-nav-close {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(110, 105, 105, .08);
+  cursor: pointer;
+}
+
+.triton-mobile-nav-close span {
+  position: absolute;
+  top: 20px;
+  left: 11px;
+  width: 20px;
+  height: 2px;
+  background: var(--triton-menu-gray);
+}
+
+.triton-mobile-nav-close span:first-child {
+  transform: rotate(45deg);
+}
+
+.triton-mobile-nav-close span:last-child {
+  transform: rotate(-45deg);
+}
+
+.triton-mobile-nav-links {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 22px;
+}
+
+md-sidenav.triton-mobile-nav .triton-mobile-nav-links a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 58px;
+  margin: 0;
+  border-bottom: 1px solid var(--triton-menu-border);
+  color: var(--triton-menu-gray);
+  font-size: 21px;
+  font-weight: 700;
+  text-align: left;
+}
+
+md-sidenav.triton-mobile-nav .triton-mobile-nav-links a.active,
+md-sidenav.triton-mobile-nav .triton-mobile-nav-links a:hover {
+  color: var(--triton-menu-yellow);
+}
+
+md-sidenav.triton-mobile-nav .triton-mobile-nav-links a.active::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--triton-menu-yellow);
+}
+
+.triton-mobile-nav-footer {
+  padding: 0 22px 28px;
+}
+
+.triton-mobile-nav-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  margin-bottom: 22px;
+  border-radius: 4px;
+  background: var(--triton-menu-yellow);
+  color: var(--triton-menu-white) !important;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.triton-mobile-nav-contact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: var(--triton-menu-gray) !important;
+  text-align: left;
+}
+
+.triton-mobile-nav-contact small {
+  margin-bottom: 3px;
+  color: var(--triton-menu-yellow);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+}
+
+.triton-mobile-nav-contact strong {
+  font-size: 18px;
+}
+
+/* Ajustes para laptops */
+@media (max-width: 1280px) {
+  .triton-header-shell {
+    width: 96%;
+  }
+
+  .triton-brand-group {
+    min-width: 285px;
+  }
+
+  .triton-brand-link {
+    padding-right: 20px;
+  }
+
+  .triton-sales-contact {
+    padding-left: 20px;
+  }
+
+  .triton-main-nav ul {
+    gap: 22px;
+  }
+
+  header.triton-site-header .triton-main-nav a {
+    font-size: 14px;
+  }
+
+  .triton-header-cta {
+    padding: 0 18px;
+  }
+}
+
+@media (max-width: 1080px) {
+  .triton-sales-contact {
+    display: none;
+  }
+
+  .triton-brand-group {
+    min-width: auto;
+  }
+
+  .triton-main-nav ul {
+    gap: 18px;
+  }
+}
+
+/* Tableta y celular */
+@media (max-width: 959px) {
+  header.triton-site-header {
+    height: var(--triton-header-height-mobile);
+  }
+
+  .triton-header-shell {
+    width: 92%;
+  }
+
+  .home,
+  .triton-page-v2,
+  .triton-article-v2 {
+    padding-top: var(--triton-header-height-mobile) !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .triton-mobile-phone {
+    display: none;
+  }
+
+  header.triton-site-header .triton-mobile-logo img {
+    width: 104px;
+  }
+}

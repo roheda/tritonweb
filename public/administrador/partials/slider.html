@@ -1,0 +1,43 @@
+<div class="slider">	
+	<div layout-wrap layout="row">
+		<div flex="100" layout-padding>
+			<md-button class="md-raised button new" ng-click="openPopup($event)">+ Nuevo Slide</md-button>
+			<md-button class="md-raised button refresh" ng-click="getSlider()">Refrescar Datos</md-button>
+		</div>
+	</div>
+	<div layout-wrap layout="row">
+		<div flex="100" layout-padding>
+			<div layout="row" layout-align="end center">
+				<input class="buscar" type="text" placeholder="Buscar" ng-model="search">
+			</div>
+		</div>
+		<div flex="100" layout-padding>
+			<table class="grid" rules="rows" cellspacing="0">
+				<thead>
+					<tr>
+						<td>Imagen</td>
+						<td class="ordenar" ng-click="ordenar('titulo')">Título</td>
+						<td class="ordenar" ng-click="ordenar('descripcion')">Descripción</td>
+						<td class="ordenar" ng-click="ordenar('enlace')">Enlace</td>
+						<td class="text-center acciones">Acciones</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="elem in grid | filter: search | orderBy: campo:orden">
+						<td class="img"><img src="{{elem.foto}}" alt=""></td>
+						<td>{{elem.titulo}}</td>
+						<td>{{elem.descripcion}}</td>
+						<td>{{elem.enlace}}</td>
+						<td class="acciones">
+							<div layout="row" layout-align="center center">
+								<md-switch class="switch" ng-true-value="1" ng-false-value="0" aria-label="Cambiar estatus" ng-model="elem.estatus" ng-change="changeStatus(elem)" md-no-ink></md-switch>
+								<span class="icono editar" ng-click="openEditPopup($event, elem)"></span>
+								<span class="icono borrar" ng-click="deleteSlider($event, elem)"></span>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>	
+</div>

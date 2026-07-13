@@ -1,0 +1,503 @@
+@media (max-width: 1280px) {
+
+	.home {
+		.what-is-it {
+			img {
+				&.triton {
+					bottom: 0;
+					height: auto;
+					right: -10px;
+					width: 30%;
+				}
+			}
+		}
+		.located-in {
+			.leaves-line {
+				display: none;
+			}
+			.contText {
+				margin-top: 0px;
+				max-width: 80%;
+				.leaves-bottom {
+					margin-top: 15px;
+				}
+			}
+			.map {
+				max-width: 80%;
+				position: relative;
+			}
+		}
+	}
+
+	.triton {
+		.impulses {
+			height: auto !important;
+		}
+		.structure {
+			.content {
+				position: relative !important;
+			}
+		}
+	}
+
+}
+
+@media (max-width: 960px) {
+
+	h1 {
+		font-size: 46px;
+	}
+
+	h2 {
+		font-size: 32px;
+	}
+
+	.home {
+		.what-is-it {
+			img {
+				&.triton {
+					bottom: 0;
+					height: auto;
+					right: -10px;
+					width: 30%;
+				}
+			}
+		}
+		.video {
+			img {
+				&.leaves-left,
+				&.leaves-right {
+					width: 100px;
+				}
+			}
+		}
+		.rural-development {
+			padding: 50px 0;
+		}
+	}
+
+	.triton {
+		.impulses {
+			ul {
+				li {
+					figure {
+						figcaption {
+							font-size: 18px;
+						}
+					}
+				}
+			}
+		}
+		.goal {
+			.imgGoal {
+				.contText {
+					img {
+						height: 70px;
+					}
+					p {
+						font-size: 18px;
+					}
+				}
+			}
+		}
+		.structure {
+			.content {
+				padding-top: 0px;
+				position: relative !important;
+				.sign {
+					&:after {
+						right: 0px;
+					}
+					&.right {
+						&:after {
+							right: 0px;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.social {
+		.community {
+			.contText {
+				margin-bottom: 20px;
+			}
+		}
+	}
+
+	.productiva {
+		.agroforestry {
+			img {
+				&.hojas {
+					width: 50px;
+				}
+			}
+		}
+		.community {
+			.content {
+				.contText {
+					margin-bottom: 20px;
+				}
+			}
+		}
+	}
+
+	.galeria {
+		.our-land {
+			img {
+				&.leaves-left,
+				&.leaves-right {
+					width: 100px;
+				}
+			}
+		}
+	}
+}
+
+@media (max-width: 768px) {
+
+	h1 {
+		font-size: 40px;
+	}
+
+	h2 {
+		font-size: 30px;
+	}
+
+	p {
+		font-size: 24px;
+		&.small {
+			font-size: 21px;
+		}
+	}
+
+	// .home {
+	// 	.video {
+	// 		iframe {
+	// 			height: 330px !important;
+	// 		}
+	// 	}
+	// 	.criteria {
+	// 		.list {
+	// 			padding-left: 10%;
+	// 			li {
+	// 				&:before {
+	// 					left: -40px;
+	// 				}
+	// 				&:last-of-type {
+	// 					&:before {
+	// 						height: 3
+	// 						50px;
+	// 					}
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// }
+
+	// .triton {
+	// 	.goal {
+	// 		.imgGoal {
+	// 			.contText {
+	// 				img {
+	// 					height: 60px;
+	// 				}
+	// 				p {
+	// 					font-size: 17px;
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// 	.support {
+	// 		.content {
+	// 			padding: 25px 0;
+	// 		}
+	// 	}
+	// 	.beneficiaries {
+	// 		.content {
+	// 			padding: 25px 0;			
+	// 		}
+	// 	}
+	// 	.coverage {
+	// 		.contStates {
+	// 			margin-top: 20px;
+	// 		}
+	// 		.bottomText {
+	// 			position: relative;
+	// 		}
+	// 	}		
+	// }
+
+	.galeria {
+		.our-land {
+			iframe {
+				height: 330px !important;
+			}
+		}
+	}
+
+	.unidad-modal {
+		.total-height {
+			height: auto;
+		}
+	}
+}
+
+@media (max-width: 600px) {
+
+	h1 {
+		font-size: 42px;
+	}
+
+	h2 {
+		font-size: 28px;
+	}
+
+	footer {
+		text-align: center;
+		ul {
+			&.enlaces {
+			    text-align: center;
+			}
+		}
+	}
+
+	.home {
+		padding-top: 55px;
+		.slider {
+			height: 400px;
+			.flexslider {
+				.flex-viewport {
+					.slides {
+						li {
+							img {
+								object-fit: cover;
+							}
+							.text-slider {
+								h2 {
+									font-size: 34px !important;
+									text-shadow: 2px 2px black;
+								}
+								p {
+									text-shadow: 2px 2px black;
+								}
+								.btn-transparent {
+									background-color: #f2970b;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		.about-us {
+			.about-content {
+				.square {
+					width: 16px;
+				}
+				.contText {
+					padding-right: 24px !important;
+					h3 {
+						font-size: 20px;
+						text-align: center;
+					}
+					p {
+						font-size: 12px !important;
+						text-align: center;
+					}
+				}
+				.about-1 {
+					padding: 24px 0 0 24px !important;
+				}
+				.about-2 {
+					padding: 24px 0 0 0 !important;
+				}
+			}
+			.circle {
+				font-size: 12px;
+				height: 45px;
+				width: 45px;
+			}
+		}
+		.our-team {
+			.cont-team {
+				.team-description {
+					padding: 0 !important;
+					h3 {
+						font-size: 20px;
+						text-align: center;
+					}
+					p {
+						font-size: 12px !important;
+						text-align: center;
+					}
+				}
+			}
+			ul {
+				margin-top: 0px !important;
+				li {
+					padding: 24px !important;
+					figure {
+						img {
+							border: 1px solid #f2970b;
+							height: 130px;
+							width: 130px;
+						}
+						figcaption {
+							font-size: 14px;
+							span {
+								&.gray {
+									color: #fff !important;
+								}
+							}
+						}
+					}
+					.cont-team {
+						background-color: transparent !important;
+						padding: 0;
+					}
+					.square {
+						display: none !important;
+					}
+				}
+			}
+		}
+	}
+
+	.triton {
+		.objetives {
+			.contText {
+				img {
+					&.hojas {
+						display: none;
+					}
+				}
+			}
+		}
+		.impulses {
+			ul {
+				li {
+					figure {
+						img {
+							width: 50%;
+						}
+					}
+				}
+			}
+		}
+		.goal {
+			.imgGoal {
+				.contText {
+					img {
+						height: 50px;
+					}
+					p {
+						font-size: 16px;
+					}
+				}
+			}
+		}		
+	}
+
+	.social {
+		.inclusion {
+			.textSection {
+				p {
+					text-align: left !important;
+					padding-left: 0 !important;
+				}
+			}
+			img {
+				&.hojas {
+					display: none;
+				}
+			}
+		}
+	}
+
+	.productiva {
+		.agroforestry {
+			img {
+				&.hojas {
+					display: none;
+				}
+			}
+		}
+	}
+
+	.galeria {
+		.our-land {
+			img {
+				&.leaves-left,
+				&.leaves-right {
+					width: 70px;
+				}
+			}
+			iframe {
+				height: 270px !important;
+			}
+		}
+	}
+
+	.normatividad {
+		.download {
+			.contDoctos {
+				padding: 20px 0;
+				figure {
+					margin: 0;
+					text-align: center;
+					img {
+						margin: auto;
+						width: 60%;
+					}
+				}
+			}
+		}
+	}
+
+	.contacto {
+		.contact {
+			padding-top: 0;
+			padding-bottom: 50px;
+			h2 {
+				text-align: center;
+			}
+		}
+	}
+
+	.formContacto {
+		.content {
+			padding: 0px !important;
+		}
+	}
+}
+
+@media (max-width: 500px) {
+
+	h1 {
+		font-size: 28px !important;
+	}
+
+	h2 {
+		font-size: 21px !important;
+	}
+
+	p {
+		font-size: 16px;
+		&.small {
+			font-size: 14px;
+		}
+	}
+
+	.home {
+		.criteria {
+			.leaves-right {
+				display: none !important;
+			}
+		}
+	}
+}
+
+@media (max-width: 390px) {
+}

@@ -1,0 +1,58 @@
+<div class="equipo">	
+	<div layout-wrap layout="row">
+		<div flex="50" layout-padding>
+			<md-button class="md-raised button new" ng-click="openPopup($event)" ng-disabled="idDesarrollo == 0">+ Nueva Unidad</md-button>
+			<!-- <md-button class="md-raised button refresh" onclick="document.getElementById('excel').click()" ng-disabled="idDesarrollo == 0">Importar Excel</md-button> -->
+			<md-button class="md-raised button refresh" onclick="document.getElementById('excel').click()" ng-disabled="true">Importar Excel</md-button>
+			<input id="excel" class="input-file" ng-file-select="uploadExcel($files)" type="file" ng-show="false">
+		</div>
+		<div flex="50" layout-padding class="selectGrid">
+			<div layout="row" layout-align="end center">
+				<select class="input" data-ng-model="idDesarrollo" data-ng-options="o.id as o.nombre for o in desarrollos"></select>
+				<md-button class="md-raised button refresh" ng-click="getDataGrid(idDesarrollo)" style="margin-left: 8px !important; margin-right: 0 !important;">Buscar</md-button>
+			</div>
+		</div>
+	</div>
+	<div layout-wrap layout="row">
+		<div flex="100" layout-padding>
+			<div layout="row" layout-align="end center">
+				<input class="buscar" type="text" placeholder="Buscar" ng-model="search">
+			</div>
+		</div>
+		<div flex="100" layout-padding>
+			<table class="grid" rules="rows" cellspacing="0">
+				<thead>
+					<tr>
+						<td class="text-center">Imagen</td>
+						<td class="ordenar text-left" ng-click="ordenar('clave')">Clave</td>
+						<td class="ordenar text-left" ng-click="ordenar('descripcion')">Descripción</td>
+						<td class="ordenar text-center" ng-click="ordenar('tipo')">Tipo</td>
+						<td class="ordenar text-center" ng-click="ordenar('estatus')">Estado</td>
+						<td class="ordenar text-center" ng-click="ordenar('construccion')">Construcción</td>
+						<td class="ordenar text-center" ng-click="ordenar('terreno')">Terreno</td>
+						<td class="ordenar text-right" ng-click="ordenar('precio')">Precio</td>
+						<td class="text-center acciones">Acciones</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="elem in grid | filter: search | orderBy: campo:orden">
+						<td class="img text-center"><img src="{{elem.imagen}}" alt=""></td>
+						<td class="text-left">{{ elem.clave }}</td>
+						<td class="text-left">{{ elem.descripcion }}</td>
+						<td class="text-center">{{ elem.tipo }}</td>
+						<td class="text-center">{{ (elem.estatus == 0) ? 'Vendida' : (elem.estatus == 1) ? 'Apartada' : 'Disponible' }}</td>
+						<td class="text-center">{{ elem.construccion }} m2</td>
+						<td class="text-center">{{ elem.terreno }} m2</td>
+						<td class="text-right">{{ elem.precio | currency }}</td>
+						<td class="text-center acciones">
+							<div layout="row" layout-align="center center">
+								<span class="icono editar" ng-click="openEditPopup($event, elem)"></span>
+								<span class="icono borrar" ng-click="deleteRegister($event, elem)"></span>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>	
+</div>

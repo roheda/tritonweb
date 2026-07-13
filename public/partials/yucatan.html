@@ -1,0 +1,118 @@
+<div class="yucatan triton-page-v2 triton-blog-v2">
+  <main>
+    <section class="tb-hero" aria-labelledby="blog-title">
+      <div class="tp-container">
+        <nav class="tp-breadcrumb" aria-label="Migas de pan">
+          <a href="/">Inicio</a><span>/</span><span>Yucatán</span>
+        </nav>
+        <span class="tp-eyebrow">Guía inmobiliaria de Mérida y Yucatán</span>
+        <h1 id="blog-title">Información para vivir, comprar e invertir mejor</h1>
+        <p class="tp-lead">
+          Artículos de Triton Desarrollos sobre vivienda, inversión inmobiliaria, zonas de Mérida,
+          calidad constructiva, arquitectura y decisiones de compra.
+        </p>
+      </div>
+    </section>
+
+    <section class="tp-section" aria-label="Artículos inmobiliarios">
+      <div class="tp-container">
+        <div class="tb-layout">
+          <div>
+            <div ng-if="notas.length > 0">
+              <article class="tb-featured">
+                <img ng-src="{{ notas[0].foto }}" alt="{{ notas[0].titulo }}">
+                <div class="tb-featured-content">
+                  <div class="tb-meta">{{ notas[0].categoria }} · {{ notas[0].fecha | date: 'dd-MM-yyyy' }}</div>
+                  <h2>{{ notas[0].titulo }}</h2>
+                  <p ng-bind-html="notas[0].descripcion | limitHtml: 230"></p>
+                  <a class="tp-btn tp-btn-primary" href="/yucatan/{{notas[0].slug}}">Leer artículo</a>
+                </div>
+              </article>
+
+              <div class="tb-post-grid">
+                <article class="tb-post-card" ng-repeat="n in notas" ng-if="$index > 0">
+                  <a href="/yucatan/{{n.slug}}" aria-label="Leer {{ n.titulo }}">
+                    <img ng-src="{{n.foto}}" alt="{{n.titulo}}">
+                    <div class="tb-post-body">
+                      <div class="tb-meta">{{ n.categoria }} · {{n.fecha | date: 'dd-MM-yyyy'}}</div>
+                      <h3>{{n.titulo}}</h3>
+                      <p ng-bind-html="n.descripcion | limitHtml: 95"></p>
+                    </div>
+                  </a>
+                </article>
+              </div>
+            </div>
+
+            <div class="tp-empty" ng-if="notas.length == 0">
+              <h2>No encontramos artículos en esta categoría</h2>
+              <p>Selecciona otra categoría para continuar explorando el blog.</p>
+            </div>
+          </div>
+
+          <aside class="tb-sidebar" aria-label="Categorías del blog">
+            <span class="tp-eyebrow">Temas</span>
+            <h2>Explora las entradas</h2>
+            <md-list>
+              <md-list-item ng-repeat="cat in categorias track by cat.id"
+                            ng-class="{ active: categoria == cat.titulo }"
+                            ng-click="selectCategoria(cat.titulo)">
+                <p>{{cat.titulo}}</p>
+              </md-list-item>
+            </md-list>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="tp-section tp-section-soft" aria-labelledby="blog-aporta-title">
+      <div class="tp-container">
+        <div class="tp-center">
+          <span class="tp-eyebrow">Contenido útil y verificable</span>
+          <h2 id="blog-aporta-title">¿Qué encontrarás en este blog?</h2>
+          <p class="tp-lead">Guías pensadas para responder preguntas reales antes de elegir una zona, un desarrollo o una propiedad.</p>
+        </div>
+        <div class="tp-grid-4" style="margin-top:38px;">
+          <article class="tp-card"><h3>Zonas de Mérida</h3><p>Conectividad, servicios, estilo de vida y criterios para comparar ubicaciones.</p></article>
+          <article class="tp-card"><h3>Compra de vivienda</h3><p>Conceptos, documentos, gastos y preguntas que conviene realizar.</p></article>
+          <article class="tp-card"><h3>Inversión</h3><p>Rendimiento, riesgos, horizonte, plusvalía y evaluación de propiedades.</p></article>
+          <article class="tp-card"><h3>Calidad y diseño</h3><p>Materiales, distribución, arquitectura, entrega y mantenimiento.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="tp-section tp-faq" aria-labelledby="blog-faq-title">
+      <div class="tp-container">
+        <div class="tp-center">
+          <span class="tp-eyebrow">Preguntas frecuentes</span>
+          <h2 id="blog-faq-title">Sobre el blog inmobiliario de Triton</h2>
+        </div>
+        <div class="tp-faq-wrap">
+          <details>
+            <summary>¿Los artículos sustituyen asesoría legal o financiera?</summary>
+            <div class="tp-faq-answer">No. El contenido es informativo y cada operación debe revisarse con los especialistas correspondientes.</div>
+          </details>
+          <details>
+            <summary>¿El blog habla únicamente de proyectos Triton?</summary>
+            <div class="tp-faq-answer">No. También incluye guías generales sobre Mérida, Yucatán, vivienda, arquitectura e inversión inmobiliaria.</div>
+          </details>
+          <details>
+            <summary>¿Cómo puedo conocer los desarrollos disponibles?</summary>
+            <div class="tp-faq-answer">Visita la sección Desarrollos o comunícate con el equipo mediante la página de Contacto.</div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="tp-cta">
+      <div class="tp-container">
+        <span class="tp-eyebrow">Da el siguiente paso</span>
+        <h2>Conoce los desarrollos de Triton en Mérida</h2>
+        <p class="tp-lead">Explora proyectos residenciales y comerciales respaldados por 10 años de experiencia.</p>
+        <div class="tp-actions" style="justify-content:center;">
+          <a class="tp-btn tp-btn-primary" href="/desarrollos">Ver desarrollos</a>
+          <a class="tp-btn tp-btn-light" href="/contacto">Solicitar información</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

@@ -1,0 +1,91 @@
+<form ng-submit="send(objForm)" novalidate class="triton-contact-form" aria-label="Formulario de contacto de Triton Desarrollos">
+  <div ng-controller="contactoController">
+    <div class="tcf-type" ng-class="{'field-error': submitted && !objForm.is_broker}">
+      <label class="tcf-option" for="broker">
+        <input type="radio" id="broker" name="tipo_lead" value="2" ng-model="objForm.is_broker">
+        <span>Soy broker inmobiliario</span>
+      </label>
+      <label class="tcf-option" for="client">
+        <input type="radio" id="client" name="tipo_lead" value="1" ng-model="objForm.is_broker">
+        <span>Busco una propiedad</span>
+      </label>
+    </div>
+    <p class="error-message" ng-if="submitted && !objForm.is_broker">Selecciona una opción para continuar.</p>
+
+    <div class="tcf-grid">
+      <div class="tcf-field">
+        <label for="contacto-nombre">Nombre *</label>
+        <input id="contacto-nombre" type="text" name="nombre" autocomplete="given-name"
+               placeholder="Tu nombre" ng-model="objForm.nombre"
+               ng-class="{'field-error': submitted && !objForm.nombre}">
+        <p class="error-message" ng-if="submitted && !objForm.nombre">El nombre es obligatorio.</p>
+      </div>
+
+      <div class="tcf-field">
+        <label for="contacto-apellido">Apellido *</label>
+        <input id="contacto-apellido" type="text" name="apellido" autocomplete="family-name"
+               placeholder="Tu apellido" ng-model="objForm.apellido"
+               ng-class="{'field-error': submitted && !objForm.apellido}">
+        <p class="error-message" ng-if="submitted && !objForm.apellido">El apellido es obligatorio.</p>
+      </div>
+
+      <div class="tcf-field">
+        <label for="contacto-correo">Correo electrónico</label>
+        <input id="contacto-correo" type="email" name="correo" autocomplete="email"
+               placeholder="nombre@correo.com" ng-model="objForm.correo">
+      </div>
+
+      <div class="tcf-field">
+        <label for="contacto-telefono">Teléfono o WhatsApp *</label>
+        <input id="contacto-telefono" type="tel" name="telefono" autocomplete="tel"
+               inputmode="tel" placeholder="999 000 0000" ng-model="objForm.telefono"
+               ng-class="{'field-error': submitted && !objForm.telefono}">
+        <p class="error-message" ng-if="submitted && !objForm.telefono">El teléfono es obligatorio.</p>
+      </div>
+
+      <div class="tcf-field">
+        <label for="contacto-ciudad">Ciudad *</label>
+        <input id="contacto-ciudad" type="text" name="city" autocomplete="address-level2"
+               placeholder="Ciudad" ng-model="objForm.ciudad"
+               ng-class="{'field-error': submitted && !objForm.ciudad}">
+        <p class="error-message" ng-if="submitted && !objForm.ciudad">La ciudad es obligatoria.</p>
+      </div>
+
+      <div class="tcf-field">
+        <label for="contacto-pais">País</label>
+        <input id="contacto-pais" type="text" name="country" autocomplete="country-name"
+               placeholder="País" ng-model="objForm.pais">
+      </div>
+
+      <div class="tcf-field tcf-field-full">
+        <label for="contacto-medio">¿Cómo conociste Triton Desarrollos?</label>
+        <textarea id="contacto-medio" name="medio"
+                  placeholder="Google, redes sociales, recomendación, broker..."
+                  ng-model="objForm.medio" rows="3"></textarea>
+      </div>
+
+      <div class="tcf-field tcf-field-full">
+        <label for="contacto-preferencia">¿Cómo prefieres que te contactemos?</label>
+        <textarea id="contacto-preferencia" name="preferencia"
+                  placeholder="WhatsApp, llamada o correo; indícanos también el mejor horario."
+                  ng-model="objForm.preferencia" rows="3"></textarea>
+      </div>
+
+      <div class="tcf-field tcf-field-full">
+        <label for="contacto-mensaje">¿Qué propiedad o información buscas?</label>
+        <textarea id="contacto-mensaje" name="message"
+                  placeholder="Cuéntanos si buscas casa, departamento, inversión, disponibilidad o información para brokers."
+                  ng-model="objForm.mensaje" rows="4"></textarea>
+      </div>
+    </div>
+
+    <p class="tcf-note">
+      Al enviar este formulario aceptas que Triton Desarrollos utilice tus datos para responder tu solicitud.
+      Consulta nuestro <a href="/pdf/aviso-privacidad.pdf" target="_blank" rel="noopener">aviso de privacidad</a>.
+    </p>
+
+    <button class="tcf-submit" type="submit" ng-disabled="disabledButton">
+      {{ disabledButton ? 'Enviando…' : 'Solicitar información' }}
+    </button>
+  </div>
+</form>

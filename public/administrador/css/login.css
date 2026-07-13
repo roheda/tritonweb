@@ -1,0 +1,185 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,500i,600,700,900);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300);
+
+* {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.big-image {
+    background-image: url('../images/fondo.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+}
+
+.franja {
+    width: 100%;
+    height: 25px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+.superior {
+    -moz-transform: rotate(-180deg);
+        -o-transform: rotate(-180deg);
+            -webkit-transform: rotate(-180deg);
+    transform: rotate(-180deg);
+    top: 0 !important;
+}
+
+.wrap {
+    margin: auto;
+    max-width: 1200px;
+    position: relative;
+    z-index: 2;
+}
+
+.button {
+    background-color: #175c7d !important;
+    color: white !important;
+}
+
+.text-center {
+    text-align: center;
+}
+
+md-toolbar:not(.md-menu-toolbar).md-warn {
+    bottom: 20px;
+    box-shadow: 0px 3px 9px -1px #000;
+    height: auto;
+    max-width: 300px;
+    min-height: 0 !Important;
+    position: fixed;
+    right: 19px;
+}
+
+md-toolbar:not(.md-menu-toolbar).md-warn .md-toolbar-tools {
+    font-size: 16px;
+    height: auto;
+    min-height: 0 !Important;
+    padding: 12px 16px;
+}
+
+md-input-container {
+    margin-top: 35px !important;
+}
+
+md-input-container.contInput {
+    width: 100%;
+}
+
+md-input-container .md-input {
+    border-color: rgba(0, 0, 0, 0.6) !important;
+}
+
+md-input-container label, 
+md-input-container .md-placeholder {
+    color: rgba(0, 0, 0, 0.75) !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    color:#fff;
+    font-size: 44px;
+    font-weight: 100;
+    text-shadow: 1px 2px 3px #000000;
+}
+
+h2 {
+    margin-top: 10px !important;
+}
+
+h5 {
+    font-size: 30px;
+    margin: 0 !important;
+}
+
+form {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 9px 1px rgba(0, 0, 0, 0.72);
+    margin: auto;
+    max-width: 300px;
+    padding: 15px 40px !important;
+}
+
+form figure img {
+    max-width: 76px;
+    width: 100%;
+}
+
+form h4 {
+    color: rgba(0, 0, 0, 0.75) !important;
+    font-size: 26px;
+    margin-top: 0;
+    text-shadow: 0 0 0;
+}
+
+form button {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+}
+
+.cont_contraseña {
+    margin-bottom: 10px;
+}
+
+.contraseña {
+    text-align: right;
+    padding-top: 8px;
+}
+
+.contraseña a {
+    font-size: 10px;
+    color: #175c7d;
+}
+
+md-checkbox {
+    font-size: 12px;
+    color: #575757;
+}
+
+md-checkbox .md-icon {
+    border-color: #175c7d;
+}
+
+md-checkbox.md-checked .md-icon {
+    background-color: #175c7d;
+}
+
+.recover {
+    width: 85%;
+}
+
+.botones {
+    margin-bottom: 15px;
+}
+
+.card-h2 {
+    color: #525252;
+    text-shadow: 0 0 0;
+}
+
+h4.main-title {    
+    font-weight: 400 !important;
+    white-space: nowrap !important;
+    color: #737777 !important;
+    text-align: center !important;
+    font-size: 15px !important;
+}
+
+.error {
+    width: 100%;
+    position: absolute;
+    font-size: 11px;
+    color: red;
+    bottom: -15px;
+}

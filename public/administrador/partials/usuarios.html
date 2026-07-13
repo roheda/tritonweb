@@ -1,0 +1,44 @@
+<div class="usuarios">	
+	<div layout-wrap layout="row">
+		<div flex="100" layout-padding>
+			<md-button class="md-raised button new" ng-click="openPopup($event)">+ Nuevo Usuario</md-button>
+			<md-button class="md-raised button refresh" ng-click="getDataGrid()">Refrescar Datos</md-button>
+		</div>
+	</div>
+	<div layout-wrap layout="row">
+		<div flex="100" layout-padding>
+			<div layout="row" layout-align="end center">
+				<input class="buscar" type="text" placeholder="Buscar" ng-model="search">
+			</div>
+		</div>
+		<div flex="100" layout-padding>
+			<table class="grid" rules="rows" cellspacing="0">
+				<thead>
+					<tr>
+						<td class="ordenar" ng-click="ordenar('nombre')">Nombre</td>
+						<td class="ordenar" ng-click="ordenar('apPaterno')">Apellido Paterno</td>
+						<td class="ordenar" ng-click="ordenar('apMaterno')">Apellido Materno</td>
+						<td class="ordenar" ng-click="ordenar('email')">Correo Electrónico</td>
+						<td class="ordenar" ng-click="ordenar('username')">Nombre de usuario</td>
+						<td class="text-center acciones">Acciones</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="elem in grid | filter: search | orderBy: campo:orden">
+						<td>{{elem.nombre}}</td>
+						<td>{{elem.apPaterno}}</td>
+						<td>{{elem.apMaterno}}</td>
+						<td>{{elem.email}}</td>
+						<td>{{elem.username}}</td>
+						<td class="text-center acciones">
+							<div layout="row" layout-align="center center">
+								<span class="icono editar" ng-click="openEditPopup($event, elem)"></span>
+								<span class="icono borrar" ng-click="deleteRegister($event, elem)"></span>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>	
+</div>

@@ -1,0 +1,51 @@
+<div class="nota triton-page-v2 triton-article-v2">
+  <main>
+    <article>
+      <header class="ta-header">
+        <div class="tp-container ta-wrap">
+          <div ng-click="regresar()" class="ta-return" role="button" tabindex="0" aria-label="Regresar al blog">
+            <img src="/img/icons/icon_regresar.png" alt="">
+            <span>Regresar al blog</span>
+          </div>
+
+          <nav class="tp-breadcrumb tp-breadcrumb-dark" aria-label="Migas de pan">
+            <a href="/">Inicio</a><span>/</span><a href="/yucatan">Yucatán</a><span>/</span><span>{{nota.titulo}}</span>
+          </nav>
+
+          <span class="tp-eyebrow">{{ nota.categoria }}</span>
+          <h1>{{nota.titulo}}</h1>
+          <div class="ta-meta">
+            <span>Publicado por Triton Desarrollos</span>
+            <span>·</span>
+            <time datetime="{{nota.fecha | date: 'yyyy-MM-dd'}}">{{nota.fecha | date: 'dd-MM-yyyy'}}</time>
+          </div>
+        </div>
+      </header>
+
+      <div class="tp-container ta-wrap">
+        <figure style="margin:42px 0 0;">
+          <img class="ta-image" ng-src="{{nota.foto}}" alt="{{nota.titulo}}">
+        </figure>
+
+        <div class="ta-content" ng-bind-html="nota.descripcion"></div>
+      </div>
+    </article>
+
+    <section class="tp-section tp-section-soft" aria-labelledby="articulo-triton-title">
+      <div class="tp-container tp-grid-2">
+        <div>
+          <span class="tp-eyebrow">Triton Desarrollos</span>
+          <h2 id="articulo-triton-title">10 años desarrollando proyectos en Mérida</h2>
+          <p class="tp-lead">
+            Conoce proyectos residenciales y comerciales con un enfoque en calidad constructiva,
+            diseño funcional y acompañamiento durante la compra.
+          </p>
+        </div>
+        <div class="tp-actions" style="justify-content:flex-end;">
+          <a class="tp-btn tp-btn-primary" href="/desarrollos">Ver desarrollos</a>
+          <a class="tp-btn tp-btn-outline" href="/contacto">Hablar con un asesor</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

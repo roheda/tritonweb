@@ -1,0 +1,19 @@
+<md-dialog class="foto-modal" flex-gt-sm="80" flex-gt-xs="90" flex="95" style="background-color: #737373;">
+	<md-dialog-content>
+		<!-- <div layout="row" layout-align="center center" class="total-height">
+			<img src="{{imagen}}" alt="">
+		</div> -->
+		<flex-slider slide="elem in images track by $index" start-at="{{index}}" direction-nav="true" control-nav="false" play="true" prev-Text="" next-Text="" animation="slide" class="total-height">
+			<li class="total-height">
+				<img src="{{ elem.ruta }}" alt="" class="slide_img">
+				<!-- <div class="text-slider" layout="row" layout-align-gt-sm="start center" layout-align="center center">
+					<div flex-gt-md="35" flex-offset-gt-md="15" flex-md="45" flex-offset-md="5" flex="80" flex-xs="90">
+						<h2>{{s.titulo}}</h2>
+						<p>{{s.descripcion}}</p>
+						<a href="/desarrollos"><md-button class="button btn-transparent">Quiero conocer más</md-button></a>
+					</div>
+				</div> -->
+			</li>
+		</flex-slider>
+	</md-dialog-content>
+</md-dialog>
