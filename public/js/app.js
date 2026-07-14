@@ -43,6 +43,22 @@ angular.module('app', [
 				controller: 'detalleDesarrolloController',
 				templateUrl: 'partials/detalleDesarrollo.html'
 			})
+			.when('/proyectos-entregados', {
+				controller: 'desarrolloController',
+				templateUrl: 'partials/proyectos-entregados.html'
+			})
+			.when('/sello-triton', {
+				templateUrl: 'partials/sello-triton.html'
+			})
+			.when('/centro-comprador', {
+				templateUrl: 'partials/centro-comprador.html'
+			})
+			.when('/brokers', {
+				templateUrl: 'partials/brokers.html'
+			})
+			.when('/postventa', {
+				templateUrl: 'partials/postventa.html'
+			})
 			.when('/inversion', {
 				controller: 'inversionController',
 				templateUrl: 'partials/inversion.html'
@@ -55,15 +71,62 @@ angular.module('app', [
 				controller: 'contactoController',
 				templateUrl: 'partials/contacto.html'
 			})
-		.otherwise({ RedirecTo: '/' });
+		.otherwise({ redirectTo: '/' });
 	}
 ])
 
 .controller('mainController', ['$scope', '$route', '$location', '$mdSidenav',  
 	function($scope, $route , $location, $mdSidenav) {
 
+		var navigationItems = [
+			{ href: '/desarrollos', label: 'Desarrollos', match: '/desarrollos' },
+			{ href: '/proyectos-entregados', label: 'Entregados', match: '/proyectos-entregados' },
+			{ href: '/sello-triton', label: 'Sello Triton', match: '/sello-triton' },
+			{ href: '/centro-comprador', label: 'Centro comprador', match: '/centro-comprador' },
+			{ href: '/yucatan', label: 'Blog', match: '/yucatan' },
+			{ href: '/contacto', label: 'Contacto', match: '/contacto' }
+		];
+
+		var mobileAccessItems = [
+			{ href: '/brokers', label: 'Portal para brokers', match: '/brokers' },
+			{ href: '/postventa', label: 'Postventa', match: '/postventa' }
+		];
+
+		function itemIsActive(item, currentPath) {
+			return currentPath === item.match || currentPath.indexOf(item.match + '/') === 0;
+		}
+
+		function renderNavigation() {
+			var currentPath = $location.path();
+			var desktopList = document.querySelector('.triton-main-nav ul');
+			var mobileList = document.querySelector('.triton-mobile-nav-links');
+
+			if (desktopList) {
+				desktopList.innerHTML = navigationItems.map(function(item) {
+					return '<li class="' + (itemIsActive(item, currentPath) ? 'active' : '') + '"><a href="' + item.href + '">' + item.label + '</a></li>';
+				}).join('');
+			}
+
+			if (mobileList) {
+				mobileList.innerHTML = navigationItems.concat(mobileAccessItems).map(function(item) {
+					return '<a href="' + item.href + '" class="' + (itemIsActive(item, currentPath) ? 'active' : '') + '">' + item.label + '</a>';
+				}).join('');
+
+				Array.prototype.forEach.call(mobileList.querySelectorAll('a'), function(link) {
+					link.addEventListener('click', function() {
+						$mdSidenav('right').close();
+					});
+				});
+			}
+		}
+
 		$scope.$on('$viewContentLoaded', function(){
 			$mdSidenav('right').close();
+			setTimeout(renderNavigation, 0);
+		});
+
+		$scope.$on('$routeChangeSuccess', function() {
+			setTimeout(renderNavigation, 0);
 		});
 
 		$scope.active = false;
@@ -84,7 +147,6 @@ angular.module('app', [
 			return false;
 		};
 
-
 		$scope.isSegment = function(path, segment) {
 
             if (segment == undefined)
@@ -99,6 +161,8 @@ angular.module('app', [
 
             return false;
         };
+
+		setTimeout(renderNavigation, 0);
 	}]
 )
 
@@ -116,10 +180,8 @@ angular.module('app', [
 
                 if($window.innerWidth >= 1280)
 					elem.css({ 'height': winHeight + 'px' });
-
 				else if($window.innerWidth >= 960 && $window.innerWidth <= 1280)
 					elem.css({ 'height': (winHeight * 0.70) + 'px' });
-
 				else 
 					elem.css({ 'height': 'auto' });
             }
@@ -147,7 +209,6 @@ angular.module('app', [
 
                 if($window.innerWidth >= 1280)
 					elem.css({ 'height': winHeight + 'px' });
-
 				else 
 					elem.css({ 'height': 'auto' });
             }
@@ -200,7 +261,6 @@ angular.module('app', [
 
 					if($window.innerWidth >= 1280)
 						elem.css({ 'height': winHeight + 'px' });
-
 					else if($window.innerWidth >= 960 && $window.innerWidth <= 1280)
 						elem.css({ 'height': (winHeight * 0.70) + 'px' });
 
@@ -209,10 +269,8 @@ angular.module('app', [
 
 				} else {
 
-
 					if($window.innerWidth >= 1280)
 						elem.css({ 'height': winHeight + 'px' });
-
 					else 
 						elem.css({ 'height': 'auto' });
 				}
@@ -285,4 +343,3 @@ angular.module('app', [
 		}
 	};
 });
-	

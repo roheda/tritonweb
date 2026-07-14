@@ -21,6 +21,21 @@ Route::get('/desarrollos', function () {
 Route::get('/desarrollos/{detalle?}', function() {
     return View::make('master');
 });
+Route::get('/proyectos-entregados', function () {
+    return view('master');
+});
+Route::get('/sello-triton', function () {
+    return view('master');
+});
+Route::get('/centro-comprador', function () {
+    return view('master');
+});
+Route::get('/brokers', function () {
+    return view('master');
+});
+Route::get('/postventa', function () {
+    return view('master');
+});
 Route::get('/inversion', function () {
     return view('master');
 });
