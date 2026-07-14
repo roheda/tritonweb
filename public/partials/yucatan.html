@@ -1,104 +1,117 @@
-<div class="yucatan triton-page-v2 triton-blog-v2">
+<link rel="stylesheet" href="/css/triton-blog-editorial.css">
+<div class="yucatan triton-page-v2 triton-blog-v2 triton-blog-editorial">
   <main>
-    <section class="tb-hero" aria-labelledby="blog-title">
-      <div class="tp-container">
-        <nav class="tp-breadcrumb" aria-label="Migas de pan">
-          <a href="/">Inicio</a><span>/</span><span>Yucatán</span>
+    <section class="tbe-hero" aria-labelledby="blog-title">
+      <div class="tp-container tbe-hero-inner">
+        <nav class="tbe-breadcrumb" aria-label="Migas de pan">
+          <a href="/">Inicio</a><span aria-hidden="true">/</span><span>Blog</span>
         </nav>
-        <span class="tp-eyebrow">Guía inmobiliaria de Mérida y Yucatán</span>
-        <h1 id="blog-title">Información para vivir, comprar e invertir mejor</h1>
-        <p class="tp-lead">
-          Artículos de Triton Desarrollos sobre vivienda, inversión inmobiliaria, zonas de Mérida,
-          calidad constructiva, arquitectura y decisiones de compra.
-        </p>
+
+        <div class="tbe-hero-copy">
+          <span class="tp-eyebrow">Guía inmobiliaria de Mérida y Yucatán</span>
+          <h1 id="blog-title">Ideas claras para vivir, comprar e invertir mejor</h1>
+          <p>
+            Artículos de Triton Desarrollos sobre vivienda, inversión inmobiliaria, zonas de Mérida,
+            calidad constructiva, arquitectura y decisiones de compra.
+          </p>
+        </div>
       </div>
     </section>
 
-    <section class="tp-section" aria-label="Artículos inmobiliarios">
+    <section class="tbe-filter-section" aria-label="Categorías del blog">
       <div class="tp-container">
-        <div class="tb-layout">
+        <div class="tbe-filter-heading">
           <div>
-            <div ng-if="notas.length > 0">
-              <article class="tb-featured">
-                <img ng-src="{{ notas[0].foto }}" alt="{{ notas[0].titulo }}">
-                <div class="tb-featured-content">
-                  <div class="tb-meta">{{ notas[0].categoria }} · {{ notas[0].fecha | date: 'dd-MM-yyyy' }}</div>
-                  <h2>{{ notas[0].titulo }}</h2>
-                  <p ng-bind-html="notas[0].descripcion | limitHtml: 230"></p>
-                  <a class="tp-btn tp-btn-primary" href="/yucatan/{{notas[0].slug}}">Leer artículo</a>
-                </div>
-              </article>
+            <span class="tp-eyebrow">Explora por tema</span>
+            <h2>Encuentra información útil para tu decisión</h2>
+          </div>
+          <p>{{ notas.length }} artículos en esta selección</p>
+        </div>
 
-              <div class="tb-post-grid">
-                <article class="tb-post-card" ng-repeat="n in notas" ng-if="$index > 0">
-                  <a href="/yucatan/{{n.slug}}" aria-label="Leer {{ n.titulo }}">
-                    <img ng-src="{{n.foto}}" alt="{{n.titulo}}">
-                    <div class="tb-post-body">
-                      <div class="tb-meta">{{ n.categoria }} · {{n.fecha | date: 'dd-MM-yyyy'}}</div>
-                      <h3>{{n.titulo}}</h3>
-                      <p ng-bind-html="n.descripcion | limitHtml: 95"></p>
-                    </div>
-                  </a>
-                </article>
+        <div class="tbe-category-scroll" role="navigation" aria-label="Filtrar artículos por categoría">
+          <button type="button"
+                  class="tbe-category-chip"
+                  ng-repeat="cat in categorias track by cat.id"
+                  ng-class="{ active: categoria == cat.titulo }"
+                  ng-click="selectCategoria(cat.titulo)">
+            {{ cat.titulo == 'Inicio' ? 'Todos' : cat.titulo }}
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="tbe-content-section" aria-label="Artículos inmobiliarios">
+      <div class="tp-container">
+        <div ng-if="notas.length > 0">
+          <article class="tbe-featured-card">
+            <a class="tbe-featured-media" href="/yucatan/{{notas[0].slug}}" aria-label="Leer {{ notas[0].titulo }}">
+              <img ng-src="{{ notas[0].foto }}" alt="{{ notas[0].titulo }}" loading="eager">
+            </a>
+
+            <div class="tbe-featured-content">
+              <div class="tbe-meta-row">
+                <span class="tbe-category">{{ notas[0].categoria }}</span>
+                <time datetime="{{notas[0].fecha | date: 'yyyy-MM-dd'}}">{{ notas[0].fecha | date: 'dd MMM yyyy' }}</time>
               </div>
+              <span class="tbe-featured-label">Artículo destacado</span>
+              <h2><a href="/yucatan/{{notas[0].slug}}">{{ notas[0].titulo }}</a></h2>
+              <p ng-bind-html="notas[0].descripcion | limitHtml: 260"></p>
+              <a class="tbe-read-link" href="/yucatan/{{notas[0].slug}}">
+                Leer artículo <span aria-hidden="true">→</span>
+              </a>
             </div>
+          </article>
 
-            <div class="tp-empty" ng-if="notas.length == 0">
-              <h2>No encontramos artículos en esta categoría</h2>
-              <p>Selecciona otra categoría para continuar explorando el blog.</p>
+          <div class="tbe-section-heading" ng-if="notas.length > 1">
+            <div>
+              <span class="tp-eyebrow">Más lecturas</span>
+              <h2>Artículos para seguir explorando</h2>
             </div>
           </div>
 
-          <aside class="tb-sidebar" aria-label="Categorías del blog">
-            <span class="tp-eyebrow">Temas</span>
-            <h2>Explora las entradas</h2>
-            <md-list>
-              <md-list-item ng-repeat="cat in categorias track by cat.id"
-                            ng-class="{ active: categoria == cat.titulo }"
-                            ng-click="selectCategoria(cat.titulo)">
-                <p>{{cat.titulo}}</p>
-              </md-list-item>
-            </md-list>
-          </aside>
+          <div class="tbe-post-grid" ng-if="notas.length > 1">
+            <article class="tbe-post-card" ng-repeat="n in notas track by n.id" ng-if="$index > 0">
+              <a class="tbe-post-media" href="/yucatan/{{n.slug}}" aria-label="Leer {{ n.titulo }}">
+                <img ng-src="{{n.foto}}" alt="{{n.titulo}}" loading="lazy">
+              </a>
+
+              <div class="tbe-post-body">
+                <div class="tbe-meta-row">
+                  <span class="tbe-category">{{ n.categoria }}</span>
+                  <time datetime="{{n.fecha | date: 'yyyy-MM-dd'}}">{{ n.fecha | date: 'dd MMM yyyy' }}</time>
+                </div>
+                <h3><a href="/yucatan/{{n.slug}}">{{n.titulo}}</a></h3>
+                <p ng-bind-html="n.descripcion | limitHtml: 135"></p>
+                <a class="tbe-read-link" href="/yucatan/{{n.slug}}">
+                  Leer artículo <span aria-hidden="true">→</span>
+                </a>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="tbe-empty" ng-if="notas.length == 0">
+          <span class="tp-eyebrow">Sin resultados</span>
+          <h2>No encontramos artículos en esta categoría</h2>
+          <p>Selecciona otro tema para continuar explorando el blog.</p>
+          <button type="button" class="tp-btn tp-btn-primary" ng-click="selectCategoria('Inicio')">Ver todos los artículos</button>
         </div>
       </div>
     </section>
 
-    <section class="tp-section tp-section-soft" aria-labelledby="blog-aporta-title">
+    <section class="tbe-value-section" aria-labelledby="blog-aporta-title">
       <div class="tp-container">
         <div class="tp-center">
           <span class="tp-eyebrow">Contenido útil y verificable</span>
-          <h2 id="blog-aporta-title">¿Qué encontrarás en este blog?</h2>
-          <p class="tp-lead">Guías pensadas para responder preguntas reales antes de elegir una zona, un desarrollo o una propiedad.</p>
+          <h2 id="blog-aporta-title">Información pensada para decisiones reales</h2>
+          <p class="tp-lead">Guías para entender mejor una zona, un proyecto, una propiedad o una oportunidad de inversión.</p>
         </div>
-        <div class="tp-grid-4" style="margin-top:38px;">
-          <article class="tp-card"><h3>Zonas de Mérida</h3><p>Conectividad, servicios, estilo de vida y criterios para comparar ubicaciones.</p></article>
-          <article class="tp-card"><h3>Compra de vivienda</h3><p>Conceptos, documentos, gastos y preguntas que conviene realizar.</p></article>
-          <article class="tp-card"><h3>Inversión</h3><p>Rendimiento, riesgos, horizonte, plusvalía y evaluación de propiedades.</p></article>
-          <article class="tp-card"><h3>Calidad y diseño</h3><p>Materiales, distribución, arquitectura, entrega y mantenimiento.</p></article>
-        </div>
-      </div>
-    </section>
 
-    <section class="tp-section tp-faq" aria-labelledby="blog-faq-title">
-      <div class="tp-container">
-        <div class="tp-center">
-          <span class="tp-eyebrow">Preguntas frecuentes</span>
-          <h2 id="blog-faq-title">Sobre el blog inmobiliario de Triton</h2>
-        </div>
-        <div class="tp-faq-wrap">
-          <details>
-            <summary>¿Los artículos sustituyen asesoría legal o financiera?</summary>
-            <div class="tp-faq-answer">No. El contenido es informativo y cada operación debe revisarse con los especialistas correspondientes.</div>
-          </details>
-          <details>
-            <summary>¿El blog habla únicamente de proyectos Triton?</summary>
-            <div class="tp-faq-answer">No. También incluye guías generales sobre Mérida, Yucatán, vivienda, arquitectura e inversión inmobiliaria.</div>
-          </details>
-          <details>
-            <summary>¿Cómo puedo conocer los desarrollos disponibles?</summary>
-            <div class="tp-faq-answer">Visita la sección Desarrollos o comunícate con el equipo mediante la página de Contacto.</div>
-          </details>
+        <div class="tbe-value-grid">
+          <article><span>01</span><h3>Zonas de Mérida</h3><p>Conectividad, servicios, estilo de vida y criterios para comparar ubicaciones.</p></article>
+          <article><span>02</span><h3>Compra de vivienda</h3><p>Conceptos, documentos, gastos y preguntas que conviene realizar.</p></article>
+          <article><span>03</span><h3>Inversión</h3><p>Rendimiento, riesgos, horizonte, plusvalía y evaluación de propiedades.</p></article>
+          <article><span>04</span><h3>Calidad y diseño</h3><p>Materiales, distribución, arquitectura, entrega y mantenimiento.</p></article>
         </div>
       </div>
     </section>
