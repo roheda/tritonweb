@@ -1,42 +1,127 @@
+/*
+ * Tipografía institucional: XXII Geom.
+ * Los archivos licenciados deben colocarse en /public/fonts con estos nombres:
+ * XXIIGeom-Light, XXIIGeom-Regular, XXIIGeom-Medium, XXIIGeom-Bold y XXIIGeom-Heavy.
+ * Mientras no estén disponibles, el sitio conserva Qanelas como respaldo visual.
+ */
+@font-face {
+    font-family: 'XXII Geom';
+    font-style: normal;
+    font-weight: 300;
+    font-display: swap;
+    src: local('XXII Geom Light'), local('XXIIGeom-Light'),
+         url('../fonts/XXIIGeom-Light.woff2') format('woff2'),
+         url('../fonts/XXIIGeom-Light.woff') format('woff'),
+         url('../fonts/XXIIGeom-Light.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'XXII Geom';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: local('XXII Geom Regular'), local('XXIIGeom-Regular'),
+         url('../fonts/XXIIGeom-Regular.woff2') format('woff2'),
+         url('../fonts/XXIIGeom-Regular.woff') format('woff'),
+         url('../fonts/XXIIGeom-Regular.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'XXII Geom';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: local('XXII Geom Medium'), local('XXIIGeom-Medium'),
+         url('../fonts/XXIIGeom-Medium.woff2') format('woff2'),
+         url('../fonts/XXIIGeom-Medium.woff') format('woff'),
+         url('../fonts/XXIIGeom-Medium.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'XXII Geom';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: local('XXII Geom Bold'), local('XXIIGeom-Bold'),
+         url('../fonts/XXIIGeom-Bold.woff2') format('woff2'),
+         url('../fonts/XXIIGeom-Bold.woff') format('woff'),
+         url('../fonts/XXIIGeom-Bold.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'XXII Geom';
+    font-style: normal;
+    font-weight: 900;
+    font-display: swap;
+    src: local('XXII Geom Heavy'), local('XXIIGeom-Heavy'),
+         url('../fonts/XXIIGeom-Heavy.woff2') format('woff2'),
+         url('../fonts/XXIIGeom-Heavy.woff') format('woff'),
+         url('../fonts/XXIIGeom-Heavy.otf') format('opentype');
+}
+
 @font-face {
     font-family: ThinQanelas;
     font-weight: 100;
-    src: url("../fonts/Qanelas-Thin.otf") format("opentype"),
-         url("../fonts/Qanelas-Thin.ttf");
+    src: url('../fonts/Qanelas-Thin.otf') format('opentype'),
+         url('../fonts/Qanelas-Thin.ttf');
 }
 
 @font-face {
     font-family: Qanelas;
     font-weight: 300;
-    src: url("../fonts/Qanelas-Light.otf") format("opentype"),
-    	 url("../fonts/Qanelas-Light.ttf");
+    src: url('../fonts/Qanelas-Light.otf') format('opentype'),
+         url('../fonts/Qanelas-Light.ttf');
 }
 
 @font-face {
     font-family: RegularQanelas;
     font-weight: 400;
-    src: url("../fonts/Qanelas-Regular.otf") format("opentype"),
-    	 url("../fonts/Qanelas-Regular.ttf");
+    src: url('../fonts/Qanelas-Regular.otf') format('opentype'),
+         url('../fonts/Qanelas-Regular.ttf');
 }
 
 @font-face {
     font-family: MediumQanelas;
     font-weight: 500;
-    src: url("../fonts/Qanelas-Medium.otf") format("opentype"),
-		 url("../fonts/Qanelas-Medium.ttf");
+    src: url('../fonts/Qanelas-Medium.otf') format('opentype'),
+         url('../fonts/Qanelas-Medium.ttf');
 }
 
 @font-face {
     font-family: BoldQanelas;
     font-weight: 700;
-    src: url("../fonts/Qanelas-Bold.otf") format("opentype"),
-    	 url("../fonts/Qanelas-Bold.ttf");
-
+    src: url('../fonts/Qanelas-Bold.otf') format('opentype'),
+         url('../fonts/Qanelas-Bold.ttf');
 }
 
 @font-face {
     font-family: ExtraBoldQanelas;
     font-weight: 900;
-    src: url("../fonts/Qanelas-ExtraBold.otf") format("opentype"),
-    	 url("../fonts/Qanelas-ExtraBold.ttf");
+    src: url('../fonts/Qanelas-ExtraBold.otf') format('opentype'),
+         url('../fonts/Qanelas-ExtraBold.ttf');
+}
+
+:root {
+    --triton-font: 'XXII Geom', 'RegularQanelas', Arial, sans-serif;
+}
+
+html,
+body,
+body *,
+button,
+input,
+select,
+textarea {
+    font-family: var(--triton-font) !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+strong,
+b {
+    font-family: var(--triton-font) !important;
 }

@@ -9,6 +9,7 @@
         <link rel='stylesheet prefetch' href='https://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.min.css'>
         <link rel="stylesheet" href="<?php echo asset('components/angular-material/angular-material.css'); ?>">
         <link rel="stylesheet" href="<?php echo asset('components/angular-sidenav-menu/material-menu-sidenav.css')?>"/>
+        <link rel="stylesheet" href="<?php echo asset('css/fonts.css')?>"/>
         <link rel="stylesheet" href="<?php echo asset('administrador/css/index.css')?>"/>
         <link rel="stylesheet" href="<?php echo asset('administrador/css/partials.css')?>" />
         <script>
@@ -48,7 +49,7 @@
                             </md-menu-sidenav-subitem>
                         </md-menu-sidenav-content>
                     </md-menu-sidenav-item>
-                </md-menu-sidenav>        
+                </md-menu-sidenav>
             </md-sidenav>
             <div layout="column" flex id="contentPrinicipal">
                 <md-toolbar layout="row" class="barraSuperior">
@@ -72,7 +73,7 @@
                 <md-progress-circular class="loading" md-diameter="60px"></md-progress-circular>
                 <p style ="color: #fff">Cargando</p>
             </div>
-        </div> 
+        </div>
         <script src="<?php echo asset('components/jquery/jquery.js') ?>"></script>
         <script src="<?php echo asset('components/angular/angular.js') ?>"></script>
         <script src="<?php echo asset('components/angular/angular-messages.js') ?>"></script>
@@ -83,7 +84,7 @@
         <script src="<?php echo asset('components/angular-material/angular-material.js') ?>"></script>
         <script src="<?php echo asset('components/i18n/angular-locale_es-mx.js') ?>"></script>
         <script src="<?php echo asset('components/angular-icons/angular-material-icons.min.js')?>"></script>
-        <script src="<?php echo asset('components/angular-sidenav-menu/material-menu-sidenav.min.js')?>"></script> 
+        <script src="<?php echo asset('components/angular-sidenav-menu/material-menu-sidenav.min.js')?>"></script>
         <script src="<?php echo asset('components/angular-file/angular-file-upload-html5-shim.js')?>"></script>
         <script src="<?php echo asset('components/angular-file/angular-file-upload.js')?>"></script>
         <script src="<?php echo asset('components/angular-filter/angular-filter.js')?>"></script>
@@ -94,30 +95,22 @@
         <script src="<?php echo asset('administrador/js/app.js')?>"></script>
         <script src="<?php echo asset('administrador/js/directives.js')?>"></script>
         <script src="<?php echo asset('administrador/js/xlsx.mini.js') ?>"></script>
-        <script src="<?php echo asset('administrador/js/services/ToastService.js')?>"></script>    
-        <!-- Menú -->  
+        <script src="<?php echo asset('administrador/js/services/ToastService.js')?>"></script>
         <script src="<?php echo asset('administrador/js/controllers/menuController.js')?>"></script>
-        <script src="<?php echo asset('administrador/js/services/menuService.js')?>"></script>    
-        <!-- Usuarios -->  
+        <script src="<?php echo asset('administrador/js/services/menuService.js')?>"></script>
         <script src="<?php echo asset('administrador/js/controllers/usuariosController.js')?>"></script>
         <script src="<?php echo asset('administrador/js/services/usuariosService.js')?>"></script>
-        <!-- Slider -->
         <script src="<?php echo asset('administrador/js/controllers/sliderController.js')?>"></script>
         <script src="<?php echo asset('administrador/js/services/sliderService.js')?>"></script>
-        <!-- Bandeja de Contacto -->
         <script src="<?php echo asset('administrador/js/controllers/contactoController.js')?>"></script>
         <script src="<?php echo asset('administrador/js/services/contactoService.js')?>"></script>
-        <!-- Notas -->
         <script src="<?php echo asset('administrador/js/controllers/notasController.js')?>"></script>
         <script src="<?php echo asset('administrador/js/services/notasService.js')?>"></script>
-        <!-- Equipo -->
         <script src="<?php echo asset('administrador/js/controllers/equipoController.js')?>"></script>
         <script src="<?php echo asset('administrador/js/services/equipoService.js')?>"></script>
-        <!-- Desarrollos -->
         <script src="<?php echo asset('administrador/js/controllers/desarrollosController.js')?>"></script>
         <script src="<?php echo asset('administrador/js/services/desarrollosService.js')?>"></script>
         <script src="<?php echo asset('administrador/js/services/galeriasService.js')?>"></script>
-        <!-- Videos -->
         <script src="<?php echo asset('administrador/js/controllers/unidadesController.js')?>"></script>
         <script src="<?php echo asset('administrador/js/services/unidadesService.js')?>"></script>
     </body>

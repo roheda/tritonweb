@@ -12,9 +12,6 @@ use DB;
 
 class DesarrollosController extends Controller
 {
-    /**
-     * Devuelve todos los desarrollos para el administrador.
-     */
     public function getDesarrollos()
     {
         $desarrollos = DB::table('desarrollos as a')
@@ -30,9 +27,6 @@ class DesarrollosController extends Controller
         return response()->json($desarrollos);
     }
 
-    /**
-     * Devuelve los desarrollos activos para el sitio público.
-     */
     public function getActiveDesarrollos($idEstado)
     {
         $query = DB::table('desarrollos as a')
@@ -53,17 +47,11 @@ class DesarrollosController extends Controller
         return response()->json($desarrollos);
     }
 
-    /**
-     * Devuelve los desarrollos activos. Se conserva por compatibilidad.
-     */
     public function getDesarrollosPaginate($idEstado)
     {
         return $this->getActiveDesarrollos($idEstado);
     }
 
-    /**
-     * Devuelve el detalle público de un desarrollo.
-     */
     public function getDesarrolloDetail($slug)
     {
         $desarrollo = DB::table('desarrollos as a')
@@ -86,9 +74,6 @@ class DesarrollosController extends Controller
         return response()->json($desarrollo);
     }
 
-    /**
-     * Devuelve las amenidades de un desarrollo.
-     */
     public function getAmenidades($idDesarrollo)
     {
         return DB::table('amenidades as a')
@@ -97,9 +82,6 @@ class DesarrollosController extends Controller
             ->get();
     }
 
-    /**
-     * Guarda un nuevo desarrollo.
-     */
     public function newDesarrollo()
     {
         $response = ['mensaje' => '', 'estatus' => ''];
@@ -107,7 +89,6 @@ class DesarrollosController extends Controller
         try {
             $data = request()->all();
             $data['slug'] = Str::slug($data['nombre'] ?? '');
-
             $validator = $this->validateDevelopment($data, 0);
 
             if ($validator->fails()) {
@@ -119,7 +100,6 @@ class DesarrollosController extends Controller
                 $this->fillDevelopment($desarrollo, $data, true);
                 $desarrollo->estatus = 1;
                 $desarrollo->save();
-
                 $this->syncAmenities($desarrollo->id, $data['amenidades'] ?? []);
             });
 
@@ -133,9 +113,6 @@ class DesarrollosController extends Controller
         return response()->json($response, 200);
     }
 
-    /**
-     * Actualiza un desarrollo.
-     */
     public function updateDesarrollo($id)
     {
         $response = ['mensaje' => '', 'estatus' => ''];
@@ -143,7 +120,6 @@ class DesarrollosController extends Controller
         try {
             $data = request()->all();
             $data['slug'] = Str::slug($data['nombre'] ?? '');
-
             $validator = $this->validateDevelopment($data, $id);
 
             if ($validator->fails()) {
@@ -159,7 +135,6 @@ class DesarrollosController extends Controller
 
                 $this->fillDevelopment($desarrollo, $data, false);
                 $desarrollo->save();
-
                 $this->syncAmenities($id, $data['amenidades'] ?? []);
             });
 
@@ -173,9 +148,6 @@ class DesarrollosController extends Controller
         return response()->json($response, 200);
     }
 
-    /**
-     * Elimina un desarrollo.
-     */
     public function deleteDesarrollo($id)
     {
         $desarrollo = Desarrollo::find($id);
@@ -201,9 +173,6 @@ class DesarrollosController extends Controller
         ], 200);
     }
 
-    /**
-     * Cambia el estatus público de un desarrollo.
-     */
     public function desarrolloEstatus($id)
     {
         $desarrollo = Desarrollo::find($id);
@@ -337,6 +306,8 @@ class DesarrollosController extends Controller
         $desarrollo->unidades_apartadas = $summary['apartadas'];
         $desarrollo->unidades_no_disponibles = $summary['no_disponibles'];
         $desarrollo->resumen_disponibilidad = $summary['texto'];
+        $desarrollo->disponibilidad_actualizada = $summary['actualizada'];
+        $desarrollo->disponibilidad_actualizada_texto = $summary['actualizada_texto'];
         $desarrollo->ubicacion_completa = $this->buildLocation($desarrollo);
         $desarrollo->operacion_texto = $this->operationLabel($desarrollo->tipo_operacion ?? null);
         $desarrollo->estado_comercial_texto = $this->commercialStatusLabel($desarrollo->estado_comercial ?? null);
@@ -350,19 +321,31 @@ class DesarrollosController extends Controller
             ->groupBy('estatus')
             ->pluck('total', 'estatus');
 
+        $lastUpdated = DB::table('unidades')
+            ->where('idDesarrollo', '=', $desarrollo->id)
+            ->max('updated_at');
+
         $available = isset($counts[2]) ? intval($counts[2]) : 0;
         $reserved = isset($counts[1]) ? intval($counts[1]) : 0;
         $unavailable = isset($counts[0]) ? intval($counts[0]) : 0;
         $total = $available + $reserved + $unavailable;
+        $isRent = ($desarrollo->tipo_operacion ?? '') === 'renta';
+        $product = strtolower($desarrollo->tipo_producto ?? '');
+        $isLocal = strpos($product, 'local') !== false;
+        $singular = $isLocal ? 'local' : ($isRent ? 'espacio' : 'unidad');
+        $plural = $isLocal ? 'locales' : ($isRent ? 'espacios' : 'unidades');
 
         if ($total > 0) {
-            if ($available > 0) {
-                $noun = ($desarrollo->tipo_operacion ?? '') === 'renta' ? 'espacios' : 'unidades';
-                $text = $available . ' ' . $noun . ' disponibles';
+            if ($available === 1) {
+                $text = ($singular === 'unidad' ? 'Última ' : 'Último ') . $singular . ' disponible';
+            } elseif ($available >= 2 && $available <= 3) {
+                $text = 'Últimos ' . $available . ' ' . $plural . ' disponibles';
+            } elseif ($available >= 4 && $available <= 5) {
+                $text = 'Disponibilidad limitada: ' . $available . ' ' . $plural . ' disponibles';
+            } elseif ($available > 5) {
+                $text = $available . ' ' . $plural . ' disponibles';
             } else {
-                $text = ($desarrollo->tipo_operacion ?? '') === 'renta'
-                    ? 'Sin espacios disponibles'
-                    : 'Sin unidades disponibles';
+                $text = $isRent ? 'Sin espacios disponibles' : '100% vendido';
             }
         } else {
             $text = !empty($desarrollo->disponibilidad_texto)
@@ -375,7 +358,9 @@ class DesarrollosController extends Controller
             'disponibles' => $available,
             'apartadas' => $reserved,
             'no_disponibles' => $unavailable,
-            'texto' => $text
+            'texto' => $text,
+            'actualizada' => $lastUpdated ? date('Y-m-d H:i:s', strtotime($lastUpdated)) : null,
+            'actualizada_texto' => $lastUpdated ? date('d/m/Y', strtotime($lastUpdated)) : null
         ];
     }
 
@@ -386,7 +371,7 @@ class DesarrollosController extends Controller
                 'id', 'idDesarrollo', 'clave', 'descripcion', 'brochure',
                 'imagen', 'tipo', 'estatus', 'construccion', 'terreno',
                 'equipamiento', 'precio', 'precio24', 'precio48',
-                'precio60', 'precio72'
+                'precio60', 'precio72', 'updated_at'
             )
             ->where('idDesarrollo', '=', $idDesarrollo)
             ->orderBy('clave', 'ASC')
