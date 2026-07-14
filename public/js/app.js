@@ -120,13 +120,23 @@ angular.module('app', [
 			}
 
 			if (window.TritonLanguage) {
-				window.setTimeout(window.TritonLanguage.refresh, 100);
+				window.setTimeout(window.TritonLanguage.refresh, 80);
 			}
 		}
+
+		$scope.$on('$routeChangeStart', function() {
+			if (window.TritonLanguage && typeof window.TritonLanguage.beforeRoute === 'function') {
+				window.TritonLanguage.beforeRoute();
+			}
+		});
 
 		$scope.$on('$viewContentLoaded', function(){
 			$mdSidenav('right').close();
 			setTimeout(renderNavigation, 0);
+
+			if (window.TritonLanguage && typeof window.TritonLanguage.afterRoute === 'function') {
+				window.TritonLanguage.afterRoute();
+			}
 		});
 
 		$scope.$on('$routeChangeSuccess', function() {
@@ -351,6 +361,26 @@ angular.module('app', [
 (function loadTritonLanguageAssets(window, document) {
 	'use strict';
 
+	var preference = '';
+	var cookie = document.cookie || '';
+
+	try {
+		preference = window.localStorage.getItem('triton_language_preference') || '';
+	} catch (error) {
+		preference = '';
+	}
+
+	if (preference === 'en' || cookie.indexOf('googtrans=%2Fes%2Fen') !== -1 || cookie.indexOf('googtrans=/es/en') !== -1) {
+		document.documentElement.classList.add('triton-lang-en', 'triton-translation-pending');
+	}
+
+	if (document.documentElement.classList.contains('triton-translation-pending') && !document.getElementById('triton-language-prime-style')) {
+		var primeStyle = document.createElement('style');
+		primeStyle.id = 'triton-language-prime-style';
+		primeStyle.textContent = 'html.triton-translation-pending .principalSection{opacity:0!important}';
+		document.head.appendChild(primeStyle);
+	}
+
 	if (!document.getElementById('triton-language-styles')) {
 		var stylesheet = document.createElement('link');
 		stylesheet.id = 'triton-language-styles';
@@ -363,7 +393,7 @@ angular.module('app', [
 		var script = document.createElement('script');
 		script.id = 'triton-language-script';
 		script.src = '/js/triton-language.js';
-		script.async = true;
+		script.async = false;
 		document.head.appendChild(script);
 	}
 })(window, document);
