@@ -45,4 +45,15 @@ class Desarrollo extends Model
     );
 
     protected $table = 'desarrollos';
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($desarrollo) {
+            if (request()->has('mapa_boton_url')) {
+                $desarrollo->mapa_boton_url = request()->input('mapa_boton_url');
+            }
+        });
+    }
 }
