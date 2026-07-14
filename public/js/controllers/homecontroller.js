@@ -2,8 +2,6 @@ angular.module('homeCtrl', ['homeService'])
 .controller('homeController', ['$scope', '$rootScope', '$filter', '$timeout', 'Home', '$mdToast', '$sce',
 	function($scope, $rootScope, $filter, $timeout, Home, $mdToast, $sce) {
 		
-		/*------------------------- Variables, Objetos y Array-------------------------------*/
-
 		$scope.slider = [];
 		$scope.equipo = [];
 
@@ -18,45 +16,47 @@ angular.module('homeCtrl', ['homeService'])
 			mensaje : ''
 		};
 
-		/*---------------------------- Funciones Generales-----------------------------------*/
-		
-		// Devuelve los elementos del slider
 		$scope.getSlider = function() {
-
 			Home.getSlider().then(function successCallback(response) { 
-				$scope.slider = response.data; 
+				$scope.slider = response.data || []; 
 			}, function errorCallback(error) { console.log(error); });
 		};
 
-	    // Devuelve los elementos del slider
         $scope.getTeam = function() {
-
             Home.getTeam().then(function successCallback(response) {
+                var team = response.data || [];
 
-            	for (var i = 0; i < response.data.length; i++) {
-                    
-                    response.data[i].descripcion = $sce.trustAsHtml(response.data[i].descripcion);
-                    response.data[i].fecha       = new Date(response.data[i].fecha + "T00:00:00");
-
-                    $scope.equipo.push(response.data[i]);
+                for (var i = 0; i < team.length; i++) {
+                    team[i].descripcion = $sce.trustAsHtml(team[i].descripcion);
+                    team[i].fecha = new Date(team[i].fecha + "T00:00:00");
+                    $scope.equipo.push(team[i]);
                 }
-
             }, function errorCallback(error) { console.log(error); });
         };
 
+        function deferTeamLoad() {
+            var load = function() {
+                $scope.$evalAsync(function() {
+                    $scope.getTeam();
+                });
+            };
+
+            if (typeof window.requestIdleCallback === 'function') {
+                window.requestIdleCallback(load, { timeout: 1800 });
+            } else {
+                $timeout(load, 900, false);
+            }
+        }
+
 	    $scope.getSlider();
-	    $scope.getTeam();
+	    deferTeamLoad();
 	}
 ])
 
 .filter('limitHtml', function($sce) {
     return function(text, limit) {
-
-        var changedString = String(text).replace(/<[^>]+>/gm, '');
-
-		var length   = changedString.length;
+        var changedString = String(text || '').replace(/<[^>]+>/gm, '');
 		var response = changedString.length > limit ? changedString.substr(0, limit - 1) + "..." : changedString + "...";
-
         return $sce.trustAsHtml(response); 
-    }
+    };
 });
