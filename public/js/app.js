@@ -13,7 +13,7 @@ angular.module('app', [
 	'contactoCtrl'
 ])
 	
-.config(['$httpProvider', function($httpProvider, $interpolateProvider) {
+.config(['$httpProvider', function($httpProvider) {
 	$httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 }])
 
@@ -79,8 +79,8 @@ angular.module('app', [
 	function($scope, $route , $location, $mdSidenav) {
 
 		var navigationItems = [
-			{ href: '/desarrollos', label: 'Desarrollos', match: '/desarrollos' },
-			{ href: '/proyectos-entregados', label: 'Entregados', match: '/proyectos-entregados' },
+			{ href: '/desarrollos', label: 'Desarrollos en venta', match: '/desarrollos' },
+			{ href: '/proyectos-entregados', label: 'Desarrollos entregados', match: '/proyectos-entregados' },
 			{ href: '/sello-triton', label: 'Sello Triton', match: '/sello-triton' },
 			{ href: '/centro-comprador', label: 'Centro comprador', match: '/centro-comprador' },
 			{ href: '/yucatan', label: 'Blog', match: '/yucatan' },
@@ -117,10 +117,6 @@ angular.module('app', [
 						$mdSidenav('right').close();
 					});
 				});
-			}
-
-			if (window.TritonLanguage) {
-				window.setTimeout(window.TritonLanguage.refresh, 100);
 			}
 		}
 
@@ -176,7 +172,7 @@ angular.module('app', [
         scope: {
             data: '@'
         },
-        link: function(scope, elem, attrs) {
+        link: function(scope, elem) {
 
             function adjust() {
 
@@ -194,7 +190,7 @@ angular.module('app', [
 
             angular.element($window).bind('resize', function() {
                 adjust();
-            })
+            });
         }
     };
 })
@@ -205,7 +201,7 @@ angular.module('app', [
         scope: {
             data: '@'
         },
-        link: function(scope, elem, attrs) {
+        link: function(scope, elem) {
 
             function adjust() {
 
@@ -221,7 +217,7 @@ angular.module('app', [
 
             angular.element($window).bind('resize', function() {
                 adjust();
-            })
+            });
         }
     };
 })
@@ -232,7 +228,7 @@ angular.module('app', [
 		scope: {
 			data: '@'
 		},
-		link: function(scope, elem, attrs) {
+		link: function(scope, elem) {
 
 			function adjust() {
 
@@ -244,7 +240,7 @@ angular.module('app', [
 
 			angular.element($window).bind('resize', function() {
 				adjust();
-			})
+			});
 		}
 	};
 })
@@ -255,7 +251,7 @@ angular.module('app', [
         scope: {
             data: '@'
         },
-        link: function(scope, elem, attrs) {
+        link: function(scope, elem) {
 
             function adjust() {
 
@@ -284,7 +280,7 @@ angular.module('app', [
 
             angular.element($window).bind('resize', function() {
                 adjust();
-            })
+            });
         }
     };
 })
@@ -295,7 +291,7 @@ angular.module('app', [
         scope: {
             data: '@'
         },
-        link: function(scope, elem, attrs) {
+        link: function(scope, elem) {
 
             function adjust() {
 
@@ -314,7 +310,7 @@ angular.module('app', [
 
             angular.element($window).bind('resize', function() {
                 adjust();
-            })
+            });
         }
     };
 })
@@ -325,7 +321,7 @@ angular.module('app', [
 		scope: {
 			data: '@'
 		},
-		link: function(scope, elem, attrs) {
+		link: function(scope, elem) {
 
 			function adjust() {
 
@@ -343,27 +339,7 @@ angular.module('app', [
 
 			angular.element($window).bind('resize', function() {
 				adjust();
-			})
+			});
 		}
 	};
 });
-
-(function loadTritonLanguageAssets(window, document) {
-	'use strict';
-
-	if (!document.getElementById('triton-language-styles')) {
-		var stylesheet = document.createElement('link');
-		stylesheet.id = 'triton-language-styles';
-		stylesheet.rel = 'stylesheet';
-		stylesheet.href = '/css/triton-language.css?v=20260714c';
-		document.head.appendChild(stylesheet);
-	}
-
-	if (!document.getElementById('triton-language-script')) {
-		var script = document.createElement('script');
-		script.id = 'triton-language-script';
-		script.src = '/js/triton-language-lite.js?v=20260714c';
-		script.async = true;
-		document.head.appendChild(script);
-	}
-})(window, document);
