@@ -52,6 +52,54 @@
   line-height: 1.4;
 }
 
+/* Transición limpia mientras Google procesa el contenido dinámico. */
+.triton-translation-overlay {
+  position: fixed;
+  z-index: 1200;
+  inset: 66px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  background: rgba(255, 255, 255, .98);
+  color: #6E6969;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: .2px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .14s ease, visibility .14s ease;
+}
+
+html.triton-translation-pending .triton-translation-overlay {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+html.triton-translation-pending .principalSection {
+  opacity: 0;
+}
+
+.principalSection {
+  transition: opacity .14s ease;
+}
+
+.triton-translation-spinner {
+  width: 23px;
+  height: 23px;
+  border: 2px solid rgba(110, 105, 105, .22);
+  border-top-color: #F9AF1B;
+  border-radius: 50%;
+  animation: triton-language-spin .72s linear infinite;
+}
+
+@keyframes triton-language-spin {
+  to { transform: rotate(360deg); }
+}
+
 /* El selector nativo se mantiene en el DOM para activar la traducción,
    pero la interfaz visible es el control personalizado de Triton. */
 #google_translate_element,
@@ -95,8 +143,20 @@ html.translated-rtl {
 .triton-brand-link,
 .triton-mobile-logo,
 .triton-mobile-nav-logo,
-.triton-wa-brand {
+.triton-wa-brand,
+.triton-translation-overlay {
   translate: no;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .triton-translation-spinner {
+    animation-duration: 1.4s;
+  }
+
+  .principalSection,
+  .triton-translation-overlay {
+    transition: none;
+  }
 }
 
 @media (max-width: 1280px) {
@@ -119,6 +179,10 @@ html.translated-rtl {
     min-width: 34px;
     min-height: 28px;
     padding: 0 8px;
+  }
+
+  .triton-translation-overlay {
+    inset: 60px 0 0;
   }
 }
 
