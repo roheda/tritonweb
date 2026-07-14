@@ -1,48 +1,80 @@
-<div class="nota triton-page-v2 triton-article-v2">
+<div class="nota triton-page-v2 triton-article-v2 triton-article-editorial">
   <main>
     <article>
-      <header class="ta-header">
-        <div class="tp-container ta-wrap">
-          <div ng-click="regresar()" class="ta-return" role="button" tabindex="0" aria-label="Regresar al blog">
-            <img src="/img/icons/icon_regresar.png" alt="">
-            <span>Regresar al blog</span>
-          </div>
-
-          <nav class="tp-breadcrumb tp-breadcrumb-dark" aria-label="Migas de pan">
-            <a href="/">Inicio</a><span>/</span><a href="/yucatan">Yucatán</a><span>/</span><span>{{nota.titulo}}</span>
+      <header class="tae-header">
+        <div class="tp-container tae-header-inner">
+          <nav class="tae-breadcrumb" aria-label="Migas de pan">
+            <a href="/">Inicio</a>
+            <span aria-hidden="true">/</span>
+            <a href="/yucatan">Blog</a>
+            <span aria-hidden="true">/</span>
+            <span aria-current="page">{{nota.titulo}}</span>
           </nav>
 
-          <span class="tp-eyebrow">{{ nota.categoria }}</span>
-          <h1>{{nota.titulo}}</h1>
-          <div class="ta-meta">
-            <span>Publicado por Triton Desarrollos</span>
-            <span>·</span>
-            <time datetime="{{nota.fecha | date: 'yyyy-MM-dd'}}">{{nota.fecha | date: 'dd-MM-yyyy'}}</time>
+          <button type="button" ng-click="regresar()" class="tae-back-button" aria-label="Regresar al blog">
+            <span aria-hidden="true">←</span> Regresar al blog
+          </button>
+
+          <div class="tae-heading">
+            <span class="tae-category">{{ nota.categoria }}</span>
+            <h1>{{nota.titulo}}</h1>
+            <div class="tae-meta">
+              <span>Por Triton Desarrollos</span>
+              <span aria-hidden="true">•</span>
+              <time datetime="{{nota.fecha | date: 'yyyy-MM-dd'}}">{{nota.fecha | date: 'dd MMMM yyyy'}}</time>
+              <span aria-hidden="true">•</span>
+              <span>{{ nota.readingTime }} min de lectura</span>
+            </div>
           </div>
         </div>
       </header>
 
-      <div class="tp-container ta-wrap">
-        <figure style="margin:42px 0 0;">
-          <img class="ta-image" ng-src="{{nota.foto}}" alt="{{nota.titulo}}">
+      <div class="tp-container tae-media-container">
+        <figure class="tae-cover">
+          <img ng-src="{{nota.foto}}" alt="{{nota.titulo}}" loading="eager">
         </figure>
+      </div>
 
-        <div class="ta-content" ng-bind-html="nota.descripcion"></div>
+      <div class="tp-container tae-reading-layout">
+        <aside class="tae-article-aside" aria-label="Información del artículo">
+          <div class="tae-aside-card">
+            <span class="tae-aside-label">Publicado por</span>
+            <strong>Triton Desarrollos</strong>
+            <p>Información inmobiliaria sobre Mérida, vivienda, inversión, arquitectura y calidad constructiva.</p>
+            <a href="/yucatan">Ver todos los artículos</a>
+          </div>
+        </aside>
+
+        <div class="tae-content-column">
+          <div class="tae-content" ng-bind-html="nota.descripcion"></div>
+
+          <footer class="tae-article-footer">
+            <div>
+              <span class="tae-category">{{ nota.categoria }}</span>
+              <h2>¿Te resultó útil este artículo?</h2>
+              <p>Continúa explorando información sobre Mérida o conoce los desarrollos disponibles de Triton.</p>
+            </div>
+            <div class="tae-footer-actions">
+              <a class="tp-btn tp-btn-outline" href="/yucatan">Volver al blog</a>
+              <a class="tp-btn tp-btn-primary" href="/desarrollos">Ver desarrollos</a>
+            </div>
+          </footer>
+        </div>
       </div>
     </article>
 
-    <section class="tp-section tp-section-soft" aria-labelledby="articulo-triton-title">
-      <div class="tp-container tp-grid-2">
+    <section class="tae-triton-section" aria-labelledby="articulo-triton-title">
+      <div class="tp-container tae-triton-grid">
         <div>
           <span class="tp-eyebrow">Triton Desarrollos</span>
           <h2 id="articulo-triton-title">10 años desarrollando proyectos en Mérida</h2>
-          <p class="tp-lead">
-            Conoce proyectos residenciales y comerciales con un enfoque en calidad constructiva,
-            diseño funcional y acompañamiento durante la compra.
+          <p>
+            Proyectos residenciales y comerciales con enfoque en calidad constructiva,
+            diseño funcional y acompañamiento durante la compra o renta.
           </p>
         </div>
-        <div class="tp-actions" style="justify-content:flex-end;">
-          <a class="tp-btn tp-btn-primary" href="/desarrollos">Ver desarrollos</a>
+        <div class="tae-triton-actions">
+          <a class="tp-btn tp-btn-primary" href="/desarrollos">Conocer desarrollos</a>
           <a class="tp-btn tp-btn-outline" href="/contacto">Hablar con un asesor</a>
         </div>
       </div>
