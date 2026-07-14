@@ -355,14 +355,14 @@ angular.module('app', [
 		var stylesheet = document.createElement('link');
 		stylesheet.id = 'triton-language-styles';
 		stylesheet.rel = 'stylesheet';
-		stylesheet.href = '/css/triton-language.css';
+		stylesheet.href = '/css/triton-language.css?v=20260714c';
 		document.head.appendChild(stylesheet);
 	}
 
 	if (!document.getElementById('triton-language-script')) {
 		var script = document.createElement('script');
 		script.id = 'triton-language-script';
-		script.src = '/js/triton-language.js';
+		script.src = '/js/triton-language-lite.js?v=20260714c';
 		script.async = true;
 		document.head.appendChild(script);
 	}
