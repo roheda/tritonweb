@@ -100,3 +100,28 @@
     src: url('../fonts/Qanelas-ExtraBold.otf') format('opentype'),
          url('../fonts/Qanelas-ExtraBold.ttf');
 }
+
+:root {
+    --triton-font: 'XXII Geom', 'RegularQanelas', Arial, sans-serif;
+}
+
+html,
+body,
+body *,
+button,
+input,
+select,
+textarea {
+    font-family: var(--triton-font) !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+strong,
+b {
+    font-family: var(--triton-font) !important;
+}
