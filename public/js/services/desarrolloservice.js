@@ -15,7 +15,7 @@ angular.module('desarrolloService', [])
 			return $http.get('/getDesarrollo/' + slug);
 		},
 		getGaleria: function(param) {
-            return $http.get('/getGaleria/' + param);
-        },
-	}
+            return $http.get('/getGaleria/' + param, { cache: true });
+        }
+	};
 });
