@@ -1,563 +1,374 @@
 angular.module('unidadesCtrl', ['unidadesService', 'angularFileUpload', 'desarrollosService'])
-.controller('unidadesController', ['$scope', '$rootScope', '$location', 'Unidad', 'Desarrollo', 'Toast', '$localStorage', '$mdDialog', '$upload',
-    function ($scope, $rootScope, $location, Unidad, Desarrollo, Toast, $localStorage, $mdDialog, $upload) {
+.controller('unidadesController', ['$scope', '$rootScope', 'Unidad', 'Toast', '$mdDialog', '$upload',
+    function($scope, $rootScope, Unidad, Toast, $mdDialog, $upload) {
 
-        $rootScope.seccionName = "Unidades";
+        $rootScope.seccionName = 'Disponibilidad';
 
-        $scope.grid         = [];
-        $scope.desarrollos  = [];
-        $scope.search       = "";
+        $scope.grid = [];
+        $scope.desarrollos = [];
+        $scope.search = '';
         $scope.idDesarrollo = 0;
+        $scope.desarrolloSeleccionado = null;
+        $scope.loadingGrid = false;
+        $scope.summary = {
+            total: 0,
+            disponibles: 0,
+            apartadas: 0,
+            cerradas: 0
+        };
 
-        $scope.getDataGrid = function (argument) {
+        $scope.getDesarrollos = function() {
+            Unidad.getDesarrollos().then(function(response) {
+                $scope.desarrollos = response.data || [];
+            }, function() {
+                Toast.show('No fue posible cargar los desarrollos.', 'alert');
+            });
+        };
 
+        $scope.onDevelopmentChange = function() {
+            $scope.desarrolloSeleccionado = null;
+
+            for (var i = 0; i < $scope.desarrollos.length; i++) {
+                if (parseInt($scope.desarrollos[i].id, 10) === parseInt($scope.idDesarrollo, 10)) {
+                    $scope.desarrolloSeleccionado = $scope.desarrollos[i];
+                    break;
+                }
+            }
+
+            $scope.getDataGrid($scope.idDesarrollo);
+        };
+
+        $scope.getDataGrid = function(idDesarrollo) {
             $scope.grid = [];
-            console.log(argument);
+            $scope.resetSummary();
 
-            Unidad.getUnidad(argument).then(function successCallback(response) {
-                
-                for (var i = 0; i < response.data.length; i++) {                    
-                    response.data[i].fecha = new Date(response.data[i].fecha);
+            if (!idDesarrollo || parseInt(idDesarrollo, 10) === 0) {
+                return;
+            }
+
+            $scope.loadingGrid = true;
+
+            Unidad.getUnidad(idDesarrollo).then(function(response) {
+                $scope.grid = response.data || [];
+
+                for (var i = 0; i < $scope.grid.length; i++) {
+                    $scope.grid[i].estatus = parseInt($scope.grid[i].estatus, 10);
+                    $scope.grid[i].construccion = parseFloat($scope.grid[i].construccion || 0);
+                    $scope.grid[i].terreno = parseFloat($scope.grid[i].terreno || 0);
+                    $scope.grid[i].precio = parseFloat($scope.grid[i].precio || 0);
                 }
 
-                $scope.grid = response.data;
-
-            }, function errorCallback(error) {
-                Toast.show("Ocurrio un error en la solicitud", "alert");
+                $scope.recalculateSummary();
+                $scope.loadingGrid = false;
+            }, function() {
+                $scope.loadingGrid = false;
+                Toast.show('No fue posible cargar las unidades.', 'alert');
             });
         };
 
-        $scope.getDesarrollos = function (argument) {
-
-            $scope.desarrollos = [];
-
-            Desarrollo.getDesarrollos().then(function successCallback(response) {
-
-                $scope.desarrollos = response.data;
-
-            }, function errorCallback(error) {
-                Toast.show("Ocurrio un error en la solicitud", "alert");
-            });
+        $scope.resetSummary = function() {
+            $scope.summary.total = 0;
+            $scope.summary.disponibles = 0;
+            $scope.summary.apartadas = 0;
+            $scope.summary.cerradas = 0;
         };
 
-        $scope.ordenar = function(params) {
-            $scope.orden = !$scope.orden;
-            $scope.campo = params;
+        $scope.recalculateSummary = function() {
+            $scope.resetSummary();
+            $scope.summary.total = $scope.grid.length;
+
+            for (var i = 0; i < $scope.grid.length; i++) {
+                var status = parseInt($scope.grid[i].estatus, 10);
+                if (status === 2) {
+                    $scope.summary.disponibles++;
+                } else if (status === 1) {
+                    $scope.summary.apartadas++;
+                } else {
+                    $scope.summary.cerradas++;
+                }
+            }
         };
 
-        $scope.changeStatus = function (params) {
-        
-            Unidad.equipoEstatus(params.id).then(function successCallback(response) {
+        $scope.isRent = function() {
+            return $scope.desarrolloSeleccionado && $scope.desarrolloSeleccionado.tipo_operacion === 'renta';
+        };
+
+        $scope.statusOptions = function() {
+            return [
+                { value: 2, text: 'Disponible' },
+                { value: 1, text: $scope.isRent() ? 'En negociación' : 'Apartada' },
+                { value: 0, text: $scope.isRent() ? 'Rentada' : 'Vendida' }
+            ];
+        };
+
+        $scope.statusLabel = function(status) {
+            status = parseInt(status, 10);
+            if (status === 2) return 'Disponible';
+            if (status === 1) return $scope.isRent() ? 'En negociación' : 'Apartada';
+            return $scope.isRent() ? 'Rentada' : 'Vendida';
+        };
+
+        $scope.closedLabel = function() {
+            return $scope.isRent() ? 'Rentadas' : 'Vendidas';
+        };
+
+        $scope.reservedLabel = function() {
+            return $scope.isRent() ? 'En negociación' : 'Apartadas';
+        };
+
+        $scope.itemLabel = function(plural) {
+            var product = (($scope.desarrolloSeleccionado && $scope.desarrolloSeleccionado.tipo_producto) || '').toLowerCase();
+            var isLocal = product.indexOf('local') !== -1;
+
+            if (isLocal) return plural ? 'locales' : 'local';
+            if ($scope.isRent()) return plural ? 'espacios' : 'espacio';
+            return plural ? 'unidades' : 'unidad';
+        };
+
+        $scope.urgencyText = function() {
+            var available = $scope.summary.disponibles;
+            var noun = $scope.itemLabel(available !== 1);
+
+            if ($scope.summary.total === 0) {
+                return 'Agrega el inventario para publicar disponibilidad verificable.';
+            }
+            if (available === 0) {
+                return $scope.isRent() ? 'Sin espacios disponibles actualmente.' : '100% vendido.';
+            }
+            if (available === 1) {
+                return 'Últim' + ($scope.itemLabel(false) === 'unidad' ? 'a' : 'o') + ' ' + noun + ' disponible.';
+            }
+            if (available <= 3) {
+                return 'Últimos ' + available + ' ' + noun + ' disponibles.';
+            }
+            if (available <= 5) {
+                return 'Disponibilidad limitada: ' + available + ' ' + noun + ' disponibles.';
+            }
+            return available + ' ' + noun + ' disponibles.';
+        };
+
+        $scope.updateStatus = function(item) {
+            Unidad.updateEstatus(item.id, item.estatus).then(function(response) {
                 Toast.show(response.data.mensaje, response.data.estatus);
-                $scope.getDataGrid();
+                if (response.data.estatus === 'alert') {
+                    $scope.getDataGrid($scope.idDesarrollo);
+                    return;
+                }
+
+                item.updated_at_texto = 'Ahora';
+                $scope.recalculateSummary();
+            }, function() {
+                Toast.show('No fue posible actualizar la disponibilidad.', 'alert');
+                $scope.getDataGrid($scope.idDesarrollo);
             });
         };
 
-        $scope.deleteRegister = function (ev, params) {
+        $scope.ordenar = function(campo) {
+            $scope.orden = !$scope.orden;
+            $scope.campo = campo;
+        };
 
+        $scope.openPopup = function(ev) {
+            if (!$scope.idDesarrollo) return;
+
+            $mdDialog.show({
+                controller: modalController,
+                templateUrl: '/administrador/partials/popups/unidad.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: false,
+                locals: {
+                    data: null,
+                    update: false,
+                    id: $scope.idDesarrollo,
+                    development: $scope.desarrolloSeleccionado
+                }
+            }).then(function() {
+                $scope.getDataGrid($scope.idDesarrollo);
+            });
+        };
+
+        $scope.openEditPopup = function(ev, item) {
+            $mdDialog.show({
+                controller: modalController,
+                templateUrl: '/administrador/partials/popups/unidad.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: false,
+                locals: {
+                    data: angular.copy(item),
+                    update: true,
+                    id: $scope.idDesarrollo,
+                    development: $scope.desarrolloSeleccionado
+                }
+            }).then(function() {
+                $scope.getDataGrid($scope.idDesarrollo);
+            });
+        };
+
+        $scope.deleteRegister = function(ev, item) {
             var confirm = $mdDialog.confirm()
-                                    .title('¿Seguro que desea eliminar?')
-                                    .ariaLabel('Confirmación')
-                                    .theme('default')
-                                    .targetEvent(ev)
-                                    .cancel('Cancelar')
-                                    .ok('Eliminar');
+                .title('¿Eliminar ' + item.clave + '?')
+                .textContent('Esta acción eliminará la unidad del inventario y afectará el conteo público.')
+                .ariaLabel('Confirmación')
+                .targetEvent(ev)
+                .cancel('Cancelar')
+                .ok('Eliminar');
 
             $mdDialog.show(confirm).then(function() {
-                
-                Unidad.deleteUnidad(params.id).then(function successCallback(response) {
-
-                    $scope.getDataGrid();
+                Unidad.deleteUnidad(item.id).then(function(response) {
                     Toast.show(response.data.message, response.data.status);
-
-                }, function errorCallback(error) {
-
-                    console.log(error);
-                    Toast.show('Ocurrio un error en la solicitud.','alert');
+                    $scope.getDataGrid($scope.idDesarrollo);
+                }, function() {
+                    Toast.show('No fue posible eliminar la unidad.', 'alert');
                 });
             });
-        };
-
-        $scope.openPopup = function (ev) {
-
-            $mdDialog.show({
-                controller: modalController,
-                templateUrl: '/administrador/partials/popups/unidad.html',
-                parent: angular.element(document.body),
-                clickOutsideToClose: false,
-                locals: { 
-                    data: undefined,
-                    update: false,
-                    id: $scope.idDesarrollo
-                },
-            })
-            .then(function(data) {
-                $scope.getDataGrid($scope.idDesarrollo);
-            }, function() {});
-        };
-
-        $scope.openEditPopup = function (ev, params) {
-
-            $mdDialog.show({
-                controller: modalController,
-                templateUrl: '/administrador/partials/popups/unidad.html',
-                parent: angular.element(document.body),
-                clickOutsideToClose: false,
-                locals: { 
-                    data: params, 
-                    update: true,
-                    id: $scope.idDesarrollo
-                },
-            })
-            .then(function(data) {
-                $scope.getDataGrid($scope.idDesarrollo);
-            }, function() {});
-        };
-
-        $scope.uploadExcel = function (files) {
-            $scope.selectExcel = files[0];
-            $scope.showFile($scope.selectExcel);
-        };
-
-        $scope.showFile = function(obj) { 
-
-            console.log(obj);
-
-            var reader = new FileReader();
-            reader.readAsBinaryString(obj);    
-      
-            reader.onload = function(e) { 
-      
-               var target   = e.target.result; 
-               var workbook = XLSX.read(target, { type: 'binary' });
-      
-               workbook.SheetNames.forEach(function(sheetName) { 
-      
-                  var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]); 
-                  var json_object   = JSON.stringify(XL_row_object);
-                  var jsonData      = JSON.parse(json_object);
-      
-                  data = jsonData;
-                  $scope.openExcelPopup(data);
-                  console.log(data);
-               }) 
-            }; 
-      
-            reader.onerror = function(ex) { 
-               console.log(ex); 
-            }; 
-        };
-
-        $scope.openExcelPopup = function (params) {
-
-            if($scope.idDesarrollo != "" && params.length > 0) {
-
-                $mdDialog.show({
-                    controller: excelController,
-                    templateUrl: '/administrador/partials/popups/excel.html',
-                    parent: angular.element(document.body),
-                    clickOutsideToClose: false,
-                    locals: { 
-                        data: params,
-                        id: $scope.idDesarrollo
-                    },
-                })
-                .then(function(data) {
-                    $scope.getDataGrid($scope.idDesarrollo);
-                }, function() {});
-            }
         };
 
         $scope.getDesarrollos();
 
-        function modalController($scope, $mdDialog, data, update, id) {
+        function modalController($scope, $mdDialog, data, update, id, development) {
+            $scope.updating = update;
+            $scope.disabled = false;
+            $scope.development = development || {};
+            $scope.isRent = $scope.development.tipo_operacion === 'renta';
+            $scope.loading = false;
+            $scope.loadingBrochure = false;
+            $scope.tempImage = '';
+            $scope.tempBrochure = '';
 
-            $scope.objectUnidad = {
+            $scope.objectUnidad = data || {
                 idDesarrollo: id,
                 clave: '',
                 descripcion: '',
                 brochure: '',
-                equipamiento: 'Ninguno',
+                equipamiento: '',
                 imagen: '',
-                tipo: 'Normal',
+                tipo: '',
                 estatus: 2,
-                construccion: 0.0,
-                terreno: 0.0,
-                precio: 0.0,
-                largo: 0.0,
-                ancho: 0.0,
-                precio24: 0.0,
-                precio48: 0.0,
-                precio60: 0.0,
-                precio72: 0.0,
+                construccion: 0,
+                terreno: 0,
+                precio: 0,
+                largo: 0,
+                ancho: 0,
+                precio24: 0,
+                precio48: 0,
+                precio60: 0,
+                precio72: 0
             };
 
-            console.log($scope.objectUnidad.idDesarrollo)
+            $scope.objectUnidad.idDesarrollo = id;
+            $scope.objectUnidad.estatus = parseInt($scope.objectUnidad.estatus, 10);
+            $scope.objectUnidad.construccion = parseFloat($scope.objectUnidad.construccion || 0);
+            $scope.objectUnidad.terreno = parseFloat($scope.objectUnidad.terreno || 0);
+            $scope.objectUnidad.precio = parseFloat($scope.objectUnidad.precio || 0);
 
-            $scope.disponible = [
-                { id: 1, text: "No Disponible", value: 0 },
-                { id: 2, text: "Apartado", value: 1 },
-                { id: 3, text: "Disponible", value: 2 }
+            $scope.statuses = [
+                { value: 2, text: 'Disponible' },
+                { value: 1, text: $scope.isRent ? 'En negociación' : 'Apartada' },
+                { value: 0, text: $scope.isRent ? 'Rentada' : 'Vendida' }
             ];
 
-            $scope.tipos = [
-                { id: 1, text: "Esquina", value: 1 },
-                { id: 2, text: "Normal", value: 2 },
-                { id: 3, text: "Plus", value: 3 }
-            ];
-
-            $(".input-file").val("");
-
-            $scope.loadingBrochure = false;
-
-            $scope.desarrollos = [];
-            $scope.disabled    = false;
-            $scope.updating    = update;
-            $scope.path        = '';
-            $scope.pdf         = '';
-            $scope.selectExcel = null;
-
-            $scope.imagen   = '../administrador/images/notImage.png';
-            $scope.ruta     = '';
-            $scope.brochure = '';
-
-            // Función que devuelve la galería existente
-            $scope.getDesarrollos = function() {
-
-                Unidad.getDesarrollos().then(function successCallback(response) {
-                    $scope.desarrollos = response.data;
-                }, function errorCallback(error) {
-                    Toast.show('Ocurrio un error en la solicitud.', 'alert');
-                });
-            };
-
-            $scope.getDesarrollos();
-
-            if(data != undefined) {
-                
-                setTimeout(function() { 
-
-                    $scope.objectUnidad = data; 
-
-                    $scope.objectUnidad.construccion = parseFloat(data.construccion); 
-                    $scope.objectUnidad.terreno      = parseFloat(data.terreno); 
-                    $scope.objectUnidad.precio       = parseFloat(data.precio);
-                    
-                    $scope.imagen   = data.imagen;
-                    $scope.brochure = data.brochure                
-                    
-                }, 100);
-            }
-
-            // Función para cancelar el modal
-            $scope.hide = function() {
-
-                $mdDialog.hide();
-            };
-
-            // Función para cancelar el modal
             $scope.cancel = function() {
-                $scope.destroyFiles($scope.path);
+                $scope.destroyTempFiles();
                 $mdDialog.cancel();
             };
 
-            // Función que sirve para guardar una imagen
-            $scope.onFileSelect = function ($files) {
-
+            $scope.onFileSelect = function(files) {
+                if (!files || !files.length) return;
                 $scope.loading = true;
 
-                if($scope.path != '') {
-                    $scope.destroyFiles($scope.path);
-                    $scope.path = '';
-                }
-
-                setTimeout(function () {
-
-                    if ($files.length > 1) {
-
-                        $scope.alerts.push({
-                            type: 'alert',
-                            msg: 'Solo puedes seleccionar un archivo'
-                        });
-                        $scope.loading = false;
-                        return;
-
-                    } else {
-
-                        $scope.file = $files[0];
-
-                        $scope.upload = $upload.upload({
-                            method: 'POST',
-                            url: '/dashboard/uploadImagen',
-                            data: {
-                                type: 'file'
-                            },
-                            file: $scope.file,
-                        });
-
-                        $scope.upload.then(function (response) {                            
-
-                            var ruta = response.data.file;
-
-                            $scope.path    = ruta;
-                            $scope.imagen  = ruta;
-                            $scope.loading = false;
-                        });
-                    }
-                    
-                }, 1000);
-            };
-
-            // Función que sirve para guardar un archivo
-            $scope.onFilePDFSelect = function ($files) {
-
-                $scope.loadingBrochure = true;
-
-                if($scope.pdf != '') {
-                    $scope.destroyFiles($scope.pdf);
-                    $scope.pdf = '';
-                }
-
-                setTimeout(function () {
-
-                    if ($files.length > 1) {
-
-                        $scope.alerts.push({
-                            type: 'alert',
-                            msg: 'Solo puedes seleccionar un archivo'
-                        });
-                        $scope.loading = false;
-                        return;
-
-                    } else {
-
-                        $scope.file = $files[0];
-
-                        $scope.upload = $upload.upload({
-                            method: 'POST',
-                            url: '/dashboard/uploadFile',
-                            data: {
-                                type: 'file'
-                            },
-                            file: $scope.file,
-                        });
-
-                        $scope.upload.then(function (response) {                            
-
-                            var ruta = response.data.file;
-
-                            $scope.pdf     = ruta.ruta;
-                            $scope.ruta    = ruta.ruta;
-
-                            $scope.loadingBrochure = false;
-                        });
-                    }
-                    
-                }, 1000);
-            };
-
-            // Función que sirve para eliminar fisicamente los archivos
-            $scope.destroyFiles = function(params) {
-
-                var obj = {
-                    ruta: params
-                };
-
-                Unidad.deleteFile(obj).then(function successCallback(response) {
-                    console.log();
-                }, function errorCallback(error) {
-                    Toast.show('Ocurrio un error en la solicitud.', 'alert');
+                $upload.upload({
+                    method: 'POST',
+                    url: '/dashboard/uploadImagen',
+                    data: { type: 'file' },
+                    file: files[0]
+                }).then(function(response) {
+                    $scope.tempImage = response.data.file;
+                    $scope.objectUnidad.imagen = response.data.file;
+                    $scope.loading = false;
+                }, function() {
+                    $scope.loading = false;
+                    Toast.show('No fue posible cargar la imagen.', 'alert');
                 });
             };
 
-            // Función que sirve para guardar un Unidad
-            $scope.save = function(data) {
+            $scope.onFilePDFSelect = function(files) {
+                if (!files || !files.length) return;
+                $scope.loadingBrochure = true;
 
-                var valid = true;
+                $upload.upload({
+                    method: 'POST',
+                    url: '/dashboard/uploadFile',
+                    data: { type: 'file' },
+                    file: files[0]
+                }).then(function(response) {
+                    var file = response.data.file;
+                    $scope.tempBrochure = file.ruta || file;
+                    $scope.objectUnidad.brochure = $scope.tempBrochure;
+                    $scope.loadingBrochure = false;
+                }, function() {
+                    $scope.loadingBrochure = false;
+                    Toast.show('No fue posible cargar el brochure.', 'alert');
+                });
+            };
 
-                if($scope.objectUnidad.nombre == '') {
-                    Toast.show('Agrega un nombre', 'alert');
-                    valid = false;
-                }
-
-                if($scope.objectUnidad.puesto == '') {
-                    Toast.show('Agrega una puesto', 'alert');
-                    valid = false;
-                }
-
-                if($scope.path == undefined && $scope.path == '') {
-                    Toast.show('Agrega una fotografía', 'alert');
-                    valid = false;
-                }
-
-                if(valid) {
-
-                    $scope.disabled            = true;
-                    $scope.objectUnidad.imagen = $scope.path;
-
-                    if($scope.pdf == undefined && $scope.pdf == '') 
-                        $scope.objectUnidad.brochure = $scope.pdf;
-
-                    Unidad.saveUnidad($scope.objectUnidad)
-                    .then(function successCallback(response) {
-
-                        Toast.show(response.data.mensaje, response.data.estatus);
-                        $scope.disabled = false;
-                        
-                        if (response.data.estatus != "alert")
-                            $mdDialog.hide(data);
-
-                    }, function errorCallback(error) {
-                        $scope.disabled = false;
-                        Toast.show("Ocurrio un error en la solicitud", "alert");
-                    });
+            $scope.destroyTempFiles = function() {
+                var paths = [$scope.tempImage, $scope.tempBrochure];
+                for (var i = 0; i < paths.length; i++) {
+                    if (paths[i]) {
+                        Unidad.deleteFile({ ruta: paths[i] });
+                    }
                 }
             };
 
-            // Función que sirve para editar un Unidad
+            $scope.validate = function() {
+                if (!$scope.objectUnidad.clave || !$scope.objectUnidad.clave.trim()) {
+                    Toast.show('Escribe la clave de la unidad o local.', 'alert');
+                    return false;
+                }
+                if (!$scope.objectUnidad.tipo || !$scope.objectUnidad.tipo.trim()) {
+                    Toast.show('Escribe el tipo de unidad o local.', 'alert');
+                    return false;
+                }
+                return true;
+            };
+
+            $scope.save = function() {
+                if (!$scope.validate()) return;
+                $scope.disabled = true;
+
+                Unidad.saveUnidad($scope.objectUnidad).then(function(response) {
+                    $scope.disabled = false;
+                    Toast.show(response.data.mensaje, response.data.estatus);
+                    if (response.data.estatus !== 'alert') {
+                        $scope.tempImage = '';
+                        $scope.tempBrochure = '';
+                        $mdDialog.hide();
+                    }
+                }, function() {
+                    $scope.disabled = false;
+                    Toast.show('No fue posible guardar la unidad.', 'alert');
+                });
+            };
+
             $scope.update = function() {
+                if (!$scope.validate()) return;
+                $scope.disabled = true;
 
-                var valid = true;
-
-                if($scope.objectUnidad.nombre == '') {
-                    Toast.show('Agrega un nombre', 'alert');
-                    valid = false;
-                }
-
-                if($scope.objectUnidad.puesto == '') {
-                    Toast.show('Agrega una puesto', 'alert');
-                    valid = false;
-                }
-
-                if(valid) {
-
-                    $scope.disabled = true;
-
-                    if($scope.path != undefined && $scope.path != '') {
-
-                        if($scope.objectUnidad.imagen != $scope.imagen)
-                            $scope.destroyFiles($scope.objectUnidad.imagen);
-
-                        $scope.objectUnidad.imagen = $scope.path;
+                Unidad.updateUnidad($scope.objectUnidad.id, $scope.objectUnidad).then(function(response) {
+                    $scope.disabled = false;
+                    Toast.show(response.data.mensaje, response.data.estatus);
+                    if (response.data.estatus !== 'alert') {
+                        $scope.tempImage = '';
+                        $scope.tempBrochure = '';
+                        $mdDialog.hide();
                     }
-
-                    if($scope.pdf != undefined && $scope.pdf != '') {
-
-                        if($scope.objectUnidad.brochure != $scope.ruta)
-                            $scope.destroyFiles($scope.objectUnidad.brochure);
-
-                        $scope.objectUnidad.brochure = $scope.pdf;
-                    }
-
-                    Unidad.updateUnidad($scope.objectUnidad.id, $scope.objectUnidad)
-                    .then(function successCallback(response) {
-
-                        Toast.show(response.data.mensaje, response.data.estatus);
-                        $scope.disabled = false;
-                        
-                        if (response.data.estatus != "alert")
-                            $mdDialog.hide(data);
-                        
-                    }, function errorCallback(error) {
-                        $scope.disabled = false;
-                        Toast.show("Ocurrio un error en la solicitud", "alert");
-                    });
-                }
-            };            
-        };
-
-        function excelController($scope, $mdDialog, data, id) {
-
-            $scope.objectUnidad = {
-                idDesarrollo: id,
-                clave: '',
-                descripcion: '',
-                brochure: '',
-                equipamiento: 'Ninguno',
-                imagen: '',
-                tipo: 'Normal',
-                estatus: 2,
-                construccion: 0.0,
-                terreno: 0.0,
-                precio: 0.0,
-                largo: 0.0,
-                ancho: 0.0,
-                precio24: 0.0,
-                precio48: 0.0,
-                precio60: 0.0,
-                precio72: 0.0,
+                }, function() {
+                    $scope.disabled = false;
+                    Toast.show('No fue posible actualizar la unidad.', 'alert');
+                });
             };
-
-            console.log(data);
-            console.log($scope.objectUnidad.idDesarrollo);
-
-            $scope.dataExcel = [];
-
-            if(data != undefined)
-                $scope.dataExcel = data;
-
-            // Función para cancelar el modal
-            $scope.hide = function() {
-                $mdDialog.hide();
-            };
-
-            // Función para cancelar el modal
-            $scope.cancel = function() {
-                $mdDialog.cancel();
-            };
-
-            // Función que sirve para guardar un Unidad
-            $scope.save = function(data) {
-
-                var valid = true;
-
-                if(id == '') {
-                    Toast.show('Selecciona un desarrollo', 'alert');
-                    valid = false;
-                }
-
-                if($scope.dataExcel.length <= 0) {
-                    Toast.show('No se encontraron datos', 'alert');
-                    valid = false;
-                }
-
-                if(valid) {
-
-                    $scope.disabled = true;
-
-                    for (let i = 0; i < $scope.dataExcel.length; i++) {
-
-                        const element = array[i];
-    
-                        $scope.objectUnidad.clave        = element.clave;
-                        $scope.objectUnidad.descripcion  = element.descripcion;
-                        $scope.objectUnidad.equipamiento = element.equipamiento;
-                        $scope.objectUnidad.tipo         = element.tipo;
-                        $scope.objectUnidad.estatus      = element.estatus;
-                        $scope.objectUnidad.construccion = element.construccion;
-                        $scope.objectUnidad.terreno      = element.terreno;
-                        $scope.objectUnidad.precio       = element.precio;
-    
-                        console.log($scope.objectUnidad);
-                    }
-
-                    // Unidad.saveUnidad($scope.objectUnidad)
-                    // .then(function successCallback(response) {
-
-                    //     Toast.show(response.data.mensaje, response.data.estatus);
-                    //     $scope.disabled = false;
-                        
-                    //     if (response.data.estatus != "alert")
-                    //         $mdDialog.hide(data);
-
-                    // }, function errorCallback(error) {
-                    //     $scope.disabled = false;
-                    //     Toast.show("Ocurrio un error en la solicitud", "alert");
-                    // });
-                }
-            };           
-        };
+        }
     }
 ]);
-
-
