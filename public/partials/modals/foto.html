@@ -1,18 +1,19 @@
-<md-dialog class="foto-modal triton-photo-dialog" flex-gt-sm="86" flex-gt-xs="94" flex="98" aria-label="Galería ampliada">
-  <style>
-    .triton-photo-dialog{max-width:1320px;max-height:94vh;background:#242424;overflow:hidden}.triton-photo-dialog md-dialog-content{position:relative;display:flex;align-items:center;justify-content:center;min-height:min(82vh,820px);padding:0;background:#242424}.triton-photo-dialog .tpd-image-wrap{display:flex;align-items:center;justify-content:center;width:100%;height:min(82vh,820px);padding:42px 70px}.triton-photo-dialog .tpd-image{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}.triton-photo-dialog .tpd-close,.triton-photo-dialog .tpd-arrow{position:absolute;z-index:3;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.28);background:rgba(20,20,20,.68);color:#fff;cursor:pointer;transition:background .2s ease,border-color .2s ease}.triton-photo-dialog .tpd-close:hover,.triton-photo-dialog .tpd-arrow:hover{background:#F9AF1B;border-color:#F9AF1B}.triton-photo-dialog .tpd-close{top:14px;right:14px;width:42px;height:42px;border-radius:50%;font-size:25px}.triton-photo-dialog .tpd-arrow{top:50%;width:48px;height:56px;margin-top:-28px;border-radius:4px;font-size:31px}.triton-photo-dialog .tpd-prev{left:14px}.triton-photo-dialog .tpd-next{right:14px}.triton-photo-dialog .tpd-counter{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);padding:7px 12px;border-radius:18px;background:rgba(20,20,20,.72);color:#fff;font-size:12px;font-weight:700}.triton-photo-dialog .tpd-description{position:absolute;left:18px;bottom:14px;max-width:55%;margin:0;color:rgba(255,255,255,.85);font-size:13px}@media(max-width:680px){.triton-photo-dialog md-dialog-content,.triton-photo-dialog .tpd-image-wrap{min-height:72vh;height:72vh}.triton-photo-dialog .tpd-image-wrap{padding:54px 14px 62px}.triton-photo-dialog .tpd-arrow{top:auto;bottom:12px;width:44px;height:44px;margin:0;border-radius:50%}.triton-photo-dialog .tpd-prev{left:14px}.triton-photo-dialog .tpd-next{right:14px}.triton-photo-dialog .tpd-description{display:none}}
-  </style>
-  <md-dialog-content>
-    <button type="button" class="tpd-close" ng-click="close()" aria-label="Cerrar galería">×</button>
-    <button type="button" class="tpd-arrow tpd-prev" ng-if="images.length > 1" ng-click="move(-1)" aria-label="Imagen anterior">‹</button>
-    <div class="tpd-image-wrap">
-      <img class="tpd-image"
-           ng-src="{{ currentImage.modal_ruta || currentImage.ruta }}"
-           alt="{{ currentImage.descripcion || 'Imagen ampliada del desarrollo' }}"
-           decoding="async">
-    </div>
-    <button type="button" class="tpd-arrow tpd-next" ng-if="images.length > 1" ng-click="move(1)" aria-label="Imagen siguiente">›</button>
-    <p class="tpd-description" ng-if="currentImage.descripcion">{{ currentImage.descripcion }}</p>
-    <span class="tpd-counter">{{ index + 1 }} / {{ images.length }}</span>
-  </md-dialog-content>
+<md-dialog class="foto-modal" flex-gt-sm="80" flex-gt-xs="90" flex="95" style="background-color: #737373;">
+	<md-dialog-content>
+		<!-- <div layout="row" layout-align="center center" class="total-height">
+			<img src="{{imagen}}" alt="">
+		</div> -->
+		<flex-slider slide="elem in images track by $index" start-at="{{index}}" direction-nav="true" control-nav="false" play="true" prev-Text="" next-Text="" animation="slide" class="total-height">
+			<li class="total-height">
+				<img src="{{ elem.ruta }}" alt="" class="slide_img">
+				<!-- <div class="text-slider" layout="row" layout-align-gt-sm="start center" layout-align="center center">
+					<div flex-gt-md="35" flex-offset-gt-md="15" flex-md="45" flex-offset-md="5" flex="80" flex-xs="90">
+						<h2>{{s.titulo}}</h2>
+						<p>{{s.descripcion}}</p>
+						<a href="/desarrollos"><md-button class="button btn-transparent">Quiero conocer más</md-button></a>
+					</div>
+				</div> -->
+			</li>
+		</flex-slider>
+	</md-dialog-content>
 </md-dialog>

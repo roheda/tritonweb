@@ -9,11 +9,6 @@
   var refreshTimers = [];
   var routeObserver = null;
   var observerTimer = null;
-  var revealTimer = null;
-  var pendingStartedAt = 0;
-  var translationBusy = false;
-  var googleRequested = false;
-  var MAX_PENDING_MS = 1800;
 
   function normalizeLanguage(value) {
     value = String(value || '').toLowerCase();
@@ -32,7 +27,7 @@
     try {
       window.localStorage.setItem(key, value);
     } catch (error) {
-      // La cookie de traducción mantiene el idioma aunque localStorage no esté disponible.
+      // La preferencia también se conserva mediante la cookie de traducción.
     }
   }
 
@@ -48,7 +43,7 @@
     try {
       window.sessionStorage.setItem(key, value);
     } catch (error) {
-      // La sesión automática es una optimización, no un requisito.
+      // No es indispensable para el funcionamiento del selector.
     }
   }
 
@@ -78,6 +73,10 @@
       'es';
 
     language = String(language).toLowerCase();
+
+    // El sitio ofrece dos versiones: español e inglés.
+    // Navegadores configurados en español permanecen en español;
+    // cualquier otro idioma recibe la versión internacional en inglés.
     return language.indexOf('es') === 0 ? 'es' : 'en';
   }
 
@@ -165,16 +164,6 @@
       mobileFooter.insertBefore(mobileFooterWrapper.firstChild, mobileFooter.children[1] || null);
     }
 
-    if (!document.getElementById('triton-translation-overlay')) {
-      var overlay = document.createElement('div');
-      overlay.id = 'triton-translation-overlay';
-      overlay.className = 'triton-translation-overlay notranslate';
-      overlay.setAttribute('translate', 'no');
-      overlay.setAttribute('aria-live', 'polite');
-      overlay.innerHTML = '<span class="triton-translation-spinner" aria-hidden="true"></span><span data-triton-translation-message>Loading English version…</span>';
-      document.body.appendChild(overlay);
-    }
-
     if (!document.getElementById('google_translate_element')) {
       var translateElement = document.createElement('div');
       translateElement.id = 'google_translate_element';
@@ -200,34 +189,6 @@
     document.documentElement.classList.toggle('triton-lang-es', language === 'es');
   }
 
-  function setOverlayMessage(language) {
-    var message = document.querySelector('[data-triton-translation-message]');
-    if (!message) return;
-    message.textContent = language === 'en' ? 'Loading English version…' : 'Cargando versión en español…';
-  }
-
-  function showPending(language) {
-    if (language !== 'en' && currentLanguage() !== 'en') {
-      return;
-    }
-
-    injectLanguageInterface();
-    setOverlayMessage(language || currentLanguage());
-    pendingStartedAt = pendingStartedAt || Date.now();
-    document.documentElement.classList.add('triton-translation-pending');
-  }
-
-  function hidePending(force) {
-    var elapsed = pendingStartedAt ? Date.now() - pendingStartedAt : MAX_PENDING_MS;
-    var remaining = force ? 0 : Math.max(0, Math.min(220, 320 - elapsed));
-
-    window.clearTimeout(revealTimer);
-    revealTimer = window.setTimeout(function () {
-      document.documentElement.classList.remove('triton-translation-pending');
-      pendingStartedAt = 0;
-    }, remaining);
-  }
-
   function dispatchChange(element) {
     var event;
 
@@ -243,29 +204,16 @@
 
   function applyGoogleTranslation() {
     if (currentLanguage() !== 'en') {
-      hidePending(true);
-      return false;
-    }
-
-    if (translationBusy) {
-      return true;
+      return;
     }
 
     var combo = document.querySelector('.goog-te-combo');
     if (!combo) {
-      return false;
+      return;
     }
 
-    translationBusy = true;
     combo.value = 'en';
     dispatchChange(combo);
-
-    window.setTimeout(function () {
-      translationBusy = false;
-      hidePending(Date.now() - pendingStartedAt >= MAX_PENDING_MS);
-    }, 520);
-
-    return true;
   }
 
   function clearRefreshTimers() {
@@ -274,44 +222,15 @@
     }
   }
 
-  function scheduleTranslation(showLoader) {
-    if (currentLanguage() !== 'en') {
-      hidePending(true);
-      return;
-    }
-
-    if (showLoader) {
-      showPending('en');
-    }
-
-    loadGoogleTranslate();
+  function refresh() {
+    var language = currentLanguage();
+    updateLanguageUI(language);
     clearRefreshTimers();
 
-    [40, 280, 720].forEach(function (delay, index) {
-      refreshTimers.push(window.setTimeout(function () {
-        var translated = applyGoogleTranslation();
-
-        if (!translated && index === 2) {
-          hidePending(true);
-        }
-      }, delay));
-    });
-
-    refreshTimers.push(window.setTimeout(function () {
-      hidePending(true);
-    }, MAX_PENDING_MS));
-  }
-
-  function refresh(options) {
-    var language = currentLanguage();
-    var showLoader = !!(options && options.showLoader);
-
-    updateLanguageUI(language);
-
     if (language === 'en') {
-      scheduleTranslation(showLoader);
-    } else {
-      hidePending(true);
+      [50, 350, 900, 1800, 3500, 6000].forEach(function (delay) {
+        refreshTimers.push(window.setTimeout(applyGoogleTranslation, delay));
+      });
     }
   }
 
@@ -322,10 +241,6 @@
       safeStorageSet(STORAGE_KEY, language);
     }
 
-    injectLanguageInterface();
-    setOverlayMessage(language);
-    document.documentElement.classList.add('triton-translation-pending');
-
     if (language === 'en') {
       writeTranslationCookie('en');
     } else {
@@ -333,9 +248,7 @@
     }
 
     updateLanguageUI(language);
-    window.setTimeout(function () {
-      window.location.reload();
-    }, 60);
+    window.location.reload();
   }
 
   function autoDetectLanguage() {
@@ -355,7 +268,6 @@
 
       if (cookieLanguage() !== 'en' && applied !== 'en') {
         safeSessionSet(AUTO_SESSION_KEY, 'en');
-        showPending('en');
         window.location.reload();
         return;
       }
@@ -380,6 +292,41 @@
     });
   }
 
+  function forceFullNavigationInEnglish() {
+    document.addEventListener('click', function (event) {
+      if (currentLanguage() !== 'en' || event.defaultPrevented || event.button > 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+        return;
+      }
+
+      var anchor = event.target.closest ? event.target.closest('a[href]') : null;
+
+      if (!anchor || anchor.hasAttribute('download') || anchor.getAttribute('target') === '_blank' || anchor.closest('[data-triton-lang]')) {
+        return;
+      }
+
+      var href = anchor.getAttribute('href');
+      if (!href || href.charAt(0) === '#' || href.indexOf('mailto:') === 0 || href.indexOf('tel:') === 0 || href.indexOf('javascript:') === 0) {
+        return;
+      }
+
+      var destination;
+
+      try {
+        destination = new window.URL(anchor.href, window.location.href);
+      } catch (error) {
+        return;
+      }
+
+      if (destination.origin !== window.location.origin) {
+        return;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+      window.location.href = destination.href;
+    }, true);
+  }
+
   function observeAngularViews() {
     if (!window.MutationObserver || routeObserver) {
       return;
@@ -391,50 +338,29 @@
     }
 
     routeObserver = new window.MutationObserver(function () {
-      if (currentLanguage() !== 'en' || translationBusy) {
-        return;
-      }
-
       window.clearTimeout(observerTimer);
-      observerTimer = window.setTimeout(function () {
-        scheduleTranslation(document.documentElement.classList.contains('triton-translation-pending'));
-      }, 260);
+      observerTimer = window.setTimeout(refresh, 450);
     });
 
-    routeObserver.observe(view, {
-      childList: true,
-      subtree: true,
-      characterData: true
-    });
+    routeObserver.observe(view, { childList: true });
   }
 
   function loadGoogleTranslate() {
-    if (currentLanguage() !== 'en') {
-      return;
-    }
-
     injectLanguageInterface();
 
-    if (document.getElementById('triton-google-translate-script') || googleRequested) {
+    if (document.getElementById('triton-google-translate-script')) {
       return;
     }
-
-    googleRequested = true;
 
     var script = document.createElement('script');
     script.id = 'triton-google-translate-script';
     script.async = true;
     script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-    script.onerror = function () {
-      translationBusy = false;
-      hidePending(true);
-    };
     document.head.appendChild(script);
   }
 
   window.googleTranslateElementInit = function () {
     if (!window.google || !window.google.translate) {
-      hidePending(true);
       return;
     }
 
@@ -445,42 +371,26 @@
       multilanguagePage: true
     }, 'google_translate_element');
 
-    scheduleTranslation(true);
+    refresh();
   };
 
   window.TritonLanguage = {
     current: currentLanguage,
-    beforeRoute: function () {
-      if (currentLanguage() === 'en') {
-        showPending('en');
-      }
-    },
-    afterRoute: function () {
-      refresh({ showLoader: currentLanguage() === 'en' });
-    },
-    refresh: function () {
-      refresh({ showLoader: false });
-    },
+    refresh: refresh,
     select: function (language) {
       selectLanguage(language, true);
     }
   };
 
   bindLanguageButtons();
+  forceFullNavigationInEnglish();
 
   function initialize() {
     injectLanguageInterface();
     autoDetectLanguage();
     observeAngularViews();
-    updateLanguageUI(currentLanguage());
-
-    if (currentLanguage() === 'en') {
-      showPending('en');
-      loadGoogleTranslate();
-      scheduleTranslation(true);
-    } else {
-      hidePending(true);
-    }
+    loadGoogleTranslate();
+    refresh();
   }
 
   if (document.readyState === 'loading') {

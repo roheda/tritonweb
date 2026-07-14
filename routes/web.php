@@ -47,7 +47,6 @@ Route::get('/login/recordar', function() {
     return View::make('recover');
 })->name('recover');
 
-Route::get('/optimized-image', 'FileController@optimizedImage');
 Route::get('/getActiveSlider', 'SliderController@getActiveSlider');
 Route::post('/sendFormContact', 'ContactoController@newComent');
 
