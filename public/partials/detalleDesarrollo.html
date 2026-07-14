@@ -21,24 +21,58 @@
     .development-detail-commercial-v2 .tdd-download { display:flex; align-items:center; justify-content:space-between; gap:20px; padding:24px 26px; margin-top:26px; border-radius:4px; background:#6E6969; color:#fff; }
     .development-detail-commercial-v2 .tdd-download h3,.development-detail-commercial-v2 .tdd-download p { color:#fff; margin:0; }
     .development-detail-commercial-v2 .tdd-download p { margin-top:5px; color:rgba(255,255,255,.78); }
+    .development-detail-commercial-v2 .tdd-landing-btn { background:#6E6969; border-color:#6E6969; color:#fff !important; }
+    .development-detail-commercial-v2 .tdd-landing-btn:hover { background:#595555; border-color:#595555; }
     .development-detail-commercial-v2 .tdd-units { width:100%; margin-top:34px; border-collapse:collapse; background:#fff; border:1px solid rgba(110,105,105,.18); }
     .development-detail-commercial-v2 .tdd-units th { padding:14px; background:#6E6969; color:#fff; font-size:12px; text-align:left; }
     .development-detail-commercial-v2 .tdd-units td { padding:15px 14px; border-bottom:1px solid rgba(110,105,105,.14); color:#6E6969; vertical-align:middle; }
     .development-detail-commercial-v2 .tdd-unit-status { display:inline-flex; padding:5px 9px; border-radius:14px; background:rgba(75,191,120,.14); color:#257b48; font-size:11px; font-weight:700; }
     .development-detail-commercial-v2 .tdd-unit-actions { display:flex; gap:8px; flex-wrap:wrap; }
     .development-detail-commercial-v2 .tdd-unit-link { color:#6E6969; font-weight:700; text-decoration:underline; }
-    .development-detail-commercial-v2 .tdd-location-card { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:28px; align-items:center; padding:34px; background:#fff; border:1px solid rgba(110,105,105,.20); border-radius:4px; }
+
+    .development-detail-commercial-v2 .tdd-gallery-section { padding:58px 0; }
+    .development-detail-commercial-v2 .tdd-gallery-heading { display:flex; align-items:flex-end; justify-content:space-between; gap:24px; margin-bottom:24px; }
+    .development-detail-commercial-v2 .tdd-gallery-heading h2 { margin-bottom:8px; }
+    .development-detail-commercial-v2 .tdd-gallery-heading .tp-lead { margin-bottom:0; max-width:760px; }
+    .development-detail-commercial-v2 .tdd-gallery-controls { display:flex; gap:9px; flex:0 0 auto; }
+    .development-detail-commercial-v2 .tdd-gallery-arrow { display:flex; align-items:center; justify-content:center; width:44px; height:44px; padding:0; border:1px solid rgba(110,105,105,.28); border-radius:50%; background:#fff; color:#6E6969; font-size:24px; line-height:1; cursor:pointer; transition:all .2s ease; }
+    .development-detail-commercial-v2 .tdd-gallery-arrow:hover { border-color:#F9AF1B; background:#F9AF1B; color:#fff; }
+    .development-detail-commercial-v2 .tdd-gallery-slider { position:relative; overflow:hidden; }
+    .development-detail-commercial-v2 .tdd-gallery-track { display:flex; gap:16px; overflow-x:auto; padding:2px 2px 12px; scroll-snap-type:x mandatory; scroll-behavior:smooth; overscroll-behavior-x:contain; scrollbar-width:none; }
+    .development-detail-commercial-v2 .tdd-gallery-track::-webkit-scrollbar { display:none; }
+    .development-detail-commercial-v2 .tdd-gallery-slide { flex:0 0 calc((100% - 32px) / 3); height:245px; margin:0; overflow:hidden; border-radius:5px; background:#ddd; scroll-snap-align:start; box-shadow:0 8px 24px rgba(110,105,105,.12); cursor:pointer; }
+    .development-detail-commercial-v2 .tdd-gallery-slide img { width:100%; height:100%; object-fit:cover; transition:transform .25s ease; }
+    .development-detail-commercial-v2 .tdd-gallery-slide:hover img { transform:scale(1.035); }
+    .development-detail-commercial-v2 .tdd-gallery-count { margin:10px 0 0; color:#8a8585; font-size:12px; text-align:right; }
+
+    .development-detail-commercial-v2 .tdd-location-section { padding:70px 0; }
+    .development-detail-commercial-v2 .tdd-map-grid { display:grid; grid-template-columns:minmax(300px,.72fr) minmax(0,1.28fr); gap:30px; align-items:stretch; }
+    .development-detail-commercial-v2 .tdd-location-card { display:flex; flex-direction:column; justify-content:center; padding:34px; background:#fff; border:1px solid rgba(110,105,105,.20); border-radius:5px; }
+    .development-detail-commercial-v2 .tdd-location-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; }
+    .development-detail-commercial-v2 .tdd-map-embed { min-height:390px; overflow:hidden; border-radius:5px; background:#e7e5e5; box-shadow:0 14px 35px rgba(110,105,105,.14); }
+    .development-detail-commercial-v2 .tdd-map-embed iframe { display:block; width:100%; height:100%; min-height:390px; border:0; }
     .development-detail-commercial-v2 #contSVG object { min-height:500px; border:1px solid rgba(110,105,105,.20); background:#fff; }
+
     @media(max-width:980px){
       .development-detail-commercial-v2 .tdd-hero-grid{grid-template-columns:1fr;}
       .development-detail-commercial-v2 .tdd-hero-image{min-height:360px;}
       .development-detail-commercial-v2 .tdd-info-grid{grid-template-columns:1fr;}
+      .development-detail-commercial-v2 .tdd-gallery-slide{flex-basis:calc((100% - 16px) / 2);}
+      .development-detail-commercial-v2 .tdd-map-grid{grid-template-columns:1fr;}
     }
     @media(max-width:680px){
       .development-detail-commercial-v2 .tdd-facts{grid-template-columns:1fr;}
-      .development-detail-commercial-v2 .tdd-download,.development-detail-commercial-v2 .tdd-location-card{grid-template-columns:1fr; display:grid;}
+      .development-detail-commercial-v2 .tdd-download{display:grid; grid-template-columns:1fr;}
       .development-detail-commercial-v2 .tdd-units-wrap{overflow-x:auto;}
       .development-detail-commercial-v2 .tdd-units{min-width:760px;}
+      .development-detail-commercial-v2 .tdd-gallery-section{padding:46px 0;}
+      .development-detail-commercial-v2 .tdd-gallery-heading{align-items:flex-start;}
+      .development-detail-commercial-v2 .tdd-gallery-heading .tp-lead{font-size:15px;}
+      .development-detail-commercial-v2 .tdd-gallery-slide{flex-basis:84%; height:220px;}
+      .development-detail-commercial-v2 .tdd-gallery-arrow{width:40px; height:40px;}
+      .development-detail-commercial-v2 .tdd-location-section{padding:52px 0;}
+      .development-detail-commercial-v2 .tdd-location-card{padding:26px;}
+      .development-detail-commercial-v2 .tdd-map-embed,.development-detail-commercial-v2 .tdd-map-embed iframe{min-height:320px;}
     }
   </style>
 
@@ -86,6 +120,7 @@
 
             <div class="tp-actions">
               <a class="tp-btn tp-btn-primary" href="/contacto">{{ operationActionLabel() }}</a>
+              <a class="tp-btn tdd-landing-btn" ng-if="desarrollo.enlace" href="{{ desarrollo.enlace }}" target="_blank" rel="noopener">Visitar página del proyecto</a>
               <a class="tp-btn tp-btn-outline" ng-if="desarrollo.brochure" href="{{ desarrollo.brochure }}" target="_blank" rel="noopener">Descargar brochure</a>
             </div>
           </div>
@@ -199,29 +234,51 @@
       </div>
     </section>
 
-    <section class="tp-section tp-section-soft" ng-show="galeria.id != null" aria-labelledby="galeria-title">
+    <section class="tp-section tp-section-soft tdd-gallery-section" ng-if="galeria.imagenes.length > 0" aria-labelledby="galeria-title">
       <div class="tp-container">
-        <span class="tp-eyebrow">Conoce los espacios</span>
-        <h2 id="galeria-title">Galería de {{ desarrollo.nombre }}</h2>
-        <p class="tp-lead">Explora imágenes de arquitectura, distribución, interiores y áreas del proyecto.</p>
-        <div class="tdd-gallery" role="list">
-          <figure role="listitem" ng-repeat="elem in galeria.imagenes track by $index">
-            <img ng-src="{{ elem.ruta }}" alt="{{ desarrollo.nombre }} — imagen {{ $index + 1 }}" ng-click="showImagen($event, elem)">
-          </figure>
+        <div class="tdd-gallery-heading">
+          <div>
+            <span class="tp-eyebrow">Conoce los espacios</span>
+            <h2 id="galeria-title">Galería de {{ desarrollo.nombre }}</h2>
+            <p class="tp-lead">Desliza para explorar arquitectura, distribución, interiores y áreas del proyecto.</p>
+          </div>
+          <div class="tdd-gallery-controls" ng-if="galeria.imagenes.length > 1" aria-label="Controles de galería">
+            <button class="tdd-gallery-arrow" type="button" ng-click="scrollGallery(-1)" aria-label="Ver imágenes anteriores">‹</button>
+            <button class="tdd-gallery-arrow" type="button" ng-click="scrollGallery(1)" aria-label="Ver imágenes siguientes">›</button>
+          </div>
         </div>
+
+        <div class="tdd-gallery-slider">
+          <div id="tdd-gallery-track" class="tdd-gallery-track" role="list" tabindex="0" aria-label="Galería deslizable">
+            <figure class="tdd-gallery-slide" role="listitem" ng-repeat="elem in galeria.imagenes track by $index" ng-click="showImagen($event, elem)">
+              <img ng-src="{{ elem.ruta }}" alt="{{ desarrollo.nombre }} — imagen {{ $index + 1 }}" loading="lazy">
+            </figure>
+          </div>
+        </div>
+        <p class="tdd-gallery-count">{{ galeria.imagenes.length }} imágenes · Toca una imagen para ampliarla</p>
       </div>
     </section>
 
-    <section class="tp-section" ng-if="desarrollo.ubicacion_completa || desarrollo.ubicacion || desarrollo.direccion" aria-labelledby="ubicacion-title">
+    <section class="tp-section tdd-location-section" ng-if="mapFrame || desarrollo.ubicacion_completa || desarrollo.ubicacion || desarrollo.direccion" aria-labelledby="ubicacion-title">
       <div class="tp-container">
-        <div class="tdd-location-card">
-          <div>
+        <div class="tdd-map-grid">
+          <div class="tdd-location-card">
             <span class="tp-eyebrow">Ubicación</span>
             <h2 id="ubicacion-title">{{ desarrollo.ubicacion_completa || desarrollo.nombre }}</h2>
             <p ng-if="desarrollo.direccion"><strong>{{ desarrollo.direccion }}</strong></p>
             <p class="tp-lead" ng-if="desarrollo.ubicacion">{{ desarrollo.ubicacion }}</p>
+            <div class="tdd-location-actions" ng-if="mapExternalUrl">
+              <a class="tp-btn tp-btn-primary" href="{{ mapExternalUrl }}" target="_blank" rel="noopener">Abrir en Google Maps</a>
+            </div>
           </div>
-          <a class="tp-btn tp-btn-primary" ng-if="desarrollo.mapa_url" href="{{ desarrollo.mapa_url }}" target="_blank" rel="noopener">Abrir en mapas</a>
+
+          <div class="tdd-map-embed" ng-if="mapFrame">
+            <iframe ng-src="{{ mapFrame }}"
+                    title="Mapa de {{ desarrollo.nombre }}"
+                    loading="lazy"
+                    allowfullscreen
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
         </div>
       </div>
     </section>
@@ -277,6 +334,7 @@
         <p class="tp-lead">Recibe información vigente y resuelve tus dudas antes de iniciar una operación.</p>
         <div class="tp-actions" style="justify-content:center;">
           <a class="tp-btn tp-btn-primary" href="/contacto">{{ operationActionLabel() }}</a>
+          <a class="tp-btn tdd-landing-btn" ng-if="desarrollo.enlace" href="{{ desarrollo.enlace }}" target="_blank" rel="noopener">Visitar página del proyecto</a>
           <a class="tp-btn tp-btn-light" ng-if="desarrollo.brochure" href="{{ desarrollo.brochure }}" target="_blank" rel="noopener">Descargar brochure</a>
         </div>
       </div>

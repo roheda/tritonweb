@@ -3,6 +3,8 @@ angular.module('detalleDesarrolloCtrl', ['desarrolloService', 'youtube-embed'])
     function($scope, $rootScope, $routeParams, $location, Desarrollo, $mdDialog, $mdToast, $sce) {
 
         $scope.detailFrame = undefined;
+        $scope.mapFrame = null;
+        $scope.mapExternalUrl = '';
         $scope.playerVars = { autoplay: 0 };
         $scope.unidades = [];
         $scope.unidadesDisponibles = [];
@@ -73,6 +75,7 @@ angular.module('detalleDesarrolloCtrl', ['desarrolloService', 'youtube-embed'])
                 $scope.desarrollo.mapa_url = data.mapa_url || '';
                 $scope.desarrollo.amenidades = data.amenidades || [];
 
+                $scope.prepareMap(data);
                 $scope.desarrollo.video = $scope.extractYoutubeId(data.video);
 
                 if (Array.isArray(data.unidades)) {
@@ -104,6 +107,59 @@ angular.module('detalleDesarrolloCtrl', ['desarrolloService', 'youtube-embed'])
             return match && match[1] ? match[1] : video;
         };
 
+        $scope.prepareMap = function(data) {
+            var rawUrl = String(data.mapa_url || '').trim();
+            var embedUrl = '';
+            var externalUrl = rawUrl;
+            var iframeMatch;
+            var coordinateMatch;
+            var locationQuery;
+
+            // También acepta que desde el administrador se pegue el iframe completo.
+            if (rawUrl.indexOf('<iframe') !== -1) {
+                iframeMatch = rawUrl.match(/src=["']([^"']+)["']/i);
+                rawUrl = iframeMatch && iframeMatch[1] ? iframeMatch[1] : '';
+                externalUrl = rawUrl;
+            }
+
+            // La URL de inserción de Google Maps se utiliza directamente.
+            if (/google\.[^/]+\/maps\/embed/i.test(rawUrl) || /google\.com\/maps\/embed/i.test(rawUrl)) {
+                embedUrl = rawUrl;
+            }
+
+            // Si el enlace contiene coordenadas, se crea un iframe compatible.
+            if (!embedUrl && rawUrl) {
+                coordinateMatch = rawUrl.match(/@(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/);
+
+                if (!coordinateMatch) {
+                    coordinateMatch = rawUrl.match(/[?&](?:q|query)=(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/i);
+                }
+
+                if (coordinateMatch) {
+                    locationQuery = coordinateMatch[1] + ',' + coordinateMatch[2];
+                    embedUrl = 'https://www.google.com/maps?q=' + encodeURIComponent(locationQuery) + '&output=embed';
+                }
+            }
+
+            // Para enlaces cortos o enlaces normales se usa la dirección capturada.
+            if (!embedUrl) {
+                locationQuery = data.direccion || data.ubicacion_completa || [data.zona, data.ciudad, data.estado]
+                    .filter(function(value) { return !!value; })
+                    .join(', ') || data.ubicacion || '';
+
+                if (locationQuery) {
+                    embedUrl = 'https://www.google.com/maps?q=' + encodeURIComponent(locationQuery) + '&output=embed';
+                }
+            }
+
+            if (!externalUrl && locationQuery) {
+                externalUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(locationQuery);
+            }
+
+            $scope.mapExternalUrl = externalUrl;
+            $scope.mapFrame = embedUrl ? $sce.trustAsResourceUrl(embedUrl) : null;
+        };
+
         $scope.getGaleria = function(idDesarrollo) {
             if (!idDesarrollo) return;
 
@@ -114,6 +170,21 @@ angular.module('detalleDesarrolloCtrl', ['desarrolloService', 'youtube-embed'])
             }, function errorCallback(error) {
                 console.log(error);
             });
+        };
+
+        $scope.scrollGallery = function(direction) {
+            var track = document.getElementById('tdd-gallery-track');
+            var amount;
+
+            if (!track) return;
+
+            amount = Math.max(Math.round(track.clientWidth * 0.82), 280) * direction;
+
+            if (typeof track.scrollBy === 'function') {
+                track.scrollBy({ left: amount, behavior: 'smooth' });
+            } else {
+                track.scrollLeft += amount;
+            }
         };
 
         $scope.getUnidades = function(idDesarrollo) {
