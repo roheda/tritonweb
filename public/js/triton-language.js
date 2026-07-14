@@ -7,6 +7,8 @@
   var SOURCE_LANGUAGE = 'es';
   var SUPPORTED = ['es', 'en'];
   var refreshTimers = [];
+  var routeObserver = null;
+  var observerTimer = null;
 
   function normalizeLanguage(value) {
     value = String(value || '').toLowerCase();
@@ -25,7 +27,7 @@
     try {
       window.localStorage.setItem(key, value);
     } catch (error) {
-      // El selector también funciona mediante cookie cuando localStorage no está disponible.
+      // La preferencia también se conserva mediante la cookie de traducción.
     }
   }
 
@@ -70,11 +72,17 @@
       window.navigator.userLanguage ||
       'es';
 
-    return normalizeLanguage(language);
+    language = String(language).toLowerCase();
+
+    // El sitio ofrece dos versiones: español e inglés.
+    // Navegadores configurados en español permanecen en español;
+    // cualquier otro idioma recibe la versión internacional en inglés.
+    return language.indexOf('es') === 0 ? 'es' : 'en';
   }
 
   function currentLanguage() {
     var stored = safeStorageGet(STORAGE_KEY);
+
     if (SUPPORTED.indexOf(stored) !== -1) {
       return stored;
     }
@@ -121,7 +129,53 @@
     }
   }
 
+  function switcherMarkup(modifier) {
+    return '' +
+      '<div class="triton-language-switcher ' + modifier + ' notranslate" translate="no" role="group" aria-label="Seleccionar idioma">' +
+        '<button type="button" data-triton-lang="es" aria-label="Ver sitio en español" aria-pressed="false">ES</button>' +
+        '<button type="button" data-triton-lang="en" aria-label="View website in English" aria-pressed="false">EN</button>' +
+      '</div>';
+  }
+
+  function injectLanguageInterface() {
+    var desktopGroup = document.querySelector('.triton-navigation-group');
+    var desktopCta = document.querySelector('.triton-header-cta');
+    var mobileActions = document.querySelector('.triton-mobile-actions');
+    var mobileToggle = document.querySelector('.triton-menu-toggle');
+    var mobileFooter = document.querySelector('.triton-mobile-nav-footer');
+
+    if (desktopGroup && !desktopGroup.querySelector('.triton-language-switcher--desktop')) {
+      var desktopWrapper = document.createElement('div');
+      desktopWrapper.innerHTML = switcherMarkup('triton-language-switcher--desktop');
+      desktopGroup.insertBefore(desktopWrapper.firstChild, desktopCta || null);
+    }
+
+    if (mobileActions && !mobileActions.querySelector('.triton-language-switcher--header')) {
+      var mobileHeaderWrapper = document.createElement('div');
+      mobileHeaderWrapper.innerHTML = switcherMarkup('triton-language-switcher--header');
+      mobileActions.insertBefore(mobileHeaderWrapper.firstChild, mobileToggle || mobileActions.firstChild);
+    }
+
+    if (mobileFooter && !mobileFooter.querySelector('.triton-language-switcher--mobile')) {
+      var mobileFooterWrapper = document.createElement('div');
+      mobileFooterWrapper.innerHTML = switcherMarkup('triton-language-switcher--mobile') +
+        '<small class="triton-language-caption notranslate" translate="no">Español / English</small>';
+      mobileFooter.insertBefore(mobileFooterWrapper.firstChild, mobileFooter.firstChild);
+      mobileFooter.insertBefore(mobileFooterWrapper.firstChild, mobileFooter.children[1] || null);
+    }
+
+    if (!document.getElementById('google_translate_element')) {
+      var translateElement = document.createElement('div');
+      translateElement.id = 'google_translate_element';
+      translateElement.className = 'notranslate';
+      translateElement.setAttribute('translate', 'no');
+      document.body.appendChild(translateElement);
+    }
+  }
+
   function updateLanguageUI(language) {
+    injectLanguageInterface();
+
     var buttons = document.querySelectorAll('[data-triton-lang]');
 
     Array.prototype.forEach.call(buttons, function (button) {
@@ -174,7 +228,7 @@
     clearRefreshTimers();
 
     if (language === 'en') {
-      [50, 350, 900, 1800].forEach(function (delay) {
+      [50, 350, 900, 1800, 3500, 6000].forEach(function (delay) {
         refreshTimers.push(window.setTimeout(applyGoogleTranslation, delay));
       });
     }
@@ -206,16 +260,22 @@
     }
 
     var desired = browserLanguage();
-    var applied = safeSessionGet(AUTO_SESSION_KEY);
+    safeStorageSet(STORAGE_KEY, desired);
 
-    if (desired === 'en' && cookieLanguage() !== 'en' && applied !== 'en') {
-      safeSessionSet(AUTO_SESSION_KEY, 'en');
+    if (desired === 'en') {
+      var applied = safeSessionGet(AUTO_SESSION_KEY);
       writeTranslationCookie('en');
-      window.location.reload();
-      return;
+
+      if (cookieLanguage() !== 'en' && applied !== 'en') {
+        safeSessionSet(AUTO_SESSION_KEY, 'en');
+        window.location.reload();
+        return;
+      }
+    } else {
+      clearTranslationCookie();
     }
 
-    updateLanguageUI(desired === 'en' ? 'en' : 'es');
+    updateLanguageUI(desired);
   }
 
   function bindLanguageButtons() {
@@ -227,8 +287,76 @@
       }
 
       event.preventDefault();
+      event.stopPropagation();
       selectLanguage(button.getAttribute('data-triton-lang'), true);
     });
+  }
+
+  function forceFullNavigationInEnglish() {
+    document.addEventListener('click', function (event) {
+      if (currentLanguage() !== 'en' || event.defaultPrevented || event.button > 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+        return;
+      }
+
+      var anchor = event.target.closest ? event.target.closest('a[href]') : null;
+
+      if (!anchor || anchor.hasAttribute('download') || anchor.getAttribute('target') === '_blank' || anchor.closest('[data-triton-lang]')) {
+        return;
+      }
+
+      var href = anchor.getAttribute('href');
+      if (!href || href.charAt(0) === '#' || href.indexOf('mailto:') === 0 || href.indexOf('tel:') === 0 || href.indexOf('javascript:') === 0) {
+        return;
+      }
+
+      var destination;
+
+      try {
+        destination = new window.URL(anchor.href, window.location.href);
+      } catch (error) {
+        return;
+      }
+
+      if (destination.origin !== window.location.origin) {
+        return;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+      window.location.href = destination.href;
+    }, true);
+  }
+
+  function observeAngularViews() {
+    if (!window.MutationObserver || routeObserver) {
+      return;
+    }
+
+    var view = document.querySelector('.principalSection');
+    if (!view) {
+      return;
+    }
+
+    routeObserver = new window.MutationObserver(function () {
+      window.clearTimeout(observerTimer);
+      observerTimer = window.setTimeout(refresh, 450);
+    });
+
+    routeObserver.observe(view, { childList: true });
+  }
+
+  function loadGoogleTranslate() {
+    injectLanguageInterface();
+
+    if (document.getElementById('triton-google-translate-script')) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.id = 'triton-google-translate-script';
+    script.async = true;
+    script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    document.head.appendChild(script);
   }
 
   window.googleTranslateElementInit = function () {
@@ -255,14 +383,19 @@
   };
 
   bindLanguageButtons();
+  forceFullNavigationInEnglish();
+
+  function initialize() {
+    injectLanguageInterface();
+    autoDetectLanguage();
+    observeAngularViews();
+    loadGoogleTranslate();
+    refresh();
+  }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function () {
-      autoDetectLanguage();
-      refresh();
-    });
+    document.addEventListener('DOMContentLoaded', initialize);
   } else {
-    autoDetectLanguage();
-    refresh();
+    initialize();
   }
 })(window, document);
