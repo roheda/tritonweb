@@ -64,7 +64,6 @@ angular.module('detalleDesarrolloCtrl', ['desarrolloService', 'youtube-embed'])
                 var data = response.data || {};
 
                 angular.extend($scope.desarrollo, data);
-
                 $scope.desarrollo.descripcion = $sce.trustAsHtml(data.descripcion || '');
                 $scope.desarrollo.informacion_comercial = $sce.trustAsHtml(data.informacion_comercial || '');
                 $scope.desarrollo.esquema_pago = $sce.trustAsHtml(data.esquema_pago || '');
@@ -102,58 +101,62 @@ angular.module('detalleDesarrolloCtrl', ['desarrolloService', 'youtube-embed'])
 
         $scope.extractYoutubeId = function(video) {
             if (!video) return '';
-
             var match = video.match(/(?:youtube\.com\/(?:.*v=|embed\/)|youtu\.be\/)([^&#?/]+)/);
             return match && match[1] ? match[1] : video;
         };
 
         $scope.prepareMap = function(data) {
-            var rawUrl = String(data.mapa_url || '').trim();
+            var originalValue = String(data.mapa_url || '').trim();
+            var rawUrl = originalValue;
             var embedUrl = '';
-            var externalUrl = rawUrl;
+            var externalUrl = '';
             var iframeMatch;
             var coordinateMatch;
-            var locationQuery;
+            var locationQuery = data.direccion || data.ubicacion_completa || [data.zona, data.ciudad, data.estado]
+                .filter(function(value) { return !!value; })
+                .join(', ') || data.ubicacion || '';
 
-            // También acepta que desde el administrador se pegue el iframe completo.
             if (rawUrl.indexOf('<iframe') !== -1) {
                 iframeMatch = rawUrl.match(/src=["']([^"']+)["']/i);
                 rawUrl = iframeMatch && iframeMatch[1] ? iframeMatch[1] : '';
-                externalUrl = rawUrl;
             }
 
-            // La URL de inserción de Google Maps se utiliza directamente.
-            if (/google\.[^/]+\/maps\/embed/i.test(rawUrl) || /google\.com\/maps\/embed/i.test(rawUrl)) {
-                embedUrl = rawUrl;
-            }
-
-            // Si el enlace contiene coordenadas, se crea un iframe compatible.
-            if (!embedUrl && rawUrl) {
+            if (rawUrl) {
                 coordinateMatch = rawUrl.match(/@(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/);
-
                 if (!coordinateMatch) {
                     coordinateMatch = rawUrl.match(/[?&](?:q|query)=(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/i);
                 }
 
                 if (coordinateMatch) {
                     locationQuery = coordinateMatch[1] + ',' + coordinateMatch[2];
-                    embedUrl = 'https://www.google.com/maps?q=' + encodeURIComponent(locationQuery) + '&output=embed';
                 }
             }
 
-            // Para enlaces cortos o enlaces normales se usa la dirección capturada.
-            if (!embedUrl) {
-                locationQuery = data.direccion || data.ubicacion_completa || [data.zona, data.ciudad, data.estado]
-                    .filter(function(value) { return !!value; })
-                    .join(', ') || data.ubicacion || '';
+            if (/google\.[^/]+\/maps\/embed/i.test(rawUrl) || /google\.com\/maps\/embed/i.test(rawUrl)) {
+                embedUrl = rawUrl;
+                externalUrl = locationQuery
+                    ? 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(locationQuery)
+                    : 'https://www.google.com/maps';
+            } else {
+                externalUrl = rawUrl;
 
                 if (locationQuery) {
                     embedUrl = 'https://www.google.com/maps?q=' + encodeURIComponent(locationQuery) + '&output=embed';
                 }
             }
 
+            if (!embedUrl && locationQuery) {
+                embedUrl = 'https://www.google.com/maps?q=' + encodeURIComponent(locationQuery) + '&output=embed';
+            }
+
             if (!externalUrl && locationQuery) {
                 externalUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(locationQuery);
+            }
+
+            if (/\/maps\/embed/i.test(externalUrl)) {
+                externalUrl = locationQuery
+                    ? 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(locationQuery)
+                    : 'https://www.google.com/maps';
             }
 
             $scope.mapExternalUrl = externalUrl;
@@ -166,6 +169,7 @@ angular.module('detalleDesarrolloCtrl', ['desarrolloService', 'youtube-embed'])
             Desarrollo.getGaleria(idDesarrollo).then(function successCallback(response) {
                 if (response.data && response.data.id !== undefined) {
                     $scope.galeria = response.data;
+                    $scope.galeria.imagenes = response.data.imagenes || [];
                 }
             }, function errorCallback(error) {
                 console.log(error);
