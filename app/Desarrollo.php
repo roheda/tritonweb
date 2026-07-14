@@ -33,6 +33,7 @@ class Desarrollo extends Model
         'ciudad',
         'direccion',
         'mapa_url',
+        'mapa_boton_url',
         'informacion_comercial',
         'esquema_pago',
         'disponibilidad_texto',
