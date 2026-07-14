@@ -20,6 +20,7 @@
         .desarrollo-editor-v2 .dev-switch { padding:10px 0 0; }
         .desarrollo-editor-v2 md-tabs-wrapper { background:#fff; }
         .desarrollo-editor-v2 .dev-actions { position:sticky; bottom:0; background:#fff; border-top:1px solid #ddd; }
+        .desarrollo-editor-v2 .dev-code-example { display:block; margin-top:7px; padding:9px 10px; background:#efeeee; border-radius:3px; color:#575252; font-size:11px; overflow-wrap:anywhere; }
         @media (max-width: 760px) {
             .desarrollo-editor-v2 { width:98vw; }
             .desarrollo-editor-v2 .dev-grid,
@@ -143,6 +144,9 @@
 
                 <md-tab label="Ubicación">
                     <div class="dev-tab">
+                        <div class="dev-help">
+                            Usa dos enlaces distintos: uno exclusivo para mostrar el mapa dentro de la página y otro para abrir Google Maps desde el botón.
+                        </div>
                         <div class="dev-grid">
                             <div class="dev-field">
                                 <label for="zona">Zona o colonia</label>
@@ -161,8 +165,16 @@
                                 <textarea id="ubicacion" rows="4" ng-model="objectDesarrollo.ubicacion" placeholder="Explica conectividad, vialidades, servicios y puntos cercanos."></textarea>
                             </div>
                             <div class="dev-field dev-field-full">
-                                <label for="mapa_url">URL para mapa</label>
-                                <input id="mapa_url" type="url" ng-model="objectDesarrollo.mapa_url" placeholder="URL de Google Maps o enlace de ubicación">
+                                <label for="mapa_url">URL del mapa dentro de la página (iframe / embed)</label>
+                                <input id="mapa_url" type="text" ng-model="objectDesarrollo.mapa_url" placeholder="https://www.google.com/maps?q=...&output=embed">
+                                <small>Pega únicamente la URL de inserción o el código iframe completo.</small>
+                                <code class="dev-code-example">https://www.google.com/maps?q=21.018000,-89.585000&amp;output=embed</code>
+                            </div>
+                            <div class="dev-field dev-field-full">
+                                <label for="mapa_boton_url">URL del botón “Abrir en Google Maps”</label>
+                                <input id="mapa_boton_url" type="text" ng-model="objectDesarrollo.mapa_boton_url" placeholder="https://www.google.com/maps/search/?api=1&query=...">
+                                <small>Esta URL se abre fuera del iframe, en la app o en el sitio de Google Maps.</small>
+                                <code class="dev-code-example">https://www.google.com/maps/search/?api=1&amp;query=21.018000,-89.585000</code>
                             </div>
                         </div>
                     </div>
