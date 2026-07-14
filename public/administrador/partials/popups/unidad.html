@@ -1,87 +1,104 @@
-<md-dialog class="modal" id="directorio">
-	<form ng-cloak>
+<md-dialog class="modal unidad-editor-v2" id="unidad">
+    <style>
+        .unidad-editor-v2,
+        .unidad-editor-v2 * { font-family:'XXII Geom','RegularQanelas',Arial,sans-serif !important; }
+        .unidad-editor-v2 { width:92vw; max-width:820px; }
+        .unidad-editor-v2 .ue-content { padding:24px; }
+        .unidad-editor-v2 .ue-help { padding:13px 15px; margin-bottom:20px; border-left:4px solid #F9AF1B; background:#fff8e9; color:#6E6969; line-height:1.45; }
+        .unidad-editor-v2 .ue-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:17px 20px; }
+        .unidad-editor-v2 .ue-full { grid-column:1 / -1; }
+        .unidad-editor-v2 .ue-field label { display:block; margin-bottom:7px; color:#6E6969; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; }
+        .unidad-editor-v2 .ue-field input,
+        .unidad-editor-v2 .ue-field select,
+        .unidad-editor-v2 .ue-field textarea { width:100%; box-sizing:border-box; padding:11px 12px; border:1px solid #d7d2d2; border-radius:4px; background:#fff; color:#6E6969; }
+        .unidad-editor-v2 .ue-field textarea { min-height:80px; resize:vertical; }
+        .unidad-editor-v2 .ue-field small { display:block; margin-top:5px; color:#8e8989; line-height:1.4; }
+        .unidad-editor-v2 .ue-optional { margin-top:22px; padding-top:20px; border-top:1px solid #e1dddd; }
+        .unidad-editor-v2 .ue-optional summary { color:#6E6969; font-weight:700; cursor:pointer; }
+        .unidad-editor-v2 .ue-file { padding:14px; border:1px dashed #cac5c5; border-radius:4px; background:#fafafa; }
+        .unidad-editor-v2 .ue-file a { display:inline-block; margin-top:8px; color:#6E6969; font-weight:700; text-decoration:underline !important; }
+        .unidad-editor-v2 .ue-actions { padding:12px 20px; border-top:1px solid #ddd; }
+        @media(max-width:680px) {
+            .unidad-editor-v2 { width:98vw; }
+            .unidad-editor-v2 .ue-grid { grid-template-columns:1fr; }
+            .unidad-editor-v2 .ue-full { grid-column:auto; }
+        }
+    </style>
+
+    <form ng-cloak>
         <md-toolbar class="modal-toolbar">
             <div class="md-toolbar-tools">
-                <h2 style="color: #fff;">Directorio</h2>
+                <h2 style="color:#fff;">{{ updating ? 'Editar' : 'Agregar' }} {{ isRent ? 'espacio o local' : 'unidad' }}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()" aria-label="Cerrar">×</md-button>
             </div>
         </md-toolbar>
-        <md-dialog-content class="p">
-            <div class="md-dialog-content">
-			    <div layout-wrap layout="row">
-					<div flex="100" layout-padding class="title_modal">
-						<small>Llena todos los campos. <span class="small">(Campos obligatorios * )</span></small>
-					</div>
-			    </div>
-			    <div class="scrollview" dx-scroll-view="{ direction: 'vertical' }">
-					<div layout-wrap layout="row" layout-align="center stretch">
-						<div flex="50">
-							<div layout-wrap layout="row" layout-align="center center">
-								<div flex="50" layout-padding>
-									  <label class="label" for="clave">Clave *</label><br/>
-									  <input class="input" id="clave" type="text" name="clave" ng-model="objectUnidad.clave">
-								</div>
-								<div flex="50" layout-padding>
-									<label class="label" for="descripcion" style="width: 100%;">Descripción *</label><br/>
-									<input class="input" id="descripcion" type="text" name="descripcion" ng-model="objectUnidad.descripcion">
-								</div>
-								<div flex="50" layout-padding>
-									<label class="label" for="tipo">Tipo *</label><br/>
-									<input class="input" id="tipo" type="text" name="tipo" ng-model="objectUnidad.tipo">
-									<!-- <select class="input" data-ng-model="objectUnidad.tipo" data-ng-options="o.value as o.text for o in tipos"></select> -->
-								</div>
-								<div flex="50" layout-padding>
-									<label class="label" for="equipamiento" style="width: 100%;">Equipamiento</label><br/>
-									<input class="input" id="equipamiento" type="text" name="equipamiento" ng-model="objectUnidad.equipamiento">
-								</div>
-								<div flex="50" layout-padding>
-									<label class="label" for="terreno" style="width: 100%;">Terreno (m2) *</label><br/>
-									<input class="input" id="terreno" type="number" name="terreno" ng-model="objectUnidad.terreno">
-								</div>
-								<div flex="50" layout-padding>
-									<label class="label" for="construccion" style="width: 100%;">Construcción (m2) *</label><br/>
-									<input class="input" id="construccion" type="number" name="construccion" ng-model="objectUnidad.construccion">
-								</div>
-								<div flex="50" layout-padding>
-									<label class="label" for="estatus">Estatus *</label><br/>
-									<select class="input" data-ng-model="objectUnidad.estatus" data-ng-options="o.value as o.text for o in disponible"></select>
-								</div>
-								<div flex="50" layout-padding>
-									<label class="label" for="precio" style="width: 100%;">Precio *</label><br/>
-									<input class="input" id="precio" type="number" name="precio" ng-model="objectUnidad.precio">
-							  	</div>
-							  	<div flex="100" layout-padding>
-									<label class="label" for="idEstado">Brochure *</label><br/>
-									<input class="input-file" ng-file-select="onFilePDFSelect($files)" type="file" style="width: 100%;">
-									<md-progress-circular md-mode="indeterminate" class="md-hue-2" ng-show="loadingBrochure"></md-progress-circular>
-								</div>
-								<div flex="100" layout-padding ng-if="brochure != ''">
-									<a href="{{brochure}}" target="_blank"><img src="../administrador/images/iconos/pdf.png" alt="" width="30px"></a>
-								</div>
-				            </div>
-						</div>
-						<div flex="50">
-							<div layout-wrap layout="row">
-								<div flex="100" layout-padding>
-									<label class="label">Fotografía</label><br/>
-									<div class="image-cont">
-										<div id="img" class="contImage p">
-											<img ng-src="{{imagen}}" style="width: 100%">
-										</div>
-										<md-progress-circular md-mode="indeterminate" class="md-hue-2" ng-show="loading"></md-progress-circular>
-									</div>
-									<span><small class="medidasRecomendadas">Medidas recomendadas: 1422 x 637px</small></span>
-									<input class="input-file" ng-file-select="onFileSelect($files)" type="file">
-								</div>
-							</div>
-						</div>
-					</div>
-			    </div>
-			</div>
+
+        <md-dialog-content>
+            <div class="ue-content">
+                <div class="ue-help">
+                    Captura únicamente la información necesaria para mantener la disponibilidad y el precio actualizados. La imagen y el brochure son opcionales.
+                </div>
+
+                <div class="ue-grid">
+                    <div class="ue-field">
+                        <label for="unidad-clave">Clave *</label>
+                        <input id="unidad-clave" type="text" ng-model="objectUnidad.clave" placeholder="Ej. TH-15 o Local 13">
+                    </div>
+                    <div class="ue-field">
+                        <label for="unidad-tipo">Tipo *</label>
+                        <input id="unidad-tipo" type="text" ng-model="objectUnidad.tipo" placeholder="Casa, townhouse, departamento, local...">
+                    </div>
+                    <div class="ue-field">
+                        <label for="unidad-estatus">Disponibilidad *</label>
+                        <select id="unidad-estatus" ng-model="objectUnidad.estatus" ng-options="option.value as option.text for option in statuses"></select>
+                    </div>
+                    <div class="ue-field">
+                        <label for="unidad-precio">{{ isRent ? 'Renta mensual' : 'Precio' }}</label>
+                        <input id="unidad-precio" type="number" min="0" step="0.01" ng-model="objectUnidad.precio" placeholder="0.00">
+                    </div>
+                    <div class="ue-field">
+                        <label for="unidad-construccion">Superficie construida o rentable (m²)</label>
+                        <input id="unidad-construccion" type="number" min="0" step="0.01" ng-model="objectUnidad.construccion" placeholder="0.00">
+                    </div>
+                    <div class="ue-field">
+                        <label for="unidad-terreno">Terreno (m²)</label>
+                        <input id="unidad-terreno" type="number" min="0" step="0.01" ng-model="objectUnidad.terreno" placeholder="0.00">
+                    </div>
+                    <div class="ue-field ue-full">
+                        <label for="unidad-descripcion">Descripción breve</label>
+                        <textarea id="unidad-descripcion" ng-model="objectUnidad.descripcion" placeholder="Ej. 3 recámaras, entrega inmediata o ubicación dentro de la plaza."></textarea>
+                    </div>
+                </div>
+
+                <details class="ue-optional">
+                    <summary>Información opcional</summary>
+                    <div class="ue-grid" style="margin-top:18px;">
+                        <div class="ue-field ue-full">
+                            <label for="unidad-equipamiento">Equipamiento o características</label>
+                            <textarea id="unidad-equipamiento" ng-model="objectUnidad.equipamiento" placeholder="Incluye características especiales, mantenimiento o notas comerciales."></textarea>
+                        </div>
+                        <div class="ue-file">
+                            <label>Brochure individual</label>
+                            <input type="file" accept="application/pdf" ng-file-select="onFilePDFSelect($files)">
+                            <md-progress-circular md-mode="indeterminate" ng-show="loadingBrochure"></md-progress-circular>
+                            <a ng-if="objectUnidad.brochure" href="{{ objectUnidad.brochure }}" target="_blank" rel="noopener">Ver brochure actual</a>
+                        </div>
+                        <div class="ue-file">
+                            <label>Imagen individual</label>
+                            <input type="file" accept="image/*" ng-file-select="onFileSelect($files)">
+                            <md-progress-circular md-mode="indeterminate" ng-show="loading"></md-progress-circular>
+                            <img ng-if="objectUnidad.imagen" ng-src="{{ objectUnidad.imagen }}" alt="Vista previa" style="display:block;max-width:150px;max-height:90px;margin-top:8px;object-fit:cover;">
+                        </div>
+                    </div>
+                </details>
+            </div>
         </md-dialog-content>
-        <md-dialog-actions class="p" layout="row" layout-align="end center" style="order: 2;">
-			<md-button ng-disabled="disabled" class="md-raised button new" ng-if="!updating" ng-click="save(objectUnidad)">Guardar</md-button>
-			<md-button ng-disabled="disabled" class="md-raised button new" ng-if="updating" ng-click="update(objectUnidad)">Editar</md-button>
-			<md-button class="md-raised button md-warn" ng-click="cancel()">Cancelar</md-button>
-		</md-dialog-actions>
+
+        <md-dialog-actions class="ue-actions" layout="row" layout-align="end center">
+            <md-button ng-disabled="disabled" class="md-raised button new" ng-if="!updating" ng-click="save()">Guardar</md-button>
+            <md-button ng-disabled="disabled" class="md-raised button new" ng-if="updating" ng-click="update()">Guardar cambios</md-button>
+            <md-button class="md-raised button md-warn" ng-click="cancel()">Cancelar</md-button>
+        </md-dialog-actions>
     </form>
 </md-dialog>
