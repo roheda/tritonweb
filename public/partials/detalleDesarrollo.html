@@ -267,8 +267,8 @@
             <h2 id="ubicacion-title">{{ desarrollo.ubicacion_completa || desarrollo.nombre }}</h2>
             <p ng-if="desarrollo.direccion"><strong>{{ desarrollo.direccion }}</strong></p>
             <p class="tp-lead" ng-if="desarrollo.ubicacion">{{ desarrollo.ubicacion }}</p>
-            <div class="tdd-location-actions" ng-if="mapExternalUrl">
-              <a class="tp-btn tp-btn-primary" href="{{ mapExternalUrl }}" target="_blank" rel="noopener">Abrir en Google Maps</a>
+            <div class="tdd-location-actions" ng-if="desarrollo.mapa_boton_url || mapExternalUrl">
+              <a class="tp-btn tp-btn-primary" ng-href="{{ desarrollo.mapa_boton_url || mapExternalUrl }}" target="_blank" rel="noopener">Abrir en Google Maps</a>
             </div>
           </div>
 
@@ -277,7 +277,7 @@
                     title="Mapa de {{ desarrollo.nombre }}"
                     loading="lazy"
                     allowfullscreen
-                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    referrerpolicy="strict-origin-when-cross-origin"></iframe>
           </div>
         </div>
       </div>
