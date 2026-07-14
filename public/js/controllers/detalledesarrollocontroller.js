@@ -1,6 +1,13 @@
 angular.module('detalleDesarrolloCtrl', ['desarrolloService', 'youtube-embed'])
-.controller('detalleDesarrolloController', ['$scope', '$rootScope', '$routeParams', '$location', 'Desarrollo', '$mdDialog', '$mdToast', '$sce',
-    function($scope, $rootScope, $routeParams, $location, Desarrollo, $mdDialog, $mdToast, $sce) {
+.controller('detalleDesarrolloController', ['$scope', '$rootScope', '$routeParams', '$location', 'Desarrollo', '$mdDialog', '$mdToast', '$sce', '$timeout',
+    function($scope, $rootScope, $routeParams, $location, Desarrollo, $mdDialog, $mdToast, $sce, $timeout) {
+
+        var galleryTrack = null;
+        var galleryScrollHandler = null;
+        var galleryScrollTimer = null;
+        var galleryIdleRequest = null;
+        var svgObserver = null;
+        var videoObserver = null;
 
         $scope.detailFrame = undefined;
         $scope.mapFrame = null;
@@ -8,6 +15,11 @@ angular.module('detalleDesarrolloCtrl', ['desarrolloService', 'youtube-embed'])
         $scope.playerVars = { autoplay: 0 };
         $scope.unidades = [];
         $scope.unidadesDisponibles = [];
+        $scope.galleryLoading = false;
+        $scope.galleryHasMore = false;
+        $scope.galeriaVisible = [];
+        $scope.galleryBatchSize = window.innerWidth <= 680 ? 3 : 6;
+        $scope.videoReady = false;
 
         $scope.desarrollo = {
             id: null,
@@ -18,6 +30,7 @@ angular.module('detalleDesarrolloCtrl', ['desarrolloService', 'youtube-embed'])
             descripcion_corta: '',
             brochure: '',
             imagen: '',
+            imagen_optimizada: '',
             logo: '',
             svg: '',
             slug: '',
@@ -59,9 +72,40 @@ angular.module('detalleDesarrolloCtrl', ['desarrolloService', 'youtube-embed'])
             estatus: 1
         };
 
+        $scope.optimizedImageUrl = function(path, width, quality) {
+            if (!path) return '';
+
+            var value = String(path).trim();
+
+            if (!value || /^https?:\/\//i.test(value) || /^data:/i.test(value) || /\.svg(?:\?|$)/i.test(value)) {
+                return value;
+            }
+
+            value = value.replace(/\\/g, '/').replace(/^\.\//, '').replace(/^\/+/, '');
+
+            return '/optimized-image?src=' + encodeURIComponent(value) +
+                '&w=' + encodeURIComponent(width || 800) +
+                '&q=' + encodeURIComponent(quality || 78);
+        };
+
+        $scope.notifyLanguageUpdate = function() {
+            if (window.TritonLanguage && typeof window.TritonLanguage.refresh === 'function') {
+                $timeout(function() {
+                    window.TritonLanguage.refresh();
+                }, 0, false);
+            }
+        };
+
         $scope.getDesarrollo = function() {
             Desarrollo.getDesarrollo($routeParams.detalle).then(function successCallback(response) {
                 var data = response.data || {};
+                var amenities = Array.isArray(data.amenidades) ? data.amenidades : [];
+
+                data.imagen_optimizada = $scope.optimizedImageUrl(data.imagen, 1280, 82);
+                data.amenidades = amenities.map(function(item) {
+                    item.ruta_optimizada = $scope.optimizedImageUrl(item.ruta, 480, 76);
+                    return item;
+                });
 
                 angular.extend($scope.desarrollo, data);
                 $scope.desarrollo.descripcion = $sce.trustAsHtml(data.descripcion || '');
@@ -72,7 +116,7 @@ angular.module('detalleDesarrolloCtrl', ['desarrolloService', 'youtube-embed'])
                 $scope.desarrollo.svg = data.svg || '';
                 $scope.desarrollo.brochure = data.brochure || '';
                 $scope.desarrollo.mapa_url = data.mapa_url || '';
-                $scope.desarrollo.amenidades = data.amenidades || [];
+                $scope.desarrollo.amenidades = data.amenidades;
 
                 $scope.prepareMap(data);
                 $scope.desarrollo.video = $scope.extractYoutubeId(data.video);
@@ -84,10 +128,15 @@ angular.module('detalleDesarrolloCtrl', ['desarrolloService', 'youtube-embed'])
                 }
 
                 if ($scope.desarrollo.svg) {
-                    $scope.renderSvg($scope.desarrollo.svg);
+                    $scope.scheduleSvgRender($scope.desarrollo.svg);
                 }
 
-                $scope.getGaleria(data.id);
+                if ($scope.desarrollo.video) {
+                    $scope.scheduleVideoLoad();
+                }
+
+                $scope.deferGalleryLoad(data.id);
+                $scope.notifyLanguageUpdate();
             }, function errorCallback(error) {
                 console.log(error);
                 $mdToast.show(
@@ -163,32 +212,109 @@ angular.module('detalleDesarrolloCtrl', ['desarrolloService', 'youtube-embed'])
             $scope.mapFrame = embedUrl ? $sce.trustAsResourceUrl(embedUrl) : null;
         };
 
+        $scope.deferGalleryLoad = function(idDesarrollo) {
+            if (!idDesarrollo) return;
+
+            $scope.galleryLoading = true;
+
+            var load = function() {
+                $scope.$evalAsync(function() {
+                    $scope.getGaleria(idDesarrollo);
+                });
+            };
+
+            if (typeof window.requestIdleCallback === 'function') {
+                galleryIdleRequest = window.requestIdleCallback(load, { timeout: 700 });
+            } else {
+                galleryIdleRequest = $timeout(load, 140, false);
+            }
+        };
+
         $scope.getGaleria = function(idDesarrollo) {
             if (!idDesarrollo) return;
 
             Desarrollo.getGaleria(idDesarrollo).then(function successCallback(response) {
+                var images = [];
+
                 if (response.data && response.data.id !== undefined) {
                     $scope.galeria = response.data;
-                    $scope.galeria.imagenes = response.data.imagenes || [];
+                    images = Array.isArray(response.data.imagenes) ? response.data.imagenes : [];
+                    images = images.map(function(item) {
+                        item.thumb_ruta = $scope.optimizedImageUrl(item.ruta, 720, 76);
+                        item.modal_ruta = $scope.optimizedImageUrl(item.ruta, 1600, 84);
+                        return item;
+                    });
+                    $scope.galeria.imagenes = images;
                 }
+
+                $scope.galeriaVisible = images.slice(0, $scope.galleryBatchSize);
+                $scope.galleryHasMore = $scope.galeriaVisible.length < images.length;
+                $scope.galleryLoading = false;
+                $scope.bindGalleryProgressiveLoad();
+                $scope.notifyLanguageUpdate();
             }, function errorCallback(error) {
                 console.log(error);
+                $scope.galleryLoading = false;
             });
         };
 
+        $scope.loadMoreGallery = function() {
+            var allImages = $scope.galeria.imagenes || [];
+            var start = $scope.galeriaVisible.length;
+            var nextImages = allImages.slice(start, start + $scope.galleryBatchSize);
+
+            if (!nextImages.length) {
+                $scope.galleryHasMore = false;
+                return false;
+            }
+
+            Array.prototype.push.apply($scope.galeriaVisible, nextImages);
+            $scope.galleryHasMore = $scope.galeriaVisible.length < allImages.length;
+            return true;
+        };
+
+        $scope.bindGalleryProgressiveLoad = function() {
+            $timeout(function() {
+                galleryTrack = document.getElementById('tdd-gallery-track');
+
+                if (!galleryTrack || galleryScrollHandler) return;
+
+                galleryScrollHandler = function() {
+                    window.clearTimeout(galleryScrollTimer);
+                    galleryScrollTimer = window.setTimeout(function() {
+                        var remaining = galleryTrack.scrollWidth - galleryTrack.scrollLeft - galleryTrack.clientWidth;
+
+                        if (remaining < galleryTrack.clientWidth * 0.75 && $scope.galleryHasMore) {
+                            $scope.$applyAsync(function() {
+                                $scope.loadMoreGallery();
+                            });
+                        }
+                    }, 90);
+                };
+
+                galleryTrack.addEventListener('scroll', galleryScrollHandler, { passive: true });
+            }, 0, false);
+        };
+
         $scope.scrollGallery = function(direction) {
-            var track = document.getElementById('tdd-gallery-track');
             var amount;
 
-            if (!track) return;
+            galleryTrack = galleryTrack || document.getElementById('tdd-gallery-track');
+            if (!galleryTrack) return;
 
-            amount = Math.max(Math.round(track.clientWidth * 0.82), 280) * direction;
-
-            if (typeof track.scrollBy === 'function') {
-                track.scrollBy({ left: amount, behavior: 'smooth' });
-            } else {
-                track.scrollLeft += amount;
+            if (direction > 0 && $scope.galleryHasMore) {
+                $scope.loadMoreGallery();
             }
+
+            $timeout(function() {
+                amount = Math.max(Math.round(galleryTrack.clientWidth * 0.82), 280) * direction;
+
+                if (typeof galleryTrack.scrollBy === 'function') {
+                    galleryTrack.scrollBy({ left: amount, behavior: 'smooth' });
+                } else {
+                    galleryTrack.scrollLeft += amount;
+                }
+            }, 0, false);
         };
 
         $scope.getUnidades = function(idDesarrollo) {
@@ -196,6 +322,7 @@ angular.module('detalleDesarrolloCtrl', ['desarrolloService', 'youtube-embed'])
 
             Desarrollo.getUnidades(idDesarrollo).then(function successCallback(response) {
                 $scope.setUnits(response.data || []);
+                $scope.notifyLanguageUpdate();
             }, function errorCallback(error) {
                 console.log(error);
             });
@@ -215,22 +342,78 @@ angular.module('detalleDesarrolloCtrl', ['desarrolloService', 'youtube-embed'])
                 $scope.desarrollo.unidades_disponibles = $scope.unidadesDisponibles.length;
             }
 
-            if ($scope.desarrollo.svg) {
-                setTimeout(function() {
+            if ($scope.desarrollo.svg && $scope.detailFrame) {
+                $timeout(function() {
                     $scope.addSvgAttributes();
-                }, 500);
+                }, 500, false);
             }
+        };
+
+        $scope.scheduleSvgRender = function(svg) {
+            $timeout(function() {
+                var container = document.getElementById('contSVG');
+
+                if (!container) return;
+
+                if (typeof window.IntersectionObserver !== 'function') {
+                    $scope.renderSvg(svg);
+                    return;
+                }
+
+                svgObserver = new window.IntersectionObserver(function(entries) {
+                    if (!entries[0] || !entries[0].isIntersecting) return;
+                    svgObserver.disconnect();
+                    svgObserver = null;
+                    $scope.$evalAsync(function() {
+                        $scope.renderSvg(svg);
+                    });
+                }, { rootMargin: '320px 0px' });
+
+                svgObserver.observe(container);
+            }, 0, false);
         };
 
         $scope.renderSvg = function(svg) {
             $scope.detailFrame = $sce.trustAsResourceUrl(svg);
 
-            setTimeout(function() {
+            $timeout(function() {
                 var container = document.getElementById('contSVG');
                 if (container) {
+                    container.classList.add('is-loaded');
                     container.innerHTML = "<object name='iframe1' id='iframe1' data='" + svg + "' width='100%'></object>";
+
+                    var object = document.getElementById('iframe1');
+                    if (object) {
+                        object.addEventListener('load', function() {
+                            $scope.addSvgAttributes();
+                        });
+                    }
                 }
-            }, 0);
+            }, 0, false);
+        };
+
+        $scope.scheduleVideoLoad = function() {
+            $timeout(function() {
+                var container = document.getElementById('tdd-video-lazy');
+
+                if (!container) return;
+
+                if (typeof window.IntersectionObserver !== 'function') {
+                    $scope.videoReady = true;
+                    return;
+                }
+
+                videoObserver = new window.IntersectionObserver(function(entries) {
+                    if (!entries[0] || !entries[0].isIntersecting) return;
+                    videoObserver.disconnect();
+                    videoObserver = null;
+                    $scope.$evalAsync(function() {
+                        $scope.videoReady = true;
+                    });
+                }, { rootMargin: '300px 0px' });
+
+                videoObserver.observe(container);
+            }, 0, false);
         };
 
         $scope.addSvgAttributes = function() {
@@ -317,15 +500,63 @@ angular.module('detalleDesarrolloCtrl', ['desarrolloService', 'youtube-embed'])
             window.history.back();
         };
 
+        $scope.$on('$destroy', function() {
+            if (galleryTrack && galleryScrollHandler) {
+                galleryTrack.removeEventListener('scroll', galleryScrollHandler);
+            }
+
+            if (typeof window.cancelIdleCallback === 'function' && galleryIdleRequest && typeof galleryIdleRequest === 'number') {
+                window.cancelIdleCallback(galleryIdleRequest);
+            } else if (galleryIdleRequest) {
+                $timeout.cancel(galleryIdleRequest);
+            }
+
+            if (svgObserver) svgObserver.disconnect();
+            if (videoObserver) videoObserver.disconnect();
+            window.clearTimeout(galleryScrollTimer);
+        });
+
         $scope.getDesarrollo();
 
         function unidadController($scope, $mdDialog, datos) {
             $scope.unidad = datos;
+            $scope.close = function() {
+                $mdDialog.cancel();
+            };
         }
 
         function imagenController($scope, $mdDialog, data, index) {
-            $scope.index = index;
-            $scope.images = data;
+            $scope.images = data || [];
+            $scope.index = Math.max(0, Math.min(index || 0, Math.max($scope.images.length - 1, 0)));
+            $scope.currentImage = $scope.images[$scope.index] || {};
+
+            $scope.close = function() {
+                $mdDialog.cancel();
+            };
+
+            $scope.move = function(direction) {
+                if (!$scope.images.length) return;
+
+                $scope.index = ($scope.index + direction + $scope.images.length) % $scope.images.length;
+                $scope.currentImage = $scope.images[$scope.index];
+                preloadAdjacent();
+            };
+
+            function preloadAdjacent() {
+                if ($scope.images.length < 2) return;
+
+                var nextIndex = ($scope.index + 1) % $scope.images.length;
+                var previousIndex = ($scope.index - 1 + $scope.images.length) % $scope.images.length;
+
+                [nextIndex, previousIndex].forEach(function(itemIndex) {
+                    var item = $scope.images[itemIndex];
+                    if (!item) return;
+                    var image = new Image();
+                    image.src = item.modal_ruta || item.ruta;
+                });
+            }
+
+            preloadAdjacent();
         }
     }
 ]);

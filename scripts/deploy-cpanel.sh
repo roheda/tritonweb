@@ -7,15 +7,23 @@ TIMESTAMP="$(date +%Y%m%d-%H%M%S)"
 BACKUP_PATH="$BACKUP_ROOT/tritonweb-$TIMESTAMP"
 
 FILES_TO_BACKUP=(
+  ".htaccess"
+  "public/.htaccess"
   "app/Desarrollo.php"
   "app/Http/Controllers/DesarrollosController.php"
+  "app/Http/Controllers/FileController.php"
   "routes/web.php"
   "public/administrador/js/services/desarrollosService.js"
   "public/administrador/partials/desarrollos.html"
   "public/administrador/partials/popups/desarrollo.html"
+  "public/css/triton-language.css"
+  "public/js/app.js"
+  "public/js/triton-language.js"
   "public/js/controllers/detalledesarrollocontroller.js"
+  "public/js/services/desarrolloservice.js"
   "public/partials/desarrollo.html"
   "public/partials/detalleDesarrollo.html"
+  "public/partials/modals/foto.html"
 )
 
 echo "==> Creando respaldo en $BACKUP_PATH"
