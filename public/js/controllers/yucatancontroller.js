@@ -2,73 +2,70 @@ angular.module('yucatanCtrl', ['notasService'])
 .controller('yucatanController', ['$scope', '$rootScope', '$filter', '$timeout', 'Nota', '$mdToast', '$sce', '$mdDialog',
 function($scope, $rootScope, $filter, $timeout, Nota, $mdToast, $sce, $mdDialog) {
 
-		$scope.notas     = [];
-		$scope.categoria = "Inicio";
+    $scope.notas = [];
+    $scope.categoria = 'Inicio';
+    $scope.loadingNotas = false;
 
-		$scope.categorias = [
-			{
-				id: 0,
-				titulo: 'Inicio',
-			},
-			{
-				id: 1,
-				titulo: 'Recomendaciones',
-			},
-			{
-				id: 2,
-				titulo: 'Estilo de vida',
-			},
-			{
-				id: 3,
-				titulo: 'Recientes',
-			},
-			{
-				id: 4,
-				titulo: 'Cerca de Mérida',
-			},
-			{
-				id: 5,
-				titulo: 'Ventas',
-			},
-		];
+    $scope.categorias = [
+        { id: 0, titulo: 'Inicio' },
+        { id: 1, titulo: 'Recomendaciones' },
+        { id: 2, titulo: 'Estilo de vida' },
+        { id: 3, titulo: 'Recientes' },
+        { id: 4, titulo: 'Cerca de Mérida' },
+        { id: 5, titulo: 'Ventas' }
+    ];
 
-		// Devuelve las notaa
-		$scope.getNotas = function() {
+    $scope.getNotas = function() {
+        $scope.loadingNotas = true;
 
-			Nota.get($scope.categoria).then(function successCallback(response) { 
+        Nota.get($scope.categoria).then(function successCallback(response) {
+            $scope.notas = [];
 
-				$scope.notas = [];
+            angular.forEach(response.data || [], function(item) {
+                item.descripcion = $sce.trustAsHtml(item.descripcion || '');
+                item.fecha = item.fecha ? new Date(item.fecha + 'T00:00:00') : new Date();
+                $scope.notas.push(item);
+            });
+        }, function errorCallback() {
+            $mdToast.show(
+                $mdToast.simple()
+                    .textContent('No fue posible cargar los artículos.')
+                    .position('bottom right')
+                    .hideDelay(4000)
+            );
+        }).finally(function() {
+            $scope.loadingNotas = false;
+        });
+    };
 
-				console.log(response.data);
+    $scope.selectCategoria = function(categoria) {
+        if ($scope.categoria === categoria && $scope.notas.length) {
+            return;
+        }
 
-				for (var i = 0; i < response.data.length; i++) {
-                    
-                    response.data[i].descripcion = $sce.trustAsHtml(response.data[i].descripcion);
-                    response.data[i].fecha       = new Date(response.data[i].fecha + "T00:00:00");
+        $scope.categoria = categoria;
+        $scope.getNotas();
+    };
 
-                    $scope.notas.push(response.data[i]);
-                }
-                
-			}, function errorCallback(error) { console.log(error); });
-	    };
-
-		// Devuelve las notaa
-		$scope.selectCategoria = function(categoria) {
-
-			$scope.categoria = categoria;
-			$scope.getNotas();	
-	    };
-
-		$scope.getNotas();	
-		
-	}
-])
+    $scope.getNotas();
+}])
 .filter('limitHtml', function() {
     return function(text, limit) {
+        var changedString = String(text || '')
+            .replace(/<[^>]+>/gm, ' ')
+            .replace(/&nbsp;|&#160;/gi, ' ')
+            .replace(/&[a-z0-9#]+;/gi, ' ')
+            .replace(/\s+/g, ' ')
+            .trim();
 
-        var changedString = String(text).replace(/<[^>]+>/gm, '');
-        var length = changedString.length;
+        if (!changedString) {
+            return '';
+        }
 
-        return changedString.length > limit ? changedString.substr(0, limit - 1) + "..." : changedString + "..."; 
-    }
-})
+        if (changedString.length <= limit) {
+            return changedString;
+        }
+
+        return changedString.substr(0, limit).replace(/\s+\S*$/, '') + '…';
+    };
+});
