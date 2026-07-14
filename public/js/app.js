@@ -43,6 +43,22 @@ angular.module('app', [
 				controller: 'detalleDesarrolloController',
 				templateUrl: 'partials/detalleDesarrollo.html'
 			})
+			.when('/proyectos-entregados', {
+				controller: 'desarrolloController',
+				templateUrl: 'partials/proyectos-entregados.html'
+			})
+			.when('/sello-triton', {
+				templateUrl: 'partials/sello-triton.html'
+			})
+			.when('/centro-comprador', {
+				templateUrl: 'partials/centro-comprador.html'
+			})
+			.when('/brokers', {
+				templateUrl: 'partials/brokers.html'
+			})
+			.when('/postventa', {
+				templateUrl: 'partials/postventa.html'
+			})
 			.when('/inversion', {
 				controller: 'inversionController',
 				templateUrl: 'partials/inversion.html'
@@ -55,7 +71,7 @@ angular.module('app', [
 				controller: 'contactoController',
 				templateUrl: 'partials/contacto.html'
 			})
-		.otherwise({ RedirecTo: '/' });
+		.otherwise({ redirectTo: '/' });
 	}
 ])
 
@@ -116,10 +132,8 @@ angular.module('app', [
 
                 if($window.innerWidth >= 1280)
 					elem.css({ 'height': winHeight + 'px' });
-
 				else if($window.innerWidth >= 960 && $window.innerWidth <= 1280)
 					elem.css({ 'height': (winHeight * 0.70) + 'px' });
-
 				else 
 					elem.css({ 'height': 'auto' });
             }
@@ -147,7 +161,6 @@ angular.module('app', [
 
                 if($window.innerWidth >= 1280)
 					elem.css({ 'height': winHeight + 'px' });
-
 				else 
 					elem.css({ 'height': 'auto' });
             }
@@ -200,7 +213,6 @@ angular.module('app', [
 
 					if($window.innerWidth >= 1280)
 						elem.css({ 'height': winHeight + 'px' });
-
 					else if($window.innerWidth >= 960 && $window.innerWidth <= 1280)
 						elem.css({ 'height': (winHeight * 0.70) + 'px' });
 
@@ -212,7 +224,6 @@ angular.module('app', [
 
 					if($window.innerWidth >= 1280)
 						elem.css({ 'height': winHeight + 'px' });
-
 					else 
 						elem.css({ 'height': 'auto' });
 				}
@@ -285,4 +296,3 @@ angular.module('app', [
 		}
 	};
 });
-	
