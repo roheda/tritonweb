@@ -36,8 +36,16 @@ if ! command -v rsync >/dev/null 2>&1; then
   exit 1
 fi
 
+# Apache necesita poder atravesar public_html y leer .htaccess.
+# No preservamos permisos del clon porque pueden ser más restrictivos.
+/bin/chmod 755 "$DEPLOYPATH"
+
 echo "==> Desplegando archivos a $DEPLOYPATH"
-/usr/bin/rsync -a \
+/usr/bin/rsync -rlt \
+  --no-perms \
+  --no-owner \
+  --no-group \
+  --omit-dir-times \
   --exclude='.git/' \
   --exclude='.github/' \
   --exclude='.env' \
@@ -56,6 +64,18 @@ echo "==> Desplegando archivos a $DEPLOYPATH"
   --exclude='database/sql/' \
   --exclude='DEPLOY*.md' \
   ./ "$DEPLOYPATH/"
+
+# Permisos web seguros después del despliegue.
+/bin/chmod 755 "$DEPLOYPATH"
+if [ -f "$DEPLOYPATH/.htaccess" ]; then
+  /bin/chmod 644 "$DEPLOYPATH/.htaccess"
+fi
+if [ -d "$DEPLOYPATH/public" ]; then
+  /bin/chmod 755 "$DEPLOYPATH/public"
+fi
+if [ -f "$DEPLOYPATH/public/.htaccess" ]; then
+  /bin/chmod 644 "$DEPLOYPATH/public/.htaccess"
+fi
 
 echo "==> Despliegue completado"
 echo "==> Respaldo: $BACKUP_PATH"
