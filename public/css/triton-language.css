@@ -1,0 +1,136 @@
+/* Selector global de idioma ES / EN */
+.triton-language-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  min-height: 38px;
+  padding: 3px;
+  border: 1px solid rgba(110, 105, 105, .22);
+  border-radius: 22px;
+  background: #fff;
+  white-space: nowrap;
+}
+
+.triton-language-switcher button {
+  min-width: 38px;
+  min-height: 30px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 18px;
+  background: transparent;
+  color: #6E6969;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, box-shadow .2s ease;
+}
+
+.triton-language-switcher button:hover,
+.triton-language-switcher button:focus-visible {
+  color: #F9AF1B;
+  outline: none;
+}
+
+.triton-language-switcher button.is-active {
+  background: #F9AF1B;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(249, 175, 27, .24);
+}
+
+.triton-language-switcher--mobile {
+  margin: 14px 0 4px;
+  width: fit-content;
+}
+
+.triton-language-caption {
+  display: block;
+  margin-top: 7px;
+  color: rgba(110, 105, 105, .76);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+/* El selector nativo se mantiene en el DOM para activar la traducción,
+   pero la interfaz visible es el control personalizado de Triton. */
+#google_translate_element,
+.goog-te-gadget,
+.goog-te-gadget-simple,
+.goog-logo-link,
+.goog-te-combo {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.goog-te-banner-frame,
+.goog-te-banner-frame.skiptranslate,
+iframe.goog-te-banner-frame,
+.skiptranslate > iframe {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+body {
+  top: 0 !important;
+}
+
+html.translated-ltr,
+html.translated-rtl {
+  margin-top: 0 !important;
+}
+
+.triton-site-header,
+.triton-language-switcher,
+.triton-brand-link,
+.triton-mobile-logo,
+.triton-mobile-nav-logo,
+.triton-wa-brand {
+  translate: no;
+}
+
+@media (max-width: 1280px) {
+  .triton-navigation-group {
+    gap: 16px;
+  }
+
+  .triton-language-switcher button {
+    min-width: 34px;
+    padding: 0 8px;
+  }
+}
+
+@media (max-width: 959px) {
+  .triton-language-switcher--header {
+    min-height: 36px;
+  }
+
+  .triton-language-switcher--header button {
+    min-width: 34px;
+    min-height: 28px;
+    padding: 0 8px;
+  }
+}
+
+@media (max-width: 430px) {
+  .triton-language-switcher--header {
+    gap: 1px;
+    padding: 2px;
+  }
+
+  .triton-language-switcher--header button {
+    min-width: 31px;
+    padding: 0 6px;
+    font-size: 11px;
+  }
+}
