@@ -3,6 +3,20 @@
     AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript application/javascript application/json application/xml image/svg+xml
 </IfModule>
 
+# Caché larga únicamente para recursos que rara vez cambian.
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpeg "access plus 30 days"
+    ExpiresByType image/png "access plus 30 days"
+    ExpiresByType image/gif "access plus 30 days"
+    ExpiresByType image/webp "access plus 30 days"
+    ExpiresByType image/svg+xml "access plus 30 days"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType application/font-woff "access plus 1 year"
+    ExpiresByType application/pdf "access plus 7 days"
+</IfModule>
+
 # Evita que el navegador conserve versiones rotas de los archivos críticos.
 <IfModule mod_headers.c>
     <FilesMatch "^(app|triton-language|triton-language-lite)\.js$">
@@ -15,6 +29,10 @@
         Header set Cache-Control "no-cache, no-store, must-revalidate"
         Header set Pragma "no-cache"
         Header set Expires "0"
+    </FilesMatch>
+
+    <FilesMatch "\.(?:jpg|jpeg|png|gif|webp|svg|woff|woff2)$">
+        Header set Cache-Control "public, max-age=2592000"
     </FilesMatch>
 
     # Abrir cualquier página con ?refresh=1 limpia una sola vez la caché del sitio.
