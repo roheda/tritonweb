@@ -18,33 +18,51 @@
     .developments-commercial-v2 .td-availability { color:#6E6969; font-weight:700; }
     .developments-commercial-v2 .td-card-actions { display:grid; grid-template-columns:1fr auto; gap:10px; align-items:center; margin-top:auto; }
     .developments-commercial-v2 .td-brochure { display:inline-flex; align-items:center; justify-content:center; min-height:49px; padding:0 16px; border:1px solid rgba(110,105,105,.28); border-radius:3px; color:#6E6969; font-size:13px; font-weight:700; }
-    @media(max-width:1100px){ .developments-commercial-v2 .td-list{grid-template-columns:repeat(2,minmax(0,1fr));} }
-    @media(max-width:680px){ .developments-commercial-v2 .td-list{grid-template-columns:1fr;} .developments-commercial-v2 .td-card-actions{grid-template-columns:1fr;} .developments-commercial-v2 .td-brochure{width:100%;} }
+    .developments-commercial-v2 .td-trust-nav { padding:34px 0; background:#fff; border-bottom:1px solid rgba(110,105,105,.16); }
+    .developments-commercial-v2 .td-trust-grid { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:12px; }
+    .developments-commercial-v2 .td-trust-link { display:flex; min-height:92px; flex-direction:column; justify-content:center; padding:17px; border:1px solid rgba(110,105,105,.18); border-radius:4px; color:#6E6969; text-decoration:none; background:#fff; transition:transform .2s ease,border-color .2s ease; }
+    .developments-commercial-v2 .td-trust-link:hover { transform:translateY(-2px); border-color:#F9AF1B; }
+    .developments-commercial-v2 .td-trust-link strong { display:block; margin-bottom:5px; }
+    .developments-commercial-v2 .td-trust-link small { line-height:1.4; color:#8a8585; }
+    .developments-commercial-v2 .td-loading { padding:50px; text-align:center; background:rgba(110,105,105,.06); border:1px solid rgba(110,105,105,.18); }
+    @media(max-width:1100px){ .developments-commercial-v2 .td-list{grid-template-columns:repeat(2,minmax(0,1fr));}.developments-commercial-v2 .td-trust-grid{grid-template-columns:repeat(3,minmax(0,1fr));} }
+    @media(max-width:680px){ .developments-commercial-v2 .td-list{grid-template-columns:1fr;} .developments-commercial-v2 .td-card-actions{grid-template-columns:1fr;} .developments-commercial-v2 .td-brochure{width:100%;}.developments-commercial-v2 .td-trust-grid{grid-template-columns:1fr 1fr;} }
+    @media(max-width:440px){.developments-commercial-v2 .td-trust-grid{grid-template-columns:1fr;}}
   </style>
 
   <main>
     <section class="tp-hero" aria-labelledby="desarrollos-title">
       <div class="tp-container tp-hero-content">
         <nav class="tp-breadcrumb" aria-label="Migas de pan">
-          <a href="/">Inicio</a><span>/</span><span>Desarrollos</span>
+          <a href="/">Inicio</a><span>/</span><span>Desarrollos activos</span>
         </nav>
-        <span class="tp-eyebrow">Proyectos inmobiliarios en Mérida</span>
-        <h1 id="desarrollos-title">Propiedades en venta y espacios comerciales en renta</h1>
+        <span class="tp-eyebrow">Proyectos inmobiliarios con comercialización vigente</span>
+        <h1 id="desarrollos-title">Desarrollos activos para comprar, invertir o rentar</h1>
         <p class="tp-lead">
-          Compara de forma clara qué ofrece cada proyecto de Triton Desarrollos: operación, producto, ubicación,
-          disponibilidad, precio, etapa, brochure y condiciones comerciales.
+          Esta sección reúne únicamente proyectos con comercialización activa o próxima. Consulta operación, producto,
+          ubicación, disponibilidad, precio, etapa, brochure y condiciones comerciales.
         </p>
         <div class="tp-actions">
           <a class="tp-btn tp-btn-primary" href="/contacto">Solicitar información</a>
-          <a class="tp-btn tp-btn-light" href="/inversion">Guía de inversión</a>
+          <a class="tp-btn tp-btn-light" href="/proyectos-entregados">Ver proyectos entregados</a>
         </div>
+      </div>
+    </section>
+
+    <section class="td-trust-nav" aria-label="Recursos de confianza de Triton">
+      <div class="tp-container td-trust-grid">
+        <a class="td-trust-link" href="/sello-triton"><strong>Sello Triton</strong><small>50 razones y método de trabajo.</small></a>
+        <a class="td-trust-link" href="/proyectos-entregados"><strong>Proyectos entregados</strong><small>Trayectoria y resultados construidos.</small></a>
+        <a class="td-trust-link" href="/centro-comprador"><strong>Centro del comprador</strong><small>Proceso de compra, entrega y documentos.</small></a>
+        <a class="td-trust-link" href="/brokers"><strong>Para brokers</strong><small>Registro, materiales y futuro portal privado.</small></a>
+        <a class="td-trust-link" href="/postventa"><strong>Postventa</strong><small>Proceso de atención y seguimiento de tickets.</small></a>
       </div>
     </section>
 
     <section class="tp-section" aria-labelledby="catalogo-title">
       <div class="tp-container">
         <div class="tp-center">
-          <span class="tp-eyebrow">Portafolio de Triton</span>
+          <span class="tp-eyebrow">Portafolio activo de Triton</span>
           <h2 id="catalogo-title">Elige entre desarrollos residenciales y comerciales</h2>
           <p class="tp-lead">
             Las casas, townhouses y departamentos se identifican como venta; las plazas y locales comerciales se identifican como renta.
@@ -52,7 +70,10 @@
           </p>
         </div>
 
-        <ul class="td-list" aria-label="Listado de desarrollos de Triton" ng-if="desarrollos.length > 0">
+        <div class="td-loading" ng-if="loadingDesarrollos">Cargando desarrollos activos…</div>
+        <div class="tp-empty" ng-if="!loadingDesarrollos && errorDesarrollos"><h3>No fue posible consultar los desarrollos</h3><p>Actualiza la página o comunícate con nuestro equipo.</p></div>
+
+        <ul class="td-list" aria-label="Listado de desarrollos activos de Triton" ng-if="!loadingDesarrollos && desarrollos.length > 0">
           <li ng-repeat="desa in desarrollos track by $index">
             <article class="td-card">
               <div class="td-card-badges">
@@ -103,8 +124,8 @@
           </li>
         </ul>
 
-        <div class="tp-empty" ng-if="desarrollos.length == 0">
-          <h3>Próximamente publicaremos nuevos desarrollos</h3>
+        <div class="tp-empty" ng-if="!loadingDesarrollos && !errorDesarrollos && desarrollos.length == 0">
+          <h3>Próximamente publicaremos nuevos desarrollos activos</h3>
           <p>Comunícate con nuestro equipo para conocer la disponibilidad actual.</p>
         </div>
       </div>
@@ -132,22 +153,10 @@
           <h2 id="desarrollos-faq-title">Sobre los proyectos de Triton</h2>
         </div>
         <div class="tp-faq-wrap">
-          <details>
-            <summary>¿Qué proyectos de Triton son para venta?</summary>
-            <div class="tp-faq-answer">Los desarrollos residenciales de casas, townhouses y departamentos se muestran como proyectos en venta, salvo que la ficha indique una condición diferente.</div>
-          </details>
-          <details>
-            <summary>¿Qué proyectos son para renta?</summary>
-            <div class="tp-faq-answer">Las plazas comerciales se muestran como proyectos de renta de locales. Cada ficha indica disponibilidad y condiciones comerciales.</div>
-          </details>
-          <details>
-            <summary>¿Dónde puedo consultar precios y disponibilidad?</summary>
-            <div class="tp-faq-answer">Cada ficha muestra un resumen comercial, unidades disponibles cuando existen registros, brochure y un medio para contactar al equipo.</div>
-          </details>
-          <details>
-            <summary>¿La información sirve para brokers?</summary>
-            <div class="tp-faq-answer">Sí. Las fichas concentran ubicación, operación, producto, brochure, disponibilidad y datos comerciales para orientar correctamente a un prospecto.</div>
-          </details>
+          <details><summary>¿Qué proyectos aparecen en esta sección?</summary><div class="tp-faq-answer">Solo proyectos con comercialización activa, próxima o con disponibilidad por confirmar. Los proyectos vendidos o agotados pasan a Proyectos entregados.</div></details>
+          <details><summary>¿Qué proyectos de Triton son para venta?</summary><div class="tp-faq-answer">Los desarrollos residenciales de casas, townhouses y departamentos se muestran como proyectos en venta, salvo que la ficha indique una condición diferente.</div></details>
+          <details><summary>¿Qué proyectos son para renta?</summary><div class="tp-faq-answer">Las plazas comerciales se muestran como proyectos de renta de locales. Cada ficha indica disponibilidad y condiciones comerciales.</div></details>
+          <details><summary>¿Dónde puedo consultar precios y disponibilidad?</summary><div class="tp-faq-answer">Cada ficha muestra un resumen comercial, unidades disponibles cuando existen registros, brochure y un medio para contactar al equipo.</div></details>
         </div>
       </div>
     </section>
@@ -159,6 +168,7 @@
         <p class="tp-lead">Un asesor puede ayudarte a comparar opciones para vivir, invertir o establecer un negocio.</p>
         <div class="tp-actions" style="justify-content:center;">
           <a class="tp-btn tp-btn-primary" href="/contacto">Hablar con un asesor</a>
+          <a class="tp-btn tp-btn-light" href="/centro-comprador">Ver proceso de compra</a>
         </div>
       </div>
     </section>
