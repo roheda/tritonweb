@@ -118,6 +118,10 @@ angular.module('app', [
 					});
 				});
 			}
+
+			if (window.TritonLanguage) {
+				window.setTimeout(window.TritonLanguage.refresh, 100);
+			}
 		}
 
 		$scope.$on('$viewContentLoaded', function(){
@@ -343,3 +347,23 @@ angular.module('app', [
 		}
 	};
 });
+
+(function loadTritonLanguageAssets(window, document) {
+	'use strict';
+
+	if (!document.getElementById('triton-language-styles')) {
+		var stylesheet = document.createElement('link');
+		stylesheet.id = 'triton-language-styles';
+		stylesheet.rel = 'stylesheet';
+		stylesheet.href = '/css/triton-language.css';
+		document.head.appendChild(stylesheet);
+	}
+
+	if (!document.getElementById('triton-language-script')) {
+		var script = document.createElement('script');
+		script.id = 'triton-language-script';
+		script.src = '/js/triton-language.js';
+		script.async = true;
+		document.head.appendChild(script);
+	}
+})(window, document);
