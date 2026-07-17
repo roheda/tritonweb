@@ -1,0 +1,238 @@
+.triton-footer-v2 {
+  position: relative;
+  overflow: hidden;
+  background: #242223;
+  color: #ffffff;
+  border-top: 5px solid #F9AF1B;
+}
+
+.triton-footer-v2::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 100%;
+  background: #F9AF1B;
+}
+
+.triton-footer-v2 * {
+  box-sizing: border-box;
+}
+
+.triton-footer-v2 li {
+  margin: 0;
+  padding: 0;
+}
+
+.triton-footer-v2 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.triton-footer-v2 a:hover,
+.triton-footer-v2 a:focus-visible {
+  color: #F9AF1B;
+  outline: none;
+}
+
+.triton-footer-shell {
+  width: 92%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 58px 0 30px;
+}
+
+.triton-footer-grid {
+  display: grid;
+  grid-template-columns: 1.15fr .9fr 1.2fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.triton-footer-brand img {
+  display: block;
+  width: 138px;
+  height: auto;
+  margin-bottom: 22px;
+}
+
+.triton-footer-brand p {
+  max-width: 270px;
+  margin: 0;
+  color: rgba(255, 255, 255, .68);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.triton-footer-label {
+  display: block;
+  margin-bottom: 18px;
+  color: #F9AF1B;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.triton-footer-links,
+.triton-footer-contact-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.triton-footer-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  color: rgba(255, 255, 255, .84);
+  font-size: 14px;
+  transition: color .2s ease, transform .2s ease;
+}
+
+.triton-footer-links a:hover {
+  transform: translateX(3px);
+}
+
+.triton-footer-address {
+  margin: 0 0 18px;
+  color: rgba(255, 255, 255, .86);
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.triton-footer-map {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 17px;
+  border: 1px solid rgba(249, 175, 27, .72);
+  border-radius: 3px;
+  color: #F9AF1B !important;
+  font-size: 13px;
+  font-weight: 700;
+  transition: background .2s ease, color .2s ease;
+}
+
+.triton-footer-map:hover,
+.triton-footer-map:focus-visible {
+  background: #F9AF1B;
+  color: #242223 !important;
+}
+
+.triton-footer-hours {
+  margin: 20px 0 0;
+  color: rgba(255, 255, 255, .62);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.triton-footer-contact-list li {
+  color: rgba(255, 255, 255, .78);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.triton-footer-contact-list strong {
+  display: block;
+  margin-bottom: 3px;
+  color: rgba(255, 255, 255, .52);
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.triton-footer-contact-list a {
+  overflow-wrap: anywhere;
+}
+
+.triton-footer-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.triton-footer-social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 0 11px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 18px;
+  color: rgba(255, 255, 255, .78);
+  font-size: 11px;
+  font-weight: 700;
+  transition: border-color .2s ease, color .2s ease, background .2s ease;
+}
+
+.triton-footer-social a:hover,
+.triton-footer-social a:focus-visible {
+  border-color: #F9AF1B;
+  background: rgba(249, 175, 27, .08);
+}
+
+.triton-footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 42px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(255, 255, 255, .11);
+}
+
+.triton-footer-bottom p {
+  margin: 0;
+  color: rgba(255, 255, 255, .45);
+  font-size: 12px;
+}
+
+.triton-footer-legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.triton-footer-legal a {
+  color: rgba(255, 255, 255, .62);
+  font-size: 12px;
+}
+
+@media (max-width: 1050px) {
+  .triton-footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 42px 56px;
+  }
+}
+
+@media (max-width: 640px) {
+  .triton-footer-v2::before {
+    width: 5px;
+  }
+
+  .triton-footer-shell {
+    width: 88%;
+    padding: 44px 0 25px;
+  }
+
+  .triton-footer-grid {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  .triton-footer-brand img {
+    width: 125px;
+  }
+
+  .triton-footer-bottom {
+    align-items: flex-start;
+    flex-direction: column-reverse;
+    margin-top: 34px;
+  }
+}
