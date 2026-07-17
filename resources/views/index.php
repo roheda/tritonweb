@@ -110,6 +110,7 @@
         <script src="<?php echo asset('administrador/js/services/equipoService.js')?>"></script>
         <script src="<?php echo asset('administrador/js/controllers/desarrollosController.js')?>"></script>
         <script src="<?php echo asset('administrador/js/services/desarrollosService.js')?>"></script>
+        <script src="<?php echo asset('administrador/js/development-whatsapp-settings.js?v=20260717a')?>"></script>
         <script src="<?php echo asset('administrador/js/services/galeriasService.js')?>"></script>
         <script src="<?php echo asset('administrador/js/controllers/unidadesController.js')?>"></script>
         <script src="<?php echo asset('administrador/js/services/unidadesService.js')?>"></script>
