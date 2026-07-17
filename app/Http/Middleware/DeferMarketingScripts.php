@@ -130,6 +130,10 @@ HTML;
 
         $content = preg_replace('#<footer\b[^>]*>.*?</footer>#si', $footer, $content, 1);
 
+        $publicEnhancements = <<<'HTML'
+<script src="/js/triton-development-whatsapp.js?v=20260717a" defer></script>
+HTML;
+
         $loader = <<<'HTML'
 <script id="triton-deferred-marketing">
 (function(w,d){
@@ -194,7 +198,7 @@ HTML;
 HTML;
 
         if (stripos($content, '</body>') !== false) {
-            $content = preg_replace('/<\/body>/i', $loader . "\n</body>", $content, 1);
+            $content = preg_replace('/<\/body>/i', $publicEnhancements . "\n" . $loader . "\n</body>", $content, 1);
             $response->setContent($content);
         }
 
