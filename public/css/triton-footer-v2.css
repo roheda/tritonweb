@@ -3,7 +3,7 @@
   overflow: hidden;
   background: #242223;
   color: #ffffff;
-  border-top: 5px solid #F9AF1B;
+  border-top: 4px solid #F9AF1B;
 }
 
 .triton-footer-v2::before {
@@ -11,18 +11,35 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 10px;
+  width: 7px;
   height: 100%;
   background: #F9AF1B;
 }
 
+.triton-footer-v2,
 .triton-footer-v2 * {
   box-sizing: border-box;
 }
 
+.triton-footer-v2 .triton-footer-grid > * {
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.triton-footer-v2 p,
+.triton-footer-v2 ul,
 .triton-footer-v2 li {
   margin: 0;
   padding: 0;
+}
+
+.triton-footer-v2 li {
+  list-style: none;
 }
 
 .triton-footer-v2 a {
@@ -37,16 +54,16 @@
 }
 
 .triton-footer-shell {
-  width: 92%;
+  width: 90%;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 58px 0 30px;
+  padding: 48px 0 24px;
 }
 
 .triton-footer-grid {
   display: grid;
-  grid-template-columns: 1.15fr .9fr 1.2fr 1fr;
-  gap: 48px;
+  grid-template-columns: 1.1fr .9fr 1.1fr 1fr;
+  gap: 42px;
   align-items: start;
 }
 
@@ -54,11 +71,12 @@
   display: block;
   width: 138px;
   height: auto;
-  margin-bottom: 22px;
+  margin: 0 0 20px;
+  background: transparent;
 }
 
 .triton-footer-brand p {
-  max-width: 270px;
+  max-width: 285px;
   margin: 0;
   color: rgba(255, 255, 255, .68);
   font-size: 14px;
@@ -67,7 +85,7 @@
 
 .triton-footer-label {
   display: block;
-  margin-bottom: 18px;
+  margin-bottom: 17px;
   color: #F9AF1B;
   font-size: 11px;
   font-weight: 700;
@@ -78,16 +96,15 @@
 .triton-footer-links,
 .triton-footer-contact-list {
   display: grid;
-  gap: 10px;
+  gap: 9px;
   margin: 0;
   padding: 0;
-  list-style: none;
 }
 
 .triton-footer-links a {
   display: inline-flex;
   align-items: center;
-  min-height: 28px;
+  min-height: 27px;
   color: rgba(255, 255, 255, .84);
   font-size: 14px;
   transition: color .2s ease, transform .2s ease;
@@ -98,9 +115,9 @@
 }
 
 .triton-footer-address {
-  margin: 0 0 18px;
-  color: rgba(255, 255, 255, .86);
-  font-size: 14px;
+  margin: 0 0 17px !important;
+  color: rgba(255, 255, 255, .86) !important;
+  font-size: 14px !important;
   line-height: 1.75;
 }
 
@@ -108,32 +125,33 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 42px;
-  padding: 0 17px;
-  border: 1px solid rgba(249, 175, 27, .72);
+  min-height: 41px;
+  padding: 0 16px;
+  border: 1px solid rgba(249, 175, 27, .72) !important;
   border-radius: 3px;
+  background: transparent !important;
   color: #F9AF1B !important;
-  font-size: 13px;
+  font-size: 13px !important;
   font-weight: 700;
   transition: background .2s ease, color .2s ease;
 }
 
 .triton-footer-map:hover,
 .triton-footer-map:focus-visible {
-  background: #F9AF1B;
+  background: #F9AF1B !important;
   color: #242223 !important;
 }
 
 .triton-footer-hours {
-  margin: 20px 0 0;
-  color: rgba(255, 255, 255, .62);
-  font-size: 13px;
+  margin: 19px 0 0 !important;
+  color: rgba(255, 255, 255, .62) !important;
+  font-size: 13px !important;
   line-height: 1.65;
 }
 
 .triton-footer-contact-list li {
-  color: rgba(255, 255, 255, .78);
-  font-size: 14px;
+  color: rgba(255, 255, 255, .78) !important;
+  font-size: 14px !important;
   line-height: 1.55;
 }
 
@@ -147,6 +165,8 @@
 }
 
 .triton-footer-contact-list a {
+  color: rgba(255, 255, 255, .84) !important;
+  font-size: 14px !important;
   overflow-wrap: anywhere;
 }
 
@@ -154,7 +174,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 22px;
+  margin-top: 21px;
 }
 
 .triton-footer-social a {
@@ -165,8 +185,8 @@
   padding: 0 11px;
   border: 1px solid rgba(255, 255, 255, .18);
   border-radius: 18px;
-  color: rgba(255, 255, 255, .78);
-  font-size: 11px;
+  color: rgba(255, 255, 255, .78) !important;
+  font-size: 11px !important;
   font-weight: 700;
   transition: border-color .2s ease, color .2s ease, background .2s ease;
 }
@@ -174,7 +194,8 @@
 .triton-footer-social a:hover,
 .triton-footer-social a:focus-visible {
   border-color: #F9AF1B;
-  background: rgba(249, 175, 27, .08);
+  background: rgba(249, 175, 27, .08) !important;
+  color: #F9AF1B !important;
 }
 
 .triton-footer-bottom {
@@ -182,15 +203,15 @@
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  margin-top: 42px;
-  padding-top: 22px;
+  margin-top: 36px;
+  padding-top: 20px;
   border-top: 1px solid rgba(255, 255, 255, .11);
 }
 
 .triton-footer-bottom p {
   margin: 0;
-  color: rgba(255, 255, 255, .45);
-  font-size: 12px;
+  color: rgba(255, 255, 255, .45) !important;
+  font-size: 12px !important;
 }
 
 .triton-footer-legal {
@@ -200,30 +221,30 @@
 }
 
 .triton-footer-legal a {
-  color: rgba(255, 255, 255, .62);
-  font-size: 12px;
+  color: rgba(255, 255, 255, .62) !important;
+  font-size: 12px !important;
 }
 
 @media (max-width: 1050px) {
   .triton-footer-grid {
     grid-template-columns: 1fr 1fr;
-    gap: 42px 56px;
+    gap: 38px 52px;
   }
 }
 
 @media (max-width: 640px) {
   .triton-footer-v2::before {
-    width: 5px;
+    width: 4px;
   }
 
   .triton-footer-shell {
-    width: 88%;
-    padding: 44px 0 25px;
+    width: 86%;
+    padding: 40px 0 22px;
   }
 
   .triton-footer-grid {
     grid-template-columns: 1fr;
-    gap: 34px;
+    gap: 30px;
   }
 
   .triton-footer-brand img {
@@ -233,6 +254,6 @@
   .triton-footer-bottom {
     align-items: flex-start;
     flex-direction: column-reverse;
-    margin-top: 34px;
+    margin-top: 30px;
   }
 }
