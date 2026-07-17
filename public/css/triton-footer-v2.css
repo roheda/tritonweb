@@ -47,10 +47,15 @@
   text-decoration: none;
 }
 
-.triton-footer-v2 a:hover,
-.triton-footer-v2 a:focus-visible {
+.triton-footer-v2 a:hover {
   color: #F9AF1B;
-  outline: none;
+}
+
+.triton-footer-v2 a:focus-visible {
+  color: #F9AF1B !important;
+  outline: 2px solid #F9AF1B !important;
+  outline-offset: 3px;
+  border-radius: 2px;
 }
 
 .triton-footer-shell {
