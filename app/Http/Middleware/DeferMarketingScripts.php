@@ -50,7 +50,7 @@ class DeferMarketingScripts
         if (stripos($content, 'triton-footer-v2.css') === false && stripos($content, '</head>') !== false) {
             $content = preg_replace(
                 '/<\/head>/i',
-                '        <link rel="stylesheet" href="/css/triton-footer-v2.css?v=20260717">' . "\n    </head>",
+                '        <link rel="stylesheet" href="/css/triton-footer-v2.css?v=20260717b">' . "\n    </head>",
                 $content,
                 1
             );
@@ -60,10 +60,10 @@ class DeferMarketingScripts
 <footer class="triton-footer-v2" aria-label="Pie de página de Triton Desarrollos">
   <div class="triton-footer-shell">
     <div class="triton-footer-grid">
-      <section class="triton-footer-brand" aria-label="Triton Desarrollos">
+      <div class="triton-footer-brand" aria-label="Triton Desarrollos">
         <img src="/img/footer/logo_footer_sv.png" alt="Triton Desarrollos" width="138" height="64" loading="lazy" decoding="async">
         <p>Desarrollamos proyectos inmobiliarios en Mérida con enfoque en certeza, calidad constructiva y relaciones de largo plazo.</p>
-      </section>
+      </div>
 
       <nav aria-label="Enlaces del sitio">
         <span class="triton-footer-label">Explora</span>
@@ -77,7 +77,7 @@ class DeferMarketingScripts
         </ul>
       </nav>
 
-      <section aria-label="Ubicación y horario">
+      <div class="triton-footer-location" aria-label="Ubicación y horario">
         <span class="triton-footer-label">Visítanos</span>
         <p class="triton-footer-address">
           C. 13 158, entre 32 y 36<br>
@@ -86,9 +86,9 @@ class DeferMarketingScripts
         </p>
         <a class="triton-footer-map" href="https://maps.app.goo.gl/vbxB9XBJcALBAzd19" target="_blank" rel="noopener noreferrer">Ver ubicación en Google Maps</a>
         <p class="triton-footer-hours">Lunes a viernes: 9:00 a 20:00 hrs.<br>Sábado: 9:00 a 19:00 hrs.</p>
-      </section>
+      </div>
 
-      <section aria-label="Contacto y redes sociales">
+      <div class="triton-footer-contact" aria-label="Contacto y redes sociales">
         <span class="triton-footer-label">Contacto</span>
         <ul class="triton-footer-contact-list">
           <li><strong>Ventas</strong><a href="tel:+529999963195">999 996 3195</a></li>
@@ -101,7 +101,7 @@ class DeferMarketingScripts
           <a href="https://www.linkedin.com/company/triton-desarrollos/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
           <a href="https://www.youtube.com/channel/UCJG9nEziQ6jKgmN2BKApMeg" target="_blank" rel="noopener noreferrer">YouTube</a>
         </div>
-      </section>
+      </div>
     </div>
 
     <div class="triton-footer-bottom">
