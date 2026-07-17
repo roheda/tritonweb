@@ -34,15 +34,17 @@ class DeferMarketingScripts
 
         $content = preg_replace($patterns, '', $content);
 
-        // Mantiene actualizados los datos estructurados de la oficina.
+        // Mantiene actualizados los datos estructurados y textos de la oficina.
         $content = str_replace(
             [
                 '"streetAddress": "Calle 19 #465, Col. Altabrisa"',
-                '"postalCode": "97133"'
+                '"postalCode": "97133"',
+                'Nuestras oficinas se encuentran en Calle 19 número 465, colonia Altabrisa, Mérida, Yucatán.'
             ],
             [
                 '"streetAddress": "C. 13 158, entre 32 y 36, Campestre"',
-                '"postalCode": "97120"'
+                '"postalCode": "97120"',
+                'Nuestras oficinas se encuentran en C. 13 158, entre 32 y 36, colonia Campestre, C.P. 97120, Mérida, Yucatán.'
             ],
             $content
         );
@@ -51,6 +53,15 @@ class DeferMarketingScripts
             $content = preg_replace(
                 '/<\/head>/i',
                 '        <link rel="stylesheet" href="/css/triton-footer-v2.css?v=20260717b">' . "\n    </head>",
+                $content,
+                1
+            );
+        }
+
+        if (stripos($content, 'triton-team-responsive.css') === false && stripos($content, '</head>') !== false) {
+            $content = preg_replace(
+                '/<\/head>/i',
+                '        <link rel="stylesheet" href="/css/triton-team-responsive.css?v=20260717a">' . "\n    </head>",
                 $content,
                 1
             );

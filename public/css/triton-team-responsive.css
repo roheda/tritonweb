@@ -1,0 +1,115 @@
+/* Equipo Triton: tarjetas compactas y legibles en todos los tamaños */
+.triton-nosotros-v2 .tn-team-list {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  align-items: stretch;
+  width: 100%;
+}
+
+.triton-nosotros-v2 .tn-team-list > li {
+  display: block;
+  flex: none !important;
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  margin: 0;
+  padding: 0;
+}
+
+.triton-nosotros-v2 .tn-team-list figure {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 4px;
+  background: rgba(110, 105, 105, .06);
+}
+
+.triton-nosotros-v2 .tn-team-list figure img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center top;
+  background: #f4f2f1;
+}
+
+.triton-nosotros-v2 .tn-team-list figcaption {
+  flex: 1;
+  padding: 16px;
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.triton-nosotros-v2 .tn-team-list figcaption .gray {
+  display: inline-block;
+  margin-top: 3px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+@media (max-width: 960px) {
+  .triton-nosotros-v2 .tn-team-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .triton-nosotros-v2 .tn-team-list figcaption {
+    padding: 13px;
+    font-size: 14px;
+  }
+
+  .triton-nosotros-v2 .tn-team-list figcaption .gray {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 640px) {
+  .triton-nosotros-v2 .tn-team-intro {
+    margin-bottom: 28px;
+  }
+
+  .triton-nosotros-v2 .tn-team-intro .tn-image {
+    min-height: 210px !important;
+    max-height: 235px;
+    object-position: center;
+  }
+
+  .triton-nosotros-v2 .tn-team-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 11px;
+  }
+
+  .triton-nosotros-v2 .tn-team-list figure img {
+    aspect-ratio: 1 / 1.15;
+  }
+
+  .triton-nosotros-v2 .tn-team-list figcaption {
+    padding: 10px;
+    font-size: 12px;
+    line-height: 1.25;
+  }
+
+  .triton-nosotros-v2 .tn-team-list figcaption .gray {
+    margin-top: 2px;
+    font-size: 10.5px;
+    line-height: 1.2;
+  }
+}
+
+@media (max-width: 360px) {
+  .triton-nosotros-v2 .tn-team-list {
+    gap: 8px;
+  }
+
+  .triton-nosotros-v2 .tn-team-list figcaption {
+    padding: 8px;
+    font-size: 11px;
+  }
+
+  .triton-nosotros-v2 .tn-team-list figcaption .gray {
+    font-size: 10px;
+  }
+}
