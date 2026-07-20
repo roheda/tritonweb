@@ -3,6 +3,11 @@
     AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript application/javascript application/json application/xml image/svg+xml
 </IfModule>
 
+# Compatibilidad explícita para imágenes WebP.
+<IfModule mod_mime.c>
+    AddType image/webp .webp
+</IfModule>
+
 # Caché del navegador para recursos estáticos.
 <IfModule mod_expires.c>
     ExpiresActive On
