@@ -63,7 +63,7 @@ class OptimizeImagesToWebp extends Command
             $this->replaceEmbeddedReferences();
         }
 
-        $this->newLine();
+        $this->line('');
         $this->info('Imágenes candidatas: ' . $this->candidates);
         $this->info('Rutas convertidas: ' . count($this->converted));
         $this->info('Ahorro estimado: ' . $this->formatBytes($this->savedBytes));
@@ -185,15 +185,16 @@ class OptimizeImagesToWebp extends Command
             return false;
         }
 
-        return (bool) preg_match('/\.(jpe?g|png)$/i', parse_url($path, PHP_URL_PATH));
+        $pathOnly = (string) parse_url($path, PHP_URL_PATH);
+        return (bool) preg_match('/\.(jpe?g|png)$/i', $pathOnly);
     }
 
     private function resolveStoredPath($storedPath)
     {
         $cleanPath = ltrim(str_replace('\\', '/', $storedPath), '/');
         $candidates = [
-            base_path($cleanPath),
             public_path($cleanPath),
+            base_path($cleanPath),
             base_path('public/' . $cleanPath),
         ];
 
