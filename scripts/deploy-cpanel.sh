@@ -12,6 +12,7 @@ FILES_TO_BACKUP=(
   "app/Http/Controllers/OptimizedFileController.php"
   "app/Http/Middleware/DeferMarketingScripts.php"
   "app/Services/WebpImageOptimizer.php"
+  "app/Services/CompatibleWebpImageOptimizer.php"
   "app/Console/Commands/OptimizeImagesToWebp.php"
   "resources/views/index.php"
   "routes/web.php"
