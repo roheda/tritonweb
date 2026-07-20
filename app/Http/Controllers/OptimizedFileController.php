@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\WebpImageOptimizer;
+use App\Services\CompatibleWebpImageOptimizer;
 use Exception;
 use Validator;
 
 class OptimizedFileController extends Controller
 {
     /**
-     * Acepta JPG, PNG, WebP y GIF. JPG/PNG/WebP se guardan optimizados
+     * Acepta JPG, PNG, WebP y GIF. JPG/PNG se guardan optimizados
      * como WebP cuando GD del servidor tiene soporte disponible.
      */
     public function uploadImagen()
@@ -41,7 +41,7 @@ class OptimizedFileController extends Controller
                 throw new Exception($validator->messages()->first());
             }
 
-            $optimizer = new WebpImageOptimizer();
+            $optimizer = new CompatibleWebpImageOptimizer();
             $file = $optimizer->optimizeUploadedFile($uploadedFile, 'files/images', [
                 'quality' => 84,
                 'max_width' => 2200,
