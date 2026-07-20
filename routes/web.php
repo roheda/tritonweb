@@ -88,7 +88,7 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function() {
 
     Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
-    Route::post('/uploadImagen', 'FileController@uploadImagen');
+    Route::post('/uploadImagen', 'OptimizedFileController@uploadImagen');
     Route::post('/uploadFile', 'FileController@uploadFile');
     Route::post('/deleteFile', 'FileController@deleteFile');
 
