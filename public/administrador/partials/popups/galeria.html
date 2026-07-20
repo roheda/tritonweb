@@ -2,24 +2,26 @@
 	<form ng-cloak>
         <md-toolbar class="modal-toolbar">
             <div class="md-toolbar-tools">
-                <h2 style="color: #fff;">Desarrollos</h2>
+                <h2 style="color: #fff;">Galería del desarrollo</h2>
             </div>
         </md-toolbar>
         <md-dialog-content class="p">
             <div class="md-dialog-content">
 				<div layout-wrap layout="row" layout-align="center center">
 					<div flex="100" layout-padding class="title_modal">
-						<small>Llena todos los campos. <span class="small">(Campos obligatorios * )</span></small>
+						<small>Agrega fotografías en JPG, PNG o WebP. El sistema las optimiza automáticamente a WebP cuando el servidor lo permite.</small>
 					</div>
 		            <div flex="100" layout-padding>
-		              	<label class="label" for="titulo">Descripción</label><br/>
+		              	<label class="label" for="titulo">Descripción de la galería</label><br/>
 		              	<input class="input" id="titulo" type="text" name="titulo" ng-model="objectGaleria.titulo">
 		            </div>
 		            <div flex="100" layout-padding>
-		              	<input class="input-file" ng-file-select="onFileSelect($files)" multiple accept="file/*" type="file">
+                            <label class="label">Seleccionar imágenes</label><br/>
+		              	<input class="input-file" ng-file-select="onFileSelect($files)" multiple accept="image/jpeg,image/png,image/webp,image/gif,.jpg,.jpeg,.png,.webp,.gif" type="file">
+                            <small style="display:block;margin-top:7px;color:#777;line-height:1.4;">Hasta 10 imágenes por carga y 10 MB por archivo. Las fotografías mayores a 2200 px se redimensionan para mejorar la velocidad.</small>
 		            </div>
 		            <div flex="100" layout-padding>
-		            	<label class="label" for="titulo">Imagenes Seleccionadas</label><br/>
+		            	<label class="label" for="titulo">Imágenes seleccionadas</label><br/>
 		              	<table rules="rows" cellspacing="0" class="docs">
 	                        <thead>
 	                            <tr>
@@ -33,12 +35,12 @@
 			              	<table rules="rows" cellspacing="0" class="docs">
 		                        <tbody>
 		                            <tr ng-repeat="item in files">
-		                            	<td class="definedWidth text-center"><img src="{{item.ruta}}" alt=""></td>
+		                            	<td class="definedWidth text-center"><img src="{{item.ruta}}" alt="Vista previa de la imagen"></td>
 		                                <td class="text-left">
-		              						<input class="input" id="descripcion" type="text" name="descripcion" ng-model="item.descripcion">
+		              				<input class="input" id="descripcion" type="text" name="descripcion" ng-model="item.descripcion" placeholder="Describe brevemente esta imagen">
 		                                </td>
 		                                <td class="definedWidth text-center">
-		                                	<div ng-click="deleteDocument($index, item)" class="cancelar"><img src="../administrador/images/icons/incorrecto.png" alt="" style="width: 15px !important"></div>
+		                                	<div ng-click="deleteDocument($index, item)" class="cancelar"><img src="../administrador/images/icons/incorrecto.png" alt="Eliminar" style="width: 15px !important"></div>
 		                                </td>
 		                            </tr>
 		                        </tbody>
